@@ -4,9 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.cgr.codrinterraerp.db.entities.GirthClassification;
+import com.cgr.codrinterraerp.db.entities.LengthClassification;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
 import com.cgr.codrinterraerp.db.entities.Origins;
+import com.cgr.codrinterraerp.db.entities.ProductTypes;
+import com.cgr.codrinterraerp.db.entities.Products;
 import com.cgr.codrinterraerp.db.entities.PurchaseContracts;
+import com.cgr.codrinterraerp.db.entities.ShippingLines;
 import com.cgr.codrinterraerp.db.entities.SupplierProductTypes;
 import com.cgr.codrinterraerp.db.entities.SupplierProducts;
 import com.cgr.codrinterraerp.db.entities.Suppliers;
@@ -109,5 +114,25 @@ public class MasterViewModel extends ViewModel {
 
     public List<PurchaseContracts> fetchPurchaseContracts(int supplierId, int product, int productType) {
         return masterRepository.fetchPurchaseContracts(supplierId, product, productType);
+    }
+
+    public List<Products> fetchProducts() {
+        return masterRepository.fetchProducts();
+    }
+
+    public List<ProductTypes> fetchProductTypes() {
+        return masterRepository.fetchProductTypes();
+    }
+
+    public List<ShippingLines> fetchShippingLines() {
+        return masterRepository.fetchShippingLines();
+    }
+
+    public List<GirthClassification> fetchGirthClassification() {
+        return masterRepository.fetchGirthClassification();
+    }
+
+    public List<LengthClassification> fetchLengthClassification() {
+        return masterRepository.fetchLengthClassification();
     }
 }

@@ -11,6 +11,7 @@ import com.cgr.codrinterraerp.db.dao.OriginsDao;
 import com.cgr.codrinterraerp.db.dao.ProductTypesDao;
 import com.cgr.codrinterraerp.db.dao.ProductsDao;
 import com.cgr.codrinterraerp.db.dao.PurchaseContractDao;
+import com.cgr.codrinterraerp.db.dao.ReceptionDetailsDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.ShippingLinesDao;
 import com.cgr.codrinterraerp.db.dao.SupplierProductTypesDao;
@@ -20,6 +21,7 @@ import com.cgr.codrinterraerp.db.dao.WarehousesDao;
 import com.cgr.codrinterraerp.repository.AppMaintenanceRepository;
 import com.cgr.codrinterraerp.repository.AuthRepository;
 import com.cgr.codrinterraerp.repository.MasterRepository;
+import com.cgr.codrinterraerp.repository.ReceptionRepository;
 import com.cgr.codrinterraerp.services.IAuthApiService;
 import com.cgr.codrinterraerp.services.IMasterApiService;
 
@@ -54,5 +56,11 @@ public class RepoModule {
     @Singleton
     AppMaintenanceRepository provideAppMaintenanceRepository(ApiLogsDao apiLogsDao) {
         return new AppMaintenanceRepository(apiLogsDao);
+    }
+
+    @Provides
+    @Singleton
+    ReceptionRepository provideReceptionRepository(ReceptionDetailsDao receptionDetailsDao) {
+        return new ReceptionRepository(receptionDetailsDao);
     }
 }

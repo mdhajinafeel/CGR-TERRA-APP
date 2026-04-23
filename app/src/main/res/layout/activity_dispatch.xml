@@ -69,7 +69,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tiSupplierProduct"
+                    android:id="@+id/tiProduct"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                     app:hintTextColor="@color/colorDarkGrey">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSupplierProduct"
+                        android:id="@+id/etProduct"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -102,7 +102,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tiSupplierProductType"
+                    android:id="@+id/tiProductType"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -117,7 +117,7 @@
                     app:hintTextColor="@color/colorDarkGrey">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSupplierProductType"
+                        android:id="@+id/etProductType"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
@@ -222,6 +222,39 @@
                         android:clickable="true"
                         android:cursorVisible="false"
                         android:drawableStart="@drawable/ic_calendar"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:focusable="true"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="none"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiGirthClassification"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:hint="@string/category"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etGirthClassification"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:drawableStart="@drawable/ic_category"
+                        android:drawableEnd="@drawable/ic_dropdown_arrow"
                         android:drawablePadding="@dimen/padding_10"
                         android:drawableTint="@color/colorDarkGreen"
                         android:focusable="true"

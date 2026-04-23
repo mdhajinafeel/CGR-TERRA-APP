@@ -18,6 +18,7 @@ import com.cgr.codrinterraerp.db.dao.OriginsDao;
 import com.cgr.codrinterraerp.db.dao.ProductTypesDao;
 import com.cgr.codrinterraerp.db.dao.ProductsDao;
 import com.cgr.codrinterraerp.db.dao.PurchaseContractDao;
+import com.cgr.codrinterraerp.db.dao.ReceptionDetailsDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.ShippingLinesDao;
 import com.cgr.codrinterraerp.db.dao.SupplierProductTypesDao;
@@ -34,6 +35,7 @@ import com.cgr.codrinterraerp.db.entities.Origins;
 import com.cgr.codrinterraerp.db.entities.ProductTypes;
 import com.cgr.codrinterraerp.db.entities.Products;
 import com.cgr.codrinterraerp.db.entities.PurchaseContracts;
+import com.cgr.codrinterraerp.db.entities.ReceptionDetails;
 import com.cgr.codrinterraerp.db.entities.ReceptionInventoryOrders;
 import com.cgr.codrinterraerp.db.entities.ShippingLines;
 import com.cgr.codrinterraerp.db.entities.SupplierProductTypes;
@@ -43,7 +45,7 @@ import com.cgr.codrinterraerp.db.entities.Warehouses;
 
 @Database(entities = {Origins.class, ApiLogs.class, Suppliers.class, SupplierProducts.class, SupplierProductTypes.class, MeasurementSystems.class, PurchaseContracts.class,
         ShippingLines.class, Warehouses.class, FarmInventoryOrders.class, ReceptionInventoryOrders.class, DispatchContainers.class, Products.class, ProductTypes.class,
-        GirthClassification.class, LengthClassification.class}, version = 1)
+        GirthClassification.class, LengthClassification.class, ReceptionDetails.class}, version = 1)
 public abstract class CGRTerraERPDatabase extends RoomDatabase {
 
     private static volatile CGRTerraERPDatabase INSTANCE;
@@ -64,6 +66,7 @@ public abstract class CGRTerraERPDatabase extends RoomDatabase {
     public abstract ProductTypesDao productTypesDao();
     public abstract GirthClassificationDao girthClassificationDao();
     public abstract LengthClassificationDao lengthClassificationDao();
+    public abstract ReceptionDetailsDao receptionDetailsDao();
 
     public static CGRTerraERPDatabase getInstance(Context context) {
         if (INSTANCE == null) {

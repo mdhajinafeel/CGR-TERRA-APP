@@ -1,6 +1,7 @@
 package com.cgr.codrinterraerp.ui.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatEditText;
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cgr.codrinterraerp.R;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
 import com.cgr.codrinterraerp.db.entities.PurchaseContracts;
+import com.cgr.codrinterraerp.db.entities.ReceptionDetails;
 import com.cgr.codrinterraerp.db.entities.SupplierProductTypes;
 import com.cgr.codrinterraerp.db.entities.SupplierProducts;
 import com.cgr.codrinterraerp.db.entities.Suppliers;
@@ -32,6 +35,7 @@ import com.cgr.codrinterraerp.utils.AppLogger;
 import com.cgr.codrinterraerp.utils.CommonUtils;
 import com.cgr.codrinterraerp.utils.DividerItemDecoration;
 import com.cgr.codrinterraerp.viewmodel.MasterViewModel;
+import com.cgr.codrinterraerp.viewmodel.ReceptionViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputLayout;
@@ -66,6 +70,8 @@ public class ReceptionActivity extends BaseActivity {
     private RecyclerViewAdapter<MeasurementSystems> measurementSystemsRecyclerViewAdapter;
     private RecyclerViewAdapter<PurchaseContracts> purchaseContractsRecyclerViewAdapter;
     private MasterViewModel masterViewModel;
+    private ReceptionViewModel receptionViewModel;
+    private FrameLayout progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +110,10 @@ public class ReceptionActivity extends BaseActivity {
             cbEnableFarm = findViewById(R.id.cbEnableFarm);
             llFarm = findViewById(R.id.llFarm);
             btnSubmit = findViewById(R.id.btnSubmit);
+            progressBar = findViewById(R.id.progressBar);
 
             masterViewModel = new ViewModelProvider(this).get(MasterViewModel.class);
+            receptionViewModel = new ViewModelProvider(this).get(ReceptionViewModel.class);
 
             txtTitle.setText(getString(R.string.add_reception));
             imgBack.setOnClickListener(v -> finish());
@@ -123,13 +131,21 @@ public class ReceptionActivity extends BaseActivity {
 
             fetchData();
             actionListeners();
+
+            receptionViewModel.getProgressState().observe(this, aBoolean -> {
+                if(aBoolean) {
+                    showProgress(progressBar);
+                } else {
+                    hideProgress(progressBar);
+                }
+            });
         } catch (Exception e) {
             AppLogger.e(getClass(), "initComponents", e);
         }
     }
 
     private void fetchData() {
-        try{
+        try {
             suppliersList = new ArrayList<>();
             suppliersList = masterViewModel.fetchSuppliers();
 
@@ -140,7 +156,7 @@ public class ReceptionActivity extends BaseActivity {
 
             warehousesList = new ArrayList<>();
             warehousesList = masterViewModel.fetchWarehouses();
-        }catch (Exception e) {
+        } catch (Exception e) {
             AppLogger.e(getClass(), "fetchData", e);
         }
     }
@@ -170,7 +186,7 @@ public class ReceptionActivity extends BaseActivity {
             etReceptionDate.setOnClickListener(v -> CommonUtils.showDatePicker(this, etReceptionDate));
 
             cbEnableFarm.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if(isChecked) {
+                if (isChecked) {
                     llFarm.setVisibility(View.VISIBLE);
                 } else {
                     llFarm.setVisibility(View.GONE);
@@ -218,10 +234,10 @@ public class ReceptionActivity extends BaseActivity {
             rvList.setLayoutManager(new LinearLayoutManager(this));
             rvList.addItemDecoration(new DividerItemDecoration(this));
 
-            if(tag.equalsIgnoreCase("Supplier")) {
+            if (tag.equalsIgnoreCase("Supplier")) {
                 dialogTitle.setText(R.string.select_supplier);
 
-                if(suppliersList.isEmpty()) {
+                if (suppliersList.isEmpty()) {
                     tvNoDataFound.setVisibility(View.VISIBLE);
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
@@ -279,11 +295,11 @@ public class ReceptionActivity extends BaseActivity {
                         dialog.dismiss(); // optional
                     });
                 }
-            } else if(tag.equalsIgnoreCase("Warehouse")) {
+            } else if (tag.equalsIgnoreCase("Warehouse")) {
 
                 dialogTitle.setText(R.string.select_warehouse);
 
-                if(warehousesList.isEmpty()) {
+                if (warehousesList.isEmpty()) {
                     tvNoDataFound.setVisibility(View.VISIBLE);
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
@@ -325,11 +341,11 @@ public class ReceptionActivity extends BaseActivity {
 
                     dialog.dismiss(); // optional
                 });
-            } else if(tag.equalsIgnoreCase("SupplierProduct")) {
+            } else if (tag.equalsIgnoreCase("SupplierProduct")) {
 
                 dialogTitle.setText(R.string.select_wood);
 
-                if(supplierProductsList.isEmpty()) {
+                if (supplierProductsList.isEmpty()) {
                     tvNoDataFound.setVisibility(View.VISIBLE);
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
@@ -384,11 +400,11 @@ public class ReceptionActivity extends BaseActivity {
 
                     dialog.dismiss(); // optional
                 });
-            } else if(tag.equalsIgnoreCase("SupplierProductType")) {
+            } else if (tag.equalsIgnoreCase("SupplierProductType")) {
 
                 dialogTitle.setText(R.string.select_wood_type);
 
-                if(supplierProductTypesList.isEmpty()) {
+                if (supplierProductTypesList.isEmpty()) {
                     tvNoDataFound.setVisibility(View.VISIBLE);
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
@@ -441,11 +457,11 @@ public class ReceptionActivity extends BaseActivity {
 
                     dialog.dismiss(); // optional
                 });
-            } else if(tag.equalsIgnoreCase("MeasurementSystem")) {
+            } else if (tag.equalsIgnoreCase("MeasurementSystem")) {
 
                 dialogTitle.setText(R.string.select_measurement_system);
 
-                if(measurementSystemsList.isEmpty()) {
+                if (measurementSystemsList.isEmpty()) {
                     tvNoDataFound.setVisibility(View.VISIBLE);
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
@@ -487,11 +503,11 @@ public class ReceptionActivity extends BaseActivity {
                         dialog.dismiss(); // optional
                     });
                 }
-            } else if(tag.equalsIgnoreCase("PurchaseContract")) {
+            } else if (tag.equalsIgnoreCase("PurchaseContract")) {
 
                 dialogTitle.setText(R.string.select_purchase_contract);
 
-                if(purchaseContractsList.isEmpty()) {
+                if (purchaseContractsList.isEmpty()) {
                     tvNoDataFound.setVisibility(View.VISIBLE);
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
@@ -503,8 +519,8 @@ public class ReceptionActivity extends BaseActivity {
                             AppCompatTextView tvName = holder.itemView.findViewById(R.id.tvName);
                             AppCompatImageView ivSelected = holder.itemView.findViewById(R.id.ivItemSelected);
 
-                            if(purchaseContracts.getDescription() != null && !Objects.equals(purchaseContracts.getDescription(), "")) {
-                                tvName.setText(purchaseContracts.getContractCode() + " - " + purchaseContracts.getDescription());
+                            if (purchaseContracts.getDescription() != null && !Objects.equals(purchaseContracts.getDescription(), "")) {
+                                tvName.setText(String.format("%s - %s", purchaseContracts.getContractCode(), purchaseContracts.getDescription()));
                             } else {
                                 tvName.setText(purchaseContracts.getContractCode());
                             }
@@ -549,7 +565,7 @@ public class ReceptionActivity extends BaseActivity {
 
                     String query = s.toString().trim().toLowerCase();
 
-                    if(tag.equalsIgnoreCase("Supplier")) {
+                    if (tag.equalsIgnoreCase("Supplier")) {
                         if (query.isEmpty()) {
                             suppliersRecyclerViewAdapter.resetFilter();
                         } else {
@@ -565,7 +581,7 @@ public class ReceptionActivity extends BaseActivity {
                         } else {
                             tvNoDataFound.setVisibility(View.GONE);
                         }
-                    } else if(tag.equalsIgnoreCase("Warehouse")) {
+                    } else if (tag.equalsIgnoreCase("Warehouse")) {
                         if (query.isEmpty()) {
                             warehousesRecyclerViewAdapter.resetFilter();
                         } else {
@@ -581,7 +597,7 @@ public class ReceptionActivity extends BaseActivity {
                         } else {
                             tvNoDataFound.setVisibility(View.GONE);
                         }
-                    } else if(tag.equalsIgnoreCase("SupplierProduct")) {
+                    } else if (tag.equalsIgnoreCase("SupplierProduct")) {
                         if (query.isEmpty()) {
                             supplierProductsRecyclerViewAdapter.resetFilter();
                         } else {
@@ -597,7 +613,7 @@ public class ReceptionActivity extends BaseActivity {
                         } else {
                             tvNoDataFound.setVisibility(View.GONE);
                         }
-                    } else if(tag.equalsIgnoreCase("SupplierProductType")) {
+                    } else if (tag.equalsIgnoreCase("SupplierProductType")) {
                         if (query.isEmpty()) {
                             supplierProductTypesRecyclerViewAdapter.resetFilter();
                         } else {
@@ -613,7 +629,7 @@ public class ReceptionActivity extends BaseActivity {
                         } else {
                             tvNoDataFound.setVisibility(View.GONE);
                         }
-                    } else if(tag.equalsIgnoreCase("MeasurementSystem")) {
+                    } else if (tag.equalsIgnoreCase("MeasurementSystem")) {
                         if (query.isEmpty()) {
                             measurementSystemsRecyclerViewAdapter.resetFilter();
                         } else {
@@ -629,7 +645,7 @@ public class ReceptionActivity extends BaseActivity {
                         } else {
                             tvNoDataFound.setVisibility(View.GONE);
                         }
-                    } else if(tag.equalsIgnoreCase("PurchaseContract")) {
+                    } else if (tag.equalsIgnoreCase("PurchaseContract")) {
                         if (query.isEmpty()) {
                             purchaseContractsRecyclerViewAdapter.resetFilter();
                         } else {
@@ -666,7 +682,7 @@ public class ReceptionActivity extends BaseActivity {
         try {
             boolean isValid = true;
 
-            if(Objects.requireNonNull(etSupplier.getText()).toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(etSupplier.getText()).toString().trim().isEmpty()) {
                 tiSupplier.setError(getString(R.string.required_field));
                 tiSupplier.setErrorEnabled(true);
                 isValid = false;
@@ -675,7 +691,7 @@ public class ReceptionActivity extends BaseActivity {
                 tiSupplier.setError(null);
             }
 
-            if(Objects.requireNonNull(etSupplierProduct.getText()).toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(etSupplierProduct.getText()).toString().trim().isEmpty()) {
                 tiSupplierProduct.setError(getString(R.string.required_field));
                 tiSupplierProduct.setErrorEnabled(true);
                 isValid = false;
@@ -684,7 +700,7 @@ public class ReceptionActivity extends BaseActivity {
                 tiSupplierProduct.setError(null);
             }
 
-            if(Objects.requireNonNull(etSupplierProductType.getText()).toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(etSupplierProductType.getText()).toString().trim().isEmpty()) {
                 tiSupplierProductType.setError(getString(R.string.required_field));
                 tiSupplierProductType.setErrorEnabled(true);
                 isValid = false;
@@ -693,7 +709,7 @@ public class ReceptionActivity extends BaseActivity {
                 tiSupplierProductType.setError(null);
             }
 
-            if(Objects.requireNonNull(etIca.getText()).toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(etIca.getText()).toString().trim().isEmpty()) {
                 tiIca.setError(getString(R.string.required_field));
                 tiIca.setErrorEnabled(true);
                 isValid = false;
@@ -702,7 +718,7 @@ public class ReceptionActivity extends BaseActivity {
                 tiIca.setError(null);
             }
 
-            if(Objects.requireNonNull(etMeasurementSystem.getText()).toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(etMeasurementSystem.getText()).toString().trim().isEmpty()) {
                 tiMeasurementSystem.setError(getString(R.string.required_field));
                 tiMeasurementSystem.setErrorEnabled(true);
                 isValid = false;
@@ -711,7 +727,7 @@ public class ReceptionActivity extends BaseActivity {
                 tiMeasurementSystem.setError(null);
             }
 
-            if(Objects.requireNonNull(etWarehouse.getText()).toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(etWarehouse.getText()).toString().trim().isEmpty()) {
                 tiWarehouse.setError(getString(R.string.required_field));
                 tiWarehouse.setErrorEnabled(true);
                 isValid = false;
@@ -720,7 +736,7 @@ public class ReceptionActivity extends BaseActivity {
                 tiWarehouse.setError(null);
             }
 
-            if(Objects.requireNonNull(etReceptionDate.getText()).toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(etReceptionDate.getText()).toString().trim().isEmpty()) {
                 tiReceptionDate.setError(getString(R.string.required_field));
                 tiReceptionDate.setErrorEnabled(true);
                 isValid = false;
@@ -729,8 +745,8 @@ public class ReceptionActivity extends BaseActivity {
                 tiReceptionDate.setError(null);
             }
 
-            if(cbEnableFarm.isChecked()) {
-                if(Objects.requireNonNull(etPurchaseContract.getText()).toString().trim().isEmpty()) {
+            if (cbEnableFarm.isChecked()) {
+                if (Objects.requireNonNull(etPurchaseContract.getText()).toString().trim().isEmpty()) {
                     tiPurchaseContract.setError(getString(R.string.required_field));
                     tiPurchaseContract.setErrorEnabled(true);
                     isValid = false;
@@ -739,7 +755,7 @@ public class ReceptionActivity extends BaseActivity {
                     tiPurchaseContract.setError(null);
                 }
 
-                if(Objects.requireNonNull(etTruckNumber.getText()).toString().trim().isEmpty()) {
+                if (Objects.requireNonNull(etTruckNumber.getText()).toString().trim().isEmpty()) {
                     tiTruckNumber.setError(getString(R.string.required_field));
                     tiTruckNumber.setErrorEnabled(true);
                     isValid = false;
@@ -748,7 +764,7 @@ public class ReceptionActivity extends BaseActivity {
                     tiTruckNumber.setError(null);
                 }
 
-                if(Objects.requireNonNull(etTruckDriverName.getText()).toString().trim().isEmpty()) {
+                if (Objects.requireNonNull(etTruckDriverName.getText()).toString().trim().isEmpty()) {
                     tiTruckDriverName.setError(getString(R.string.required_field));
                     tiTruckDriverName.setErrorEnabled(true);
                     isValid = false;
@@ -758,8 +774,38 @@ public class ReceptionActivity extends BaseActivity {
                 }
             }
 
-            if(isValid) {
+            if (isValid) {
+                ReceptionDetails receptionDetail = new ReceptionDetails();
+                receptionDetail.setSupplier((int) etSupplier.getTag());
+                receptionDetail.setSupplierProductId((int) etSupplierProduct.getTag());
+                receptionDetail.setSupplierProductTypeId((int) etSupplierProductType.getTag());
+                receptionDetail.setIca(etIca.getText().toString());
+                receptionDetail.setMeasurementSystem((int) etMeasurementSystem.getTag());
+                receptionDetail.setWarehouse((int) etWarehouse.getTag());
+                receptionDetail.setReceptionDate(etReceptionDate.getText().toString());
+                receptionDetail.setFarmEnabled(cbEnableFarm.isChecked());
+                receptionDetail.setPurchaseContract((int) etPurchaseContract.getTag());
+                receptionDetail.setTruckNumber(Objects.requireNonNull(etTruckNumber.getText()).toString());
+                receptionDetail.setTruckDriverName(Objects.requireNonNull(etPurchaseContract.getText()).toString());
+                receptionDetail.setTempReceptionId("R_" + CommonUtils.getCurrentLocalDateTimeStamp());
+                receptionDetail.setReceptionId(null);
+                receptionDetail.setSynced(false);
+                receptionDetail.setDeleted(false);
+                receptionDetail.setEdited(false);
+                receptionDetail.setUpdatedAt(System.currentTimeMillis());
 
+                receptionViewModel.saveReceptionDetails(receptionDetail);
+
+                receptionViewModel.getReceptionStatus().observe(this, aBoolean -> {
+                    if(aBoolean) {
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("key", "Hello from Second Activity");
+                        setResult(RESULT_OK, resultIntent);
+                        finish();
+                    } else {
+                        showCustomDialog(getString(R.string.error), getString(R.string.data_added_failed), false);
+                    }
+                });
             }
         } catch (Exception e) {
             AppLogger.e(getClass(), "saveOrUpdateReceptionDetails", e);

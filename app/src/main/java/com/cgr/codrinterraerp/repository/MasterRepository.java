@@ -172,6 +172,10 @@ public class MasterRepository {
         shippingLinesDao.insertShippingLines(shippingLinesList);
     }
 
+    public List<ShippingLines> fetchShippingLines() {
+        return shippingLinesDao.getAllShippingLines();
+    }
+
     // PURCHASE CONTRACTS
     public void deletePurchaseContract() {
         purchaseContractDao.clearAll();
@@ -231,6 +235,10 @@ public class MasterRepository {
         productsDao.insertProducts(productsList);
     }
 
+    public List<Products> fetchProducts() {
+        return productsDao.getAllProducts();
+    }
+
     // PRODUCT TYPES
     public void deleteProductTypes() {
         productTypesDao.clearAll();
@@ -238,6 +246,10 @@ public class MasterRepository {
 
     public void insertProductTypes(List<ProductTypes> productTypesList) {
         productTypesDao.insertProductTypes(productTypesList);
+    }
+
+    public List<ProductTypes> fetchProductTypes() {
+        return productTypesDao.getAllProductTypes();
     }
 
     // GIRTH CLASSIFICATION
@@ -249,6 +261,10 @@ public class MasterRepository {
         girthClassificationDao.insertGirthClassification(girthClassificationList);
     }
 
+    public List<GirthClassification> fetchGirthClassification() {
+        return girthClassificationDao.getAllGirthClassification();
+    }
+
     // LENGTH CLASSIFICATION
     public void deleteLengthClassification() {
         lengthClassificationDao.clearAll();
@@ -256,5 +272,9 @@ public class MasterRepository {
 
     public void insertLengthClassification(List<LengthClassification> lengthClassificationList) {
         lengthClassificationDao.insertLengthClassification(lengthClassificationList);
+    }
+
+    public List<LengthClassification> fetchLengthClassification() {
+        return lengthClassificationDao.getAllLengthClassification();
     }
 }

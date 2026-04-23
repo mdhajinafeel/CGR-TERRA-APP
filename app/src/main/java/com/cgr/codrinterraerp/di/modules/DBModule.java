@@ -13,6 +13,7 @@ import com.cgr.codrinterraerp.db.dao.OriginsDao;
 import com.cgr.codrinterraerp.db.dao.ProductTypesDao;
 import com.cgr.codrinterraerp.db.dao.ProductsDao;
 import com.cgr.codrinterraerp.db.dao.PurchaseContractDao;
+import com.cgr.codrinterraerp.db.dao.ReceptionDetailsDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.ShippingLinesDao;
 import com.cgr.codrinterraerp.db.dao.SupplierProductTypesDao;
@@ -132,5 +133,11 @@ public class DBModule {
     @Singleton
     public LengthClassificationDao provideLengthClassificationDao(CGRTerraERPDatabase db) {
         return db.lengthClassificationDao();
+    }
+
+    @Provides
+    @Singleton
+    public ReceptionDetailsDao provideReceptionDetailsDao(CGRTerraERPDatabase db) {
+        return db.receptionDetailsDao();
     }
 }

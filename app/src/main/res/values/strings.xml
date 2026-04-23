@@ -90,4 +90,11 @@
     <string name="select_measurement_system">Select measurement system</string>
     <string name="truck_driver_name">Truck Driver Name</string>
     <string name="select_purchase_contract">Select purchase contract</string>
+    <string name="category">Category</string>
+    <string name="select_shipping_line">Select shipping line</string>
+    <string name="select_grith_classification">Select grith classification</string>
+    <string name="data_added_successfully">Data has been added successfully</string>
+    <string name="data_added_failed">Failed to add the data</string>
+    <string name="data_updated_successfully">Data has been updated successfully</string>
+    <string name="data_updated_failed">Failed to update the data</string>
 </resources>
