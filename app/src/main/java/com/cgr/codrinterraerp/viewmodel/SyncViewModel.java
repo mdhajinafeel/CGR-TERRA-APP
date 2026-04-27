@@ -133,11 +133,13 @@ public class SyncViewModel extends ViewModel {
                 supplier.setSupplierId(s.getSupplierId());
                 supplier.setSupplierName(s.getSupplierName());
 
+                // ---------------- SUPPLIER PRODUCTS ----------------
                 if (s.getSupplierProducts() != null) {
                     for (SupplierProductsResponse p : s.getSupplierProducts()) {
 
                         SupplierProducts product = getSupplierProducts(p, supplier);
 
+                        // ---------------- SUPPLIER PRODUCT TYPES ----------------
                         if (p.getSupplierProductTypes() != null) {
                             for (SupplierProductTypesResponse t : p.getSupplierProductTypes()) {
                                 typesList.add(getSupplierProductTypes(p, t, supplier));
@@ -168,7 +170,7 @@ public class SyncViewModel extends ViewModel {
         if (measurement != null && !measurement.isEmpty()) {
             masterRepository.deleteMeasurementSystems();
 
-
+            // ---------------- MEASUREMENT FORMULA ----------------
 
             masterRepository.insertMeasurementSystems(getMeasurementSystems(measurement));
         }
