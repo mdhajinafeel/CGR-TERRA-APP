@@ -102,7 +102,7 @@
     <string name="measurement">Measurement</string>
     <string name="available_containers">Available Containers</string>
     <string name="length">Length</string>
-    <string name="circ">Circ</string>
+    <string name="circ">Girth</string>
     <string name="input_measurements">Input Measurements</string>
     <string name="measurement_data">Measurement Data</string>
     <string name="clear">Clear</string>
@@ -113,4 +113,8 @@
     <string name="farm_contract_details"><u>Farm Contract Details</u></string>
     <string name="contract_code">Contract Code</string>
     <string name="description">Description</string>
+    <string name="length_must_be_greater_than_100">Length must be greater than 100</string>
+    <string name="sync_already_in_progress">Sync already in progress…</string>
+    <string name="reception_subtitle">%1$s / %2$s</string>
+    <string name="reception_data">Reception Data</string>
 </resources>

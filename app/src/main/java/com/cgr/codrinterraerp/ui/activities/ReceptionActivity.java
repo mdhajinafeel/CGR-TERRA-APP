@@ -243,7 +243,7 @@ public class ReceptionActivity extends BaseActivity {
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
 
-                    suppliersRecyclerViewAdapter = new RecyclerViewAdapter<>(this, suppliersList, R.layout.row_dialog_list) {
+                    suppliersRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(suppliersList), R.layout.row_dialog_list) {
                         @Override
                         public void onPostBindViewHolder(ViewHolder holder, Suppliers suppliers) {
 
@@ -308,7 +308,7 @@ public class ReceptionActivity extends BaseActivity {
                     tvNoDataFound.setVisibility(View.GONE);
                 }
 
-                warehousesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, warehousesList, R.layout.row_dialog_list) {
+                warehousesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(warehousesList), R.layout.row_dialog_list) {
                     @Override
                     public void onPostBindViewHolder(ViewHolder holder, Warehouses warehouses) {
 
@@ -354,7 +354,7 @@ public class ReceptionActivity extends BaseActivity {
                     tvNoDataFound.setVisibility(View.GONE);
                 }
 
-                supplierProductsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, supplierProductsList, R.layout.row_dialog_list) {
+                supplierProductsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(supplierProductsList), R.layout.row_dialog_list) {
                     @Override
                     public void onPostBindViewHolder(ViewHolder holder, SupplierProducts supplierProducts) {
 
@@ -364,8 +364,8 @@ public class ReceptionActivity extends BaseActivity {
                         tvName.setText(supplierProducts.getProductName());
 
                         boolean isSelected = false;
-                        if (etSupplierProduct.getTag() != null) {
-                            isSelected = Objects.equals(supplierProducts.getSupplierProductId(), etSupplierProduct.getTag());
+                        if (etSupplierProduct.getTag(R.id.tag_supplier_product_id) != null) {
+                            isSelected = Objects.equals(supplierProducts.getSupplierProductId(), etSupplierProduct.getTag(R.id.tag_supplier_product_id));
                         }
 
                         ivSelected.setVisibility(isSelected ? View.VISIBLE : View.GONE);
@@ -415,7 +415,7 @@ public class ReceptionActivity extends BaseActivity {
                     tvNoDataFound.setVisibility(View.GONE);
                 }
 
-                supplierProductTypesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, supplierProductTypesList, R.layout.row_dialog_list) {
+                supplierProductTypesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(supplierProductTypesList), R.layout.row_dialog_list) {
                     @Override
                     public void onPostBindViewHolder(ViewHolder holder, SupplierProductTypes supplierProductTypes) {
 
@@ -425,8 +425,8 @@ public class ReceptionActivity extends BaseActivity {
                         tvName.setText(supplierProductTypes.getProductTypeName());
 
                         boolean isSelected = false;
-                        if (etSupplierProductType.getTag() != null) {
-                            isSelected = Objects.equals(supplierProductTypes.getProductTypeId(), etSupplierProductType.getTag());
+                        if (etSupplierProductType.getTag(R.id.tag_product_type_id) != null) {
+                            isSelected = Objects.equals(supplierProductTypes.getProductTypeId(), etSupplierProductType.getTag(R.id.tag_product_type_id));
                         }
 
                         ivSelected.setVisibility(isSelected ? View.VISIBLE : View.GONE);
@@ -472,7 +472,7 @@ public class ReceptionActivity extends BaseActivity {
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
 
-                    measurementSystemsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, measurementSystemsList, R.layout.row_dialog_list) {
+                    measurementSystemsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(measurementSystemsList), R.layout.row_dialog_list) {
                         @Override
                         public void onPostBindViewHolder(ViewHolder holder, MeasurementSystems measurementSystems) {
 
@@ -518,7 +518,7 @@ public class ReceptionActivity extends BaseActivity {
                 } else {
                     tvNoDataFound.setVisibility(View.GONE);
 
-                    purchaseContractsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, purchaseContractsList, R.layout.row_dialog_list) {
+                    purchaseContractsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(purchaseContractsList), R.layout.row_dialog_list) {
                         @Override
                         public void onPostBindViewHolder(ViewHolder holder, PurchaseContracts purchaseContracts) {
 
@@ -784,6 +784,8 @@ public class ReceptionActivity extends BaseActivity {
                     Toast.makeText(getApplicationContext(), R.string.ica_exists, Toast.LENGTH_SHORT).show();
                 } else {
 
+                    String mappingId = "M_" + etSupplier.getTag() + "_" + CommonUtils.getCurrentLocalDateTimeStamp();
+
                     ReceptionDetails receptionDetail = new ReceptionDetails();
                     receptionDetail.setSupplierId((int) etSupplier.getTag());
                     receptionDetail.setSupplierProductId((int) etSupplierProduct.getTag(R.id.tag_supplier_product_id));
@@ -795,11 +797,12 @@ public class ReceptionActivity extends BaseActivity {
                     receptionDetail.setWarehouse((int) etWarehouse.getTag());
                     receptionDetail.setReceptionDate(etReceptionDate.getText().toString().trim());
                     receptionDetail.setFarmEnabled(cbEnableFarm.isChecked());
+                    receptionDetail.setContainerReceptionMappingId(mappingId);
 
                     if (cbEnableFarm.isChecked()) {
                         receptionDetail.setPurchaseContract((int) etPurchaseContract.getTag());
-                        receptionDetail.setTruckNumber(Objects.requireNonNull(etTruckNumber.getText()).toString());
-                        receptionDetail.setTruckDriverName(Objects.requireNonNull(etPurchaseContract.getText()).toString());
+                        receptionDetail.setTruckNumber(Objects.requireNonNull(etTruckNumber.getText()).toString().trim());
+                        receptionDetail.setTruckDriverName(Objects.requireNonNull(etPurchaseContract.getText()).toString().trim());
                     } else {
                         receptionDetail.setPurchaseContract(0);
                         receptionDetail.setTruckNumber("");

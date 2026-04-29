@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d34643a4c88c8b6afb3cc69235909938",
+    "identityHash": "2e967a572e9bdaa1b59dfe5b1fb6b51e",
     "entities": [
       {
         "tableName": "origins",
@@ -906,94 +906,8 @@
         ]
       },
       {
-        "tableName": "girth_classification",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `girthClassification` TEXT, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "girthClassification",
-            "columnName": "girthClassification",
-            "affinity": "TEXT"
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [
-          {
-            "name": "idx_id_girth_classification",
-            "unique": false,
-            "columnNames": [
-              "id"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `idx_id_girth_classification` ON `${TABLE_NAME}` (`id`)"
-          },
-          {
-            "name": "idx_girth_classification",
-            "unique": false,
-            "columnNames": [
-              "girthClassification"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `idx_girth_classification` ON `${TABLE_NAME}` (`girthClassification`)"
-          }
-        ]
-      },
-      {
-        "tableName": "length_classification",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `lengthClassification` TEXT, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "lengthClassification",
-            "columnName": "lengthClassification",
-            "affinity": "TEXT"
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [
-          {
-            "name": "idx_id_length_classification",
-            "unique": false,
-            "columnNames": [
-              "id"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `idx_id_length_classification` ON `${TABLE_NAME}` (`id`)"
-          },
-          {
-            "name": "idx_length_classification",
-            "unique": false,
-            "columnNames": [
-              "lengthClassification"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `idx_length_classification` ON `${TABLE_NAME}` (`lengthClassification`)"
-          }
-        ]
-      },
-      {
         "tableName": "reception_details",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempReceptionId` TEXT NOT NULL, `receptionId` INTEGER, `ica` TEXT NOT NULL, `supplierId` INTEGER NOT NULL, `supplierProductId` INTEGER NOT NULL, `productId` INTEGER NOT NULL, `supplierProductTypeId` INTEGER NOT NULL, `productTypeId` INTEGER NOT NULL, `measurementSystem` INTEGER NOT NULL, `warehouse` INTEGER NOT NULL, `receptionDate` TEXT, `isFarmEnabled` INTEGER NOT NULL, `purchaseContract` INTEGER NOT NULL, `truckNumber` TEXT, `truckDriverName` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempReceptionId` TEXT NOT NULL, `receptionId` INTEGER, `ica` TEXT NOT NULL, `supplierId` INTEGER NOT NULL, `supplierProductId` INTEGER NOT NULL, `productId` INTEGER NOT NULL, `supplierProductTypeId` INTEGER NOT NULL, `productTypeId` INTEGER NOT NULL, `measurementSystem` INTEGER NOT NULL, `warehouse` INTEGER NOT NULL, `receptionDate` TEXT, `isFarmEnabled` INTEGER NOT NULL, `purchaseContract` INTEGER NOT NULL, `truckNumber` TEXT, `truckDriverName` TEXT, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `containerReceptionMappingId` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -1110,6 +1024,11 @@
             "columnName": "updatedAt",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "containerReceptionMappingId",
+            "columnName": "containerReceptionMappingId",
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -1132,7 +1051,7 @@
       },
       {
         "tableName": "dispatch_details",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempDispatchId` TEXT NOT NULL, `dispatchId` INTEGER, `containerNumber` TEXT NOT NULL, `productId` INTEGER NOT NULL, `productTypeId` INTEGER NOT NULL, `warehouseId` INTEGER NOT NULL, `shippingLineId` INTEGER NOT NULL, `dispatchDate` TEXT, `girthClassificationId` INTEGER NOT NULL, `isClosed` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempDispatchId` TEXT NOT NULL, `dispatchId` INTEGER, `containerNumber` TEXT NOT NULL, `productId` INTEGER NOT NULL, `productTypeId` INTEGER NOT NULL, `warehouseId` INTEGER NOT NULL, `shippingLineId` INTEGER NOT NULL, `dispatchDate` TEXT, `isClosed` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -1187,12 +1106,6 @@
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "girthClassificationId",
-            "columnName": "girthClassificationId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "isClosed",
             "columnName": "isClosed",
             "affinity": "INTEGER",
@@ -1243,7 +1156,7 @@
       },
       {
         "tableName": "reception_data",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempReceptionDataId` TEXT, `tempReceptionId` TEXT, `receptionDataId` INTEGER, `receptionId` INTEGER, `circumference` REAL NOT NULL, `length` REAL NOT NULL, `pieces` INTEGER NOT NULL, `grossVolume` REAL NOT NULL, `netVolume` REAL NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempReceptionDataId` TEXT, `tempReceptionId` TEXT, `receptionDataId` INTEGER, `receptionId` INTEGER, `circumference` REAL NOT NULL, `length` REAL NOT NULL, `pieces` INTEGER NOT NULL, `grossVolume` REAL NOT NULL, `netVolume` REAL NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `containerReceptionMappingId` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -1324,6 +1237,11 @@
             "columnName": "updatedAt",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "containerReceptionMappingId",
+            "columnName": "containerReceptionMappingId",
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -1377,12 +1295,21 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `idx_deleted_reception_data` ON `${TABLE_NAME}` (`isDeleted`)"
+          },
+          {
+            "name": "idx_container_mapping_id_data",
+            "unique": false,
+            "columnNames": [
+              "containerReceptionMappingId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_container_mapping_id_data` ON `${TABLE_NAME}` (`containerReceptionMappingId`)"
           }
         ]
       },
       {
         "tableName": "container_data",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempReceptionDataId` TEXT, `tempDispatchId` TEXT, `dispatchId` INTEGER, `tempReceptionId` TEXT, `receptionDataId` INTEGER, `receptionId` INTEGER, `pieces` INTEGER NOT NULL, `grossVolume` REAL NOT NULL, `netVolume` REAL NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tempReceptionDataId` TEXT, `tempDispatchId` TEXT, `dispatchId` INTEGER, `tempReceptionId` TEXT, `receptionDataId` INTEGER, `receptionId` INTEGER, `pieces` INTEGER NOT NULL, `grossVolume` REAL NOT NULL, `netVolume` REAL NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `containerReceptionMappingId` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -1461,6 +1388,11 @@
             "columnName": "updatedAt",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "containerReceptionMappingId",
+            "columnName": "containerReceptionMappingId",
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -1532,6 +1464,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `idx_deleted_cd` ON `${TABLE_NAME}` (`isDeleted`)"
+          },
+          {
+            "name": "idx_container_mapping_id_cd",
+            "unique": false,
+            "columnNames": [
+              "containerReceptionMappingId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_container_mapping_id_cd` ON `${TABLE_NAME}` (`containerReceptionMappingId`)"
           }
         ]
       },
@@ -1885,7 +1826,7 @@
     "views": [
       {
         "viewName": "reception_view",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT r.id, r.tempReceptionId, r.receptionId, r.ica, s.supplierName, m.measurementName, r.receptionDate, IFNULL(ds.totalPieces,0) as totalPieces, IFNULL(ds.totalGrossVolume,0) as totalGrossVolume, IFNULL(ds.totalNetVolume,0) as totalNetVolume, r.measurementSystem, r.productTypeId, p.productName, pt.productTypeName,r.isFarmEnabled, pc.contractCode, pc.description FROM reception_details r INNER JOIN suppliers s ON s.supplierId = r.supplierId INNER JOIN measurement_systems m ON m.id = r.measurementSystem INNER JOIN products p ON p.productId = r.productId INNER JOIN product_types pt ON pt.typeId = r.productTypeId INNER JOIN purchase_contracts pc ON pc.contractId = r.purchaseContract LEFT JOIN reception_summary ds ON (ds.receptionId = r.receptionId OR ds.tempReceptionId = r.tempReceptionId) WHERE r.isDeleted = 0"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT r.id, r.tempReceptionId, r.receptionId, r.ica, s.supplierName, m.measurementName, r.receptionDate, IFNULL(ds.totalPieces,0) as totalPieces, IFNULL(ds.totalGrossVolume,0) as totalGrossVolume, IFNULL(ds.totalNetVolume,0) as totalNetVolume, r.measurementSystem, r.productTypeId, p.productName, pt.productTypeName,r.isFarmEnabled, pc.contractCode, pc.description, r.supplierId, r.containerReceptionMappingId FROM reception_details r INNER JOIN suppliers s ON s.supplierId = r.supplierId INNER JOIN measurement_systems m ON m.id = r.measurementSystem INNER JOIN products p ON p.productId = r.productId INNER JOIN product_types pt ON pt.typeId = r.productTypeId LEFT JOIN purchase_contracts pc ON pc.contractId = r.purchaseContract LEFT JOIN reception_summary ds ON (ds.receptionId = r.receptionId OR ds.tempReceptionId = r.tempReceptionId) WHERE r.isDeleted = 0"
       },
       {
         "viewName": "dispatch_view",
@@ -1894,7 +1835,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd34643a4c88c8b6afb3cc69235909938')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2e967a572e9bdaa1b59dfe5b1fb6b51e')"
     ]
   }
 }

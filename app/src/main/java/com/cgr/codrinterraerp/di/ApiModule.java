@@ -1,4 +1,4 @@
-package com.cgr.codrinterraerp.di.modules;
+package com.cgr.codrinterraerp.di;
 
 import com.cgr.codrinterraerp.BuildConfig;
 import com.cgr.codrinterraerp.db.dao.ApiLogsDao;

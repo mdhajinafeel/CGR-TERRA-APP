@@ -1,4 +1,4 @@
-package com.cgr.codrinterraerp.di.modules;
+package com.cgr.codrinterraerp.di;
 
 import android.content.Context;
 
@@ -10,8 +10,6 @@ import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
-import com.cgr.codrinterraerp.db.dao.GirthClassificationDao;
-import com.cgr.codrinterraerp.db.dao.LengthClassificationDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -131,18 +129,6 @@ public class DBModule {
     @Singleton
     public ProductTypesDao provideProductTypesDao(CGRTerraERPDatabase db) {
         return db.productTypesDao();
-    }
-
-    @Provides
-    @Singleton
-    public GirthClassificationDao provideGirthClassificationDao(CGRTerraERPDatabase db) {
-        return db.girthClassificationDao();
-    }
-
-    @Provides
-    @Singleton
-    public LengthClassificationDao provideLengthClassificationDao(CGRTerraERPDatabase db) {
-        return db.lengthClassificationDao();
     }
 
     @Provides

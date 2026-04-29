@@ -27,7 +27,6 @@ public class DispatchDetails implements Serializable {
     public int warehouseId;
     public int shippingLineId;
     public String dispatchDate;
-    public int girthClassificationId;
     public boolean isClosed = false;
     public boolean isSynced = false;
     public boolean isDeleted = false;
@@ -106,14 +105,6 @@ public class DispatchDetails implements Serializable {
 
     public void setDispatchDate(String dispatchDate) {
         this.dispatchDate = dispatchDate;
-    }
-
-    public int getGirthClassificationId() {
-        return girthClassificationId;
-    }
-
-    public void setGirthClassificationId(int girthClassificationId) {
-        this.girthClassificationId = girthClassificationId;
     }
 
     public boolean isClosed() {

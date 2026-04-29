@@ -3,8 +3,6 @@ package com.cgr.codrinterraerp.repository;
 import com.cgr.codrinterraerp.db.CGRTerraERPDatabase;
 import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
-import com.cgr.codrinterraerp.db.dao.GirthClassificationDao;
-import com.cgr.codrinterraerp.db.dao.LengthClassificationDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -20,8 +18,6 @@ import com.cgr.codrinterraerp.db.dao.SuppliersDao;
 import com.cgr.codrinterraerp.db.dao.WarehousesDao;
 import com.cgr.codrinterraerp.db.entities.DispatchContainers;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
-import com.cgr.codrinterraerp.db.entities.GirthClassification;
-import com.cgr.codrinterraerp.db.entities.LengthClassification;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulas;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
@@ -63,15 +59,13 @@ public class MasterRepository {
     private final DispatchContainersDao dispatchContainersDao;
     private final ProductsDao productsDao;
     private final ProductTypesDao productTypesDao;
-    private final GirthClassificationDao girthClassificationDao;
-    private final LengthClassificationDao lengthClassificationDao;
 
     public MasterRepository(CGRTerraERPDatabase database, IMasterApiService iMasterApiService, OriginsDao originsDao, SuppliersDao suppliersDao, SupplierProductsDao supplierProductsDao,
                             SupplierProductTypesDao supplierProductTypesDao, WarehousesDao warehousesDao, MeasurementSystemsDao measurementSystemsDao,
                             MeasurementSystemFormulasDao measurementSystemFormulasDao, MeasurementSystemFormulaVariablesDao measurementSystemFormulaVariablesDao,
                             ShippingLinesDao shippingLinesDao, PurchaseContractDao purchaseContractDao, FarmInventoryOrdersDao farmInventoryOrdersDao,
                             ReceptionInventoryOrdersDao receptionInventoryOrdersDao, DispatchContainersDao dispatchContainersDao, ProductsDao productsDao,
-                            ProductTypesDao productTypesDao, GirthClassificationDao girthClassificationDao, LengthClassificationDao lengthClassificationDao) {
+                            ProductTypesDao productTypesDao) {
         this.database = database;
         this.iMasterApiService = iMasterApiService;
         this.originsDao = originsDao;
@@ -89,8 +83,6 @@ public class MasterRepository {
         this.dispatchContainersDao = dispatchContainersDao;
         this.productsDao = productsDao;
         this.productTypesDao = productTypesDao;
-        this.girthClassificationDao = girthClassificationDao;
-        this.lengthClassificationDao = lengthClassificationDao;
     }
 
     public Call<OriginsResponse> getOrigins() {
@@ -275,31 +267,5 @@ public class MasterRepository {
 
     public List<ProductTypes> fetchProductTypes() {
         return productTypesDao.getAllProductTypes();
-    }
-
-    // GIRTH CLASSIFICATION
-    public void deleteGirthClassification() {
-        girthClassificationDao.clearAll();
-    }
-
-    public void insertGirthClassification(List<GirthClassification> girthClassificationList) {
-        girthClassificationDao.insertGirthClassification(girthClassificationList);
-    }
-
-    public List<GirthClassification> fetchGirthClassification() {
-        return girthClassificationDao.getAllGirthClassification();
-    }
-
-    // LENGTH CLASSIFICATION
-    public void deleteLengthClassification() {
-        lengthClassificationDao.clearAll();
-    }
-
-    public void insertLengthClassification(List<LengthClassification> lengthClassificationList) {
-        lengthClassificationDao.insertLengthClassification(lengthClassificationList);
-    }
-
-    public List<LengthClassification> fetchLengthClassification() {
-        return lengthClassificationDao.getAllLengthClassification();
     }
 }

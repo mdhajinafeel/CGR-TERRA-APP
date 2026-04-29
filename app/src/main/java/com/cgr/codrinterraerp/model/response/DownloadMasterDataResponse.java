@@ -2,8 +2,6 @@ package com.cgr.codrinterraerp.model.response;
 
 import com.cgr.codrinterraerp.model.response.masterdata.DispatchContainersResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.FarmInventoryOrdersResponse;
-import com.cgr.codrinterraerp.model.response.masterdata.GirthClassificationResponse;
-import com.cgr.codrinterraerp.model.response.masterdata.LengthClassificationResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.MeasurementSystemsResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.ProductTypesResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.ProductsResponse;
@@ -28,8 +26,6 @@ public class DownloadMasterDataResponse implements Serializable {
     private List<DispatchContainersResponse> dispatchContainers;
     private List<ProductsResponse> products;
     private List<ProductTypesResponse> productTypes;
-    private List<GirthClassificationResponse> girthClassification;
-    private List<LengthClassificationResponse> lengthClassification;
 
     public List<SuppliersResponse> getSuppliers() {
         return suppliers;
@@ -109,21 +105,5 @@ public class DownloadMasterDataResponse implements Serializable {
 
     public void setProductTypes(List<ProductTypesResponse> productTypes) {
         this.productTypes = productTypes;
-    }
-
-    public List<GirthClassificationResponse> getGirthClassification() {
-        return girthClassification;
-    }
-
-    public void setGirthClassification(List<GirthClassificationResponse> girthClassification) {
-        this.girthClassification = girthClassification;
-    }
-
-    public List<LengthClassificationResponse> getLengthClassification() {
-        return lengthClassification;
-    }
-
-    public void setLengthClassification(List<LengthClassificationResponse> lengthClassification) {
-        this.lengthClassification = lengthClassification;
     }
 }

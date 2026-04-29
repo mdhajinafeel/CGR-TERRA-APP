@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cgr.codrinterraerp.R;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
-import com.cgr.codrinterraerp.db.entities.GirthClassification;
 import com.cgr.codrinterraerp.db.entities.ProductTypes;
 import com.cgr.codrinterraerp.db.entities.Products;
 import com.cgr.codrinterraerp.db.entities.ShippingLines;
@@ -47,20 +46,18 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class DispatchActivity extends BaseActivity {
 
-    private TextInputLayout tiContainerNumber, tiProduct, tiProductType, tiShippingLine, tiWarehouse, tiDispatchDate, tiGirthClassification;
-    private AppCompatEditText etContainerNumber, etProduct, etProductType, etShippingLine, etWarehouse, etDispatchDate, etGirthClassification;
+    private TextInputLayout tiContainerNumber, tiProduct, tiProductType, tiShippingLine, tiWarehouse, tiDispatchDate;
+    private AppCompatEditText etContainerNumber, etProduct, etProductType, etShippingLine, etWarehouse, etDispatchDate;
     private MaterialButton btnSubmit;
     private AppCompatTextView tvNoDataFound;
     private List<Products> productsList;
     private List<ProductTypes> productTypesList;
     private List<ShippingLines> shippingLinesList;
     private List<Warehouses> warehousesList;
-    private List<GirthClassification> girthClassificationList;
     private RecyclerViewAdapter<Products> productsRecyclerViewAdapter;
     private RecyclerViewAdapter<ProductTypes> productTypesRecyclerViewAdapter;
     private RecyclerViewAdapter<ShippingLines> shippingLinesRecyclerViewAdapter;
     private RecyclerViewAdapter<Warehouses> warehousesRecyclerViewAdapter;
-    private RecyclerViewAdapter<GirthClassification> girthClassificationRecyclerViewAdapter;
     private MasterViewModel masterViewModel;
     private DispatchViewModel dispatchViewModel;
     private FrameLayout progressBar;
@@ -85,14 +82,12 @@ public class DispatchActivity extends BaseActivity {
             tiShippingLine = findViewById(R.id.tiShippingLine);
             tiWarehouse = findViewById(R.id.tiWarehouse);
             tiDispatchDate = findViewById(R.id.tiDispatchDate);
-            tiGirthClassification = findViewById(R.id.tiGirthClassification);
             etContainerNumber = findViewById(R.id.etContainerNumber);
             etProduct = findViewById(R.id.etProduct);
             etProductType = findViewById(R.id.etProductType);
             etShippingLine = findViewById(R.id.etShippingLine);
             etWarehouse = findViewById(R.id.etWarehouse);
             etDispatchDate = findViewById(R.id.etDispatchDate);
-            etGirthClassification = findViewById(R.id.etGirthClassification);
             btnSubmit = findViewById(R.id.btnSubmit);
             progressBar = findViewById(R.id.progressBar);
 
@@ -108,7 +103,6 @@ public class DispatchActivity extends BaseActivity {
             CommonUtils.clearErrorOnTyping(etShippingLine, tiShippingLine);
             CommonUtils.clearErrorOnTyping(etWarehouse, tiWarehouse);
             CommonUtils.clearErrorOnTyping(etDispatchDate, tiDispatchDate);
-            CommonUtils.clearErrorOnTyping(etGirthClassification, tiGirthClassification);
 
             fetchData();
             actionListeners();
@@ -138,9 +132,6 @@ public class DispatchActivity extends BaseActivity {
 
             warehousesList = new ArrayList<>();
             warehousesList = masterViewModel.fetchWarehouses();
-
-            girthClassificationList = new ArrayList<>();
-            girthClassificationList = masterViewModel.fetchGirthClassification();
         } catch (Exception e) {
             AppLogger.e(getClass(), "fetchData", e);
         }
@@ -152,19 +143,16 @@ public class DispatchActivity extends BaseActivity {
             etProductType.setKeyListener(null);
             etShippingLine.setKeyListener(null);
             etWarehouse.setKeyListener(null);
-            etGirthClassification.setKeyListener(null);
 
             etProduct.setOnClickListener(v -> showDataDialog("Product"));
             etProductType.setOnClickListener(v -> showDataDialog("ProductType"));
             etShippingLine.setOnClickListener(v -> showDataDialog("ShippingLine"));
             etWarehouse.setOnClickListener(v -> showDataDialog("Warehouse"));
-            etGirthClassification.setOnClickListener(v -> showDataDialog("GirthClassification"));
 
             tiProduct.setEndIconOnClickListener(v -> showDataDialog("Product"));
             tiProductType.setEndIconOnClickListener(v -> showDataDialog("ProductType"));
             tiShippingLine.setEndIconOnClickListener(v -> showDataDialog("ShippingLine"));
             tiWarehouse.setEndIconOnClickListener(v -> showDataDialog("Warehouse"));
-            tiGirthClassification.setOnClickListener(v -> showDataDialog("GirthClassification"));
 
             etDispatchDate.setOnClickListener(v -> CommonUtils.showDatePicker(this, etDispatchDate));
 
@@ -215,7 +203,7 @@ public class DispatchActivity extends BaseActivity {
                     tvNoDataFound.setVisibility(View.GONE);
                 }
 
-                productsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, productsList, R.layout.row_dialog_list) {
+                productsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(productsList), R.layout.row_dialog_list) {
                     @Override
                     public void onPostBindViewHolder(ViewHolder holder, Products products) {
 
@@ -261,7 +249,7 @@ public class DispatchActivity extends BaseActivity {
                     tvNoDataFound.setVisibility(View.GONE);
                 }
 
-                productTypesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, productTypesList, R.layout.row_dialog_list) {
+                productTypesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(productTypesList), R.layout.row_dialog_list) {
                     @Override
                     public void onPostBindViewHolder(ViewHolder holder, ProductTypes productTypes) {
 
@@ -307,7 +295,7 @@ public class DispatchActivity extends BaseActivity {
                     tvNoDataFound.setVisibility(View.GONE);
                 }
 
-                warehousesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, warehousesList, R.layout.row_dialog_list) {
+                warehousesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(warehousesList), R.layout.row_dialog_list) {
                     @Override
                     public void onPostBindViewHolder(ViewHolder holder, Warehouses warehouses) {
 
@@ -353,7 +341,7 @@ public class DispatchActivity extends BaseActivity {
                     tvNoDataFound.setVisibility(View.GONE);
                 }
 
-                shippingLinesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, shippingLinesList, R.layout.row_dialog_list) {
+                shippingLinesRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(shippingLinesList), R.layout.row_dialog_list) {
                     @Override
                     public void onPostBindViewHolder(ViewHolder holder, ShippingLines shippingLines) {
 
@@ -386,52 +374,6 @@ public class DispatchActivity extends BaseActivity {
 
                     etShippingLine.setText(selected.getShippingLine());
                     etShippingLine.setTag(selected.getId());
-
-                    dialog.dismiss(); // optional
-                });
-            } else if (tag.equalsIgnoreCase("GirthClassification")) {
-
-                dialogTitle.setText(R.string.select_grith_classification);
-
-                if (girthClassificationList.isEmpty()) {
-                    tvNoDataFound.setVisibility(View.VISIBLE);
-                } else {
-                    tvNoDataFound.setVisibility(View.GONE);
-                }
-
-                girthClassificationRecyclerViewAdapter = new RecyclerViewAdapter<>(this, girthClassificationList, R.layout.row_dialog_list) {
-                    @Override
-                    public void onPostBindViewHolder(ViewHolder holder, GirthClassification girthClassification) {
-
-                        AppCompatTextView tvName = holder.itemView.findViewById(R.id.tvName);
-                        AppCompatImageView ivSelected = holder.itemView.findViewById(R.id.ivItemSelected);
-
-                        tvName.setText(girthClassification.getGirthClassification());
-
-                        boolean isSelected = false;
-                        if (etGirthClassification.getTag() != null) {
-                            isSelected = Objects.equals(girthClassification.getId(), etGirthClassification.getTag());
-                        }
-
-                        ivSelected.setVisibility(isSelected ? View.VISIBLE : View.GONE);
-
-                        if (isSelected) {
-                            holder.setViewTypeface(R.id.tvName,
-                                    ResourcesCompat.getFont(holder.itemView.getContext(), R.font.exo2_bold));
-                        } else {
-                            holder.setViewTypeface(R.id.tvName,
-                                    ResourcesCompat.getFont(holder.itemView.getContext(), R.font.exo2_medium));
-                        }
-                    }
-                };
-
-                rvList.setAdapter(girthClassificationRecyclerViewAdapter);
-                girthClassificationRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
-
-                    GirthClassification selected = girthClassificationRecyclerViewAdapter.getItem(position);
-
-                    etGirthClassification.setText(selected.getGirthClassification());
-                    etGirthClassification.setTag(selected.getId());
 
                     dialog.dismiss(); // optional
                 });
@@ -507,22 +449,6 @@ public class DispatchActivity extends BaseActivity {
 
                         // Optional: Show "No Data Found"
                         if (shippingLinesRecyclerViewAdapter.getItemCount() == 0) {
-                            tvNoDataFound.setVisibility(View.VISIBLE);
-                        } else {
-                            tvNoDataFound.setVisibility(View.GONE);
-                        }
-                    } else if (tag.equalsIgnoreCase("GirthClassification")) {
-                        if (query.isEmpty()) {
-                            girthClassificationRecyclerViewAdapter.resetFilter();
-                        } else {
-                            girthClassificationRecyclerViewAdapter.filter(item ->
-                                    item.getGirthClassification() != null &&
-                                            item.getGirthClassification().toLowerCase().contains(query)
-                            );
-                        }
-
-                        // Optional: Show "No Data Found"
-                        if (girthClassificationRecyclerViewAdapter.getItemCount() == 0) {
                             tvNoDataFound.setVisibility(View.VISIBLE);
                         } else {
                             tvNoDataFound.setVisibility(View.GONE);
@@ -603,15 +529,6 @@ public class DispatchActivity extends BaseActivity {
                 tiDispatchDate.setError(null);
             }
 
-            if (Objects.requireNonNull(etGirthClassification.getText()).toString().trim().isEmpty()) {
-                tiGirthClassification.setError(getString(R.string.required_field));
-                tiGirthClassification.setErrorEnabled(true);
-                isValid = false;
-            } else {
-                tiGirthClassification.setErrorEnabled(false);
-                tiGirthClassification.setError(null);
-            }
-
             if (isValid) {
 
                 int containerCount = dispatchViewModel.getDispatchContainersCount(etContainerNumber.getText().toString(), (int) etShippingLine.getTag());
@@ -629,7 +546,6 @@ public class DispatchActivity extends BaseActivity {
                     dispatchDetail.setWarehouseId((int) etWarehouse.getTag());
                     dispatchDetail.setShippingLineId((int) etShippingLine.getTag());
                     dispatchDetail.setDispatchDate(etDispatchDate.getText().toString().trim());
-                    dispatchDetail.setGirthClassificationId((int) etGirthClassification.getTag());
                     dispatchDetail.setSynced(false);
                     dispatchDetail.setDeleted(false);
                     dispatchDetail.setEdited(false);

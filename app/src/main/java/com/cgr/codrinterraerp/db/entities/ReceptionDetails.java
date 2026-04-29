@@ -38,6 +38,7 @@ public class ReceptionDetails implements Serializable {
     public boolean isDeleted = false;
     public boolean isEdited = false;
     public long updatedAt = System.currentTimeMillis();
+    public String containerReceptionMappingId;
 
     public long getId() {
         return id;
@@ -199,5 +200,13 @@ public class ReceptionDetails implements Serializable {
 
     public void setProductTypeId(int productTypeId) {
         this.productTypeId = productTypeId;
+    }
+
+    public String getContainerReceptionMappingId() {
+        return containerReceptionMappingId;
+    }
+
+    public void setContainerReceptionMappingId(String containerReceptionMappingId) {
+        this.containerReceptionMappingId = containerReceptionMappingId;
     }
 }

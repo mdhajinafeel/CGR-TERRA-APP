@@ -1,6 +1,7 @@
 package com.cgr.codrinterraerp.db.entities;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -12,7 +13,8 @@ import java.io.Serializable;
                 @Index(name = "idx_temp_id_reception_data", value = {"tempReceptionId"}),
                 @Index(name = "idx_reception_id_data", value = {"receptionId"}),
                 @Index(name = "idx_reception_data_id_data", value = {"receptionDataId"}),
-                @Index(name = "idx_deleted_reception_data", value = {"isDeleted"})
+                @Index(name = "idx_deleted_reception_data", value = {"isDeleted"}),
+                @Index(name = "idx_container_mapping_id_data", value = {"containerReceptionMappingId"})
         })
 public class ReceptionData implements Serializable {
 
@@ -31,6 +33,9 @@ public class ReceptionData implements Serializable {
     private boolean isDeleted = false;
     private boolean isEdited = false;
     private long updatedAt = System.currentTimeMillis();
+    private String containerReceptionMappingId;
+    @Ignore
+    private String containerNumber;
 
     public int getId() {
         return id;
@@ -142,5 +147,21 @@ public class ReceptionData implements Serializable {
 
     public void setTempReceptionDataId(String tempReceptionDataId) {
         this.tempReceptionDataId = tempReceptionDataId;
+    }
+
+    public String getContainerReceptionMappingId() {
+        return containerReceptionMappingId;
+    }
+
+    public void setContainerReceptionMappingId(String containerReceptionMappingId) {
+        this.containerReceptionMappingId = containerReceptionMappingId;
+    }
+
+    public String getContainerNumber() {
+        return containerNumber;
+    }
+
+    public void setContainerNumber(String containerNumber) {
+        this.containerNumber = containerNumber;
     }
 }

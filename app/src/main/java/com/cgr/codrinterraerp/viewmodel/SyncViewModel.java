@@ -9,8 +9,6 @@ import androidx.lifecycle.ViewModel;
 import com.cgr.codrinterraerp.R;
 import com.cgr.codrinterraerp.db.entities.DispatchContainers;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
-import com.cgr.codrinterraerp.db.entities.GirthClassification;
-import com.cgr.codrinterraerp.db.entities.LengthClassification;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulas;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
@@ -28,8 +26,6 @@ import com.cgr.codrinterraerp.model.response.DownloadMasterDataResponse;
 import com.cgr.codrinterraerp.model.response.DownloadMasterResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.DispatchContainersResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.FarmInventoryOrdersResponse;
-import com.cgr.codrinterraerp.model.response.masterdata.GirthClassificationResponse;
-import com.cgr.codrinterraerp.model.response.masterdata.LengthClassificationResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.MeasurementSystemFormulaVariablesResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.MeasurementSystemFormulasResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.MeasurementSystemsResponse;
@@ -301,28 +297,6 @@ public class SyncViewModel extends ViewModel {
 
             masterRepository.insertProductTypes(getProductTypes(productType));
         }
-
-        // ---------------- GIRTH CLASSIFICATION ----------------
-        List<GirthClassificationResponse> girthClassification = data.getGirthClassification();
-        if(girthClassification != null && !girthClassification.isEmpty()) {
-
-            if(!getGirthClassification(girthClassification).isEmpty()) {
-                masterRepository.deleteGirthClassification();
-            }
-
-            masterRepository.insertGirthClassification(getGirthClassification(girthClassification));
-        }
-
-        // ---------------- LENGTH CLASSIFICATION ----------------
-        List<LengthClassificationResponse> lengthClassification = data.getLengthClassification();
-        if(lengthClassification != null && !lengthClassification.isEmpty()) {
-
-            if(!getLengthClassification(lengthClassification).isEmpty()) {
-                masterRepository.deleteLengthClassification();
-            }
-
-            masterRepository.insertLengthClassification(getLengthClassification(lengthClassification));
-        }
     }
 
     @NonNull
@@ -335,32 +309,6 @@ public class SyncViewModel extends ViewModel {
         measurementSystemFormulaVariable.setSortOrder(measurementSystemFormulaVariablesResponse.getSortOrder());
         measurementSystemFormulaVariable.setVarName(measurementSystemFormulaVariablesResponse.getVarName());
         return measurementSystemFormulaVariable;
-    }
-
-    @NonNull
-    private static List<LengthClassification> getLengthClassification(List<LengthClassificationResponse> lengthClassificationResponseList) {
-        List<LengthClassification> lengthClassificationList = new ArrayList<>();
-        for (LengthClassificationResponse lengthClassificationResponse : lengthClassificationResponseList) {
-            LengthClassification lengthClassification = new LengthClassification();
-            lengthClassification.setId(lengthClassificationResponse.getId());
-            lengthClassification.setLengthClassification(lengthClassificationResponse.getLengthClassification());
-
-            lengthClassificationList.add(lengthClassification);
-        }
-        return lengthClassificationList;
-    }
-
-    @NonNull
-    private static List<GirthClassification> getGirthClassification(List<GirthClassificationResponse> girthClassificationResponseList) {
-        List<GirthClassification> girthClassificationList = new ArrayList<>();
-        for (GirthClassificationResponse girthClassificationResponse : girthClassificationResponseList) {
-            GirthClassification girthClassification = new GirthClassification();
-            girthClassification.setId(girthClassificationResponse.getId());
-            girthClassification.setGirthClassification(girthClassificationResponse.getGirthClassification());
-
-            girthClassificationList.add(girthClassification);
-        }
-        return girthClassificationList;
     }
 
     @NonNull

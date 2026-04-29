@@ -15,8 +15,6 @@ import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
-import com.cgr.codrinterraerp.db.dao.GirthClassificationDao;
-import com.cgr.codrinterraerp.db.dao.LengthClassificationDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -41,8 +39,6 @@ import com.cgr.codrinterraerp.db.entities.DispatchContainers;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
 import com.cgr.codrinterraerp.db.entities.DispatchSummary;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
-import com.cgr.codrinterraerp.db.entities.GirthClassification;
-import com.cgr.codrinterraerp.db.entities.LengthClassification;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulas;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
@@ -64,7 +60,7 @@ import com.cgr.codrinterraerp.db.views.ReceptionView;
 
 @Database(entities = {Origins.class, ApiLogs.class, Suppliers.class, SupplierProducts.class, SupplierProductTypes.class, MeasurementSystems.class, PurchaseContracts.class,
         ShippingLines.class, Warehouses.class, FarmInventoryOrders.class, ReceptionInventoryOrders.class, DispatchContainers.class, Products.class, ProductTypes.class,
-        GirthClassification.class, LengthClassification.class, ReceptionDetails.class, DispatchDetails.class, ReceptionData.class, ContainerData.class,
+        ReceptionDetails.class, DispatchDetails.class, ReceptionData.class, ContainerData.class,
         DispatchSummary.class, ReceptionSummary.class, MeasurementSystemFormulas.class, MeasurementSystemFormulaVariables.class},
         views = {ReceptionView.class, DispatchView.class},
         version = 1)
@@ -99,10 +95,6 @@ public abstract class CGRTerraERPDatabase extends RoomDatabase {
     public abstract ProductsDao productsDao();
 
     public abstract ProductTypesDao productTypesDao();
-
-    public abstract GirthClassificationDao girthClassificationDao();
-
-    public abstract LengthClassificationDao lengthClassificationDao();
 
     public abstract ReceptionDetailsDao receptionDetailsDao();
 

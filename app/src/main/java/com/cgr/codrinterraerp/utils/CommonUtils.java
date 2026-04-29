@@ -274,4 +274,12 @@ public class CommonUtils {
                 .setScale(precision, RoundingMode.HALF_UP)
                 .doubleValue();
     }
+
+    public static String formatNumber(double value) {
+        if (value == (long) value) {
+            return String.valueOf((long) value);
+        } else {
+            return String.valueOf(value);
+        }
+    }
 }

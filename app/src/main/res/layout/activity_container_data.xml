@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMildGreen"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_6">
+
+            <!-- ROW: ICA -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Label -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:gravity="end"
+                    android:text="@string/container"
+                    android:textSize="@dimen/text_18" />
+
+                <!-- Colon -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:text="@string/colon"
+                    android:textSize="@dimen/text_16" />
+
+                <!-- Value -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvContainerNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:textSize="@dimen/text_18" />
+            </LinearLayout>
+
+            <!-- ROW: SUPPLIER -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_8"
+                android:orientation="horizontal">
+
+                <!-- Label -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:gravity="end"
+                    android:text="@string/shipping_line"
+                    android:textSize="@dimen/text_18" />
+
+                <!-- Colon -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="6dp"
+                    android:text="@string/colon"
+                    android:textSize="@dimen/text_16" />
+
+                <!-- Value -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSupplier"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:textSize="@dimen/text_18" />
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorMilkWhite"
+                app:cardCornerRadius="@dimen/corner_radius_10"
+                app:cardElevation="@dimen/corner_elevation_8"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNoReception"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_6"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_14"
+                    android:text="@string/no_data_available"
+                    android:textColor="@color/colorCharcoal"
+                    android:textSize="@dimen/text_18"
+                    android:visibility="gone" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <!-- ================= HEADER ================= -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#EEEEEE"
+                            android:orientation="horizontal"
+                            android:padding="10dp">
+
+                            <!-- EMPTY (for buttons) -->
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="90dp"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/exo2_semibold"
+                                android:text="@string/circ"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorCharcoal"
+                                android:textSize="@dimen/text_16" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/exo2_semibold"
+                                android:text="@string/length"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorCharcoal"
+                                android:textSize="@dimen/text_16" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/exo2_semibold"
+                                android:text="@string/pieces"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorCharcoal"
+                                android:textSize="@dimen/text_16" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/exo2_semibold"
+                                android:text="@string/ica"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorCharcoal"
+                                android:textSize="@dimen/text_16" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/exo2_semibold"
+                                android:text="@string/gross_volume"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorCharcoal"
+                                android:textSize="@dimen/text_16" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="140dp"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/exo2_semibold"
+                                android:text="@string/net_volume"
+                                android:gravity="center_horizontal"
+                                android:textColor="@color/colorCharcoal"
+                                android:textSize="@dimen/text_16" />
+                        </LinearLayout>
+
+                        <!-- ================= RECYCLER VIEW ================= -->
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvReceptionData"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            tools:listitem="@layout/row_item_reception_data" />
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

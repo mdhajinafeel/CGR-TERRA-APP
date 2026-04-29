@@ -14,7 +14,8 @@ import java.io.Serializable;
                 @Index(name = "idx_reception_id_cd", value = {"receptionId"}),
                 @Index(name = "idx_temp_reception_data_id_cd", value = {"tempReceptionDataId"}),
                 @Index(name = "idx_temp_reception_id_cd", value = {"tempReceptionId"}),
-                @Index(name = "idx_deleted_cd", value = {"isDeleted"})
+                @Index(name = "idx_deleted_cd", value = {"isDeleted"}),
+                @Index(name = "idx_container_mapping_id_cd", value = {"containerReceptionMappingId"})
         })
 public class ContainerData implements Serializable {
 
@@ -33,6 +34,7 @@ public class ContainerData implements Serializable {
     private boolean isDeleted = false;
     private boolean isEdited = false;
     private long updatedAt = System.currentTimeMillis();
+    private String containerReceptionMappingId;
 
     public int getId() {
         return id;
@@ -144,5 +146,13 @@ public class ContainerData implements Serializable {
 
     public void setTempReceptionDataId(String tempReceptionDataId) {
         this.tempReceptionDataId = tempReceptionDataId;
+    }
+
+    public String getContainerReceptionMappingId() {
+        return containerReceptionMappingId;
+    }
+
+    public void setContainerReceptionMappingId(String containerReceptionMappingId) {
+        this.containerReceptionMappingId = containerReceptionMappingId;
     }
 }

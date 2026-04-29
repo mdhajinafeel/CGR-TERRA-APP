@@ -4,10 +4,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-// Read from local.properties
-def CLIENT_PASSWORD = project.findProperty("CLIENT_PASSWORD") ?: ""
-def CLIENT_USERNAME = project.findProperty("CLIENT_USERNAME") ?: ""
-
 android {
     namespace 'com.cgr.codrinterraerp'
     compileSdk 37
@@ -35,16 +31,27 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    signingConfigs {
+        release {
+            storeFile file("release-key.jks")
+            storePassword "codringroup"
+            keyAlias "codringroup"
+            keyPassword "codringroup"
+        }
+    }
+
     buildTypes {
         release {
             initWith release
-            minifyEnabled false
+            minifyEnabled false                    // 👈 avoid crashes for now
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release   // 👈 MUST
+            debuggable true                        // 👈 for running
 
             buildConfigField "String", "APPLICATION_NAME", "\"CGR Terra ERP\""
             buildConfigField "String", "APP_INSTANCE_PREFIX", "\"CGR_TERRAERP-Prod\""
-            buildConfigField "String", "CLIENT_USERNAME", "\"${CLIENT_USERNAME}\""
-            buildConfigField "String", "CLIENT_PASSWORD", "\"${CLIENT_PASSWORD}\""
+            buildConfigField "String", "CLIENT_USERNAME", "\"codrindigitalterraerp\""
+            buildConfigField "String", "CLIENT_PASSWORD", "\"CgRTeRR@eRpDigit@l@dm1n#123\""
             buildConfigField "String", "BASE_URL", "\"https://portal.codringroup.com/api/terraerp/\""
             buildConfigField "String", "CONTENT_TYPE", "\"application/json\""
         }
@@ -56,8 +63,8 @@ android {
 
             buildConfigField "String", "APPLICATION_NAME", "\"CGR Terra ERP\""
             buildConfigField "String", "APP_INSTANCE_PREFIX", "\"CGR_TERRAERP-Dev\""
-            buildConfigField "String", "CLIENT_USERNAME", "\"${CLIENT_USERNAME}\""
-            buildConfigField "String", "CLIENT_PASSWORD", "\"${CLIENT_PASSWORD}\""
+            buildConfigField "String", "CLIENT_USERNAME", "\"codrindigitalterraerp\""
+            buildConfigField "String", "CLIENT_PASSWORD", "\"CgRTeRR@eRpDigit@l@dm1n#123\""
             buildConfigField "String", "BASE_URL", "\"https://portal.codringroup.com/api/terraerp/\""
             buildConfigField "String", "CONTENT_TYPE", "\"application/json\""
         }

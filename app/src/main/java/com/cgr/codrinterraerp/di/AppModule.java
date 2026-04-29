@@ -1,4 +1,4 @@
-package com.cgr.codrinterraerp.di.modules;
+package com.cgr.codrinterraerp.di;
 
 import android.app.Application;
 import android.content.Context;

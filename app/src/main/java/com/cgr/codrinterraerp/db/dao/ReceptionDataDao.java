@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
+import com.cgr.codrinterraerp.model.ReceptionWithContainer;
 
 import java.util.List;
 
@@ -47,4 +48,20 @@ public interface ReceptionDataDao {
 
     @Query("SELECT IFNULL(SUM(netVolume),0) FROM reception_data WHERE tempReceptionId = :tempId AND isDeleted = 0")
     double sumNetByTempReceptionId(String tempId);
+
+    @Query("SELECT r.circumference, r.length, r.pieces, d.containerNumber, r.grossVolume, r.netVolume, r.tempReceptionDataId, r.receptionDataId " +
+            "FROM reception_data r " +
+            "JOIN container_data c ON c.containerReceptionMappingId = r.containerReceptionMappingId " +
+            "AND c.receptionDataId = r.receptionDataId " +
+            "JOIN dispatch_details d ON d.tempDispatchId = c.tempDispatchId " +
+            "WHERE r.receptionId = :receptionId AND r.isDeleted = 0 AND c.isDeleted = 0 AND d.isDeleted = 0;")
+    List<ReceptionWithContainer> fetchByReceptionId(int receptionId);
+
+    @Query("SELECT r.circumference, r.length, r.pieces, d.containerNumber, r.grossVolume, r.netVolume, r.tempReceptionDataId, r.receptionDataId " +
+            "FROM reception_data r " +
+            "JOIN container_data c ON c.containerReceptionMappingId = r.containerReceptionMappingId " +
+            "AND c.tempReceptionDataId = r.tempReceptionDataId " +
+            "JOIN dispatch_details d ON d.tempDispatchId = c.tempDispatchId " +
+            "WHERE r.tempReceptionId = :tempReceptionId AND r.isDeleted = 0 AND c.isDeleted = 0 AND d.isDeleted = 0;")
+    List<ReceptionWithContainer> fetchByTempReceptionId(String tempReceptionId);
 }

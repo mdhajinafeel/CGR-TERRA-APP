@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 import com.cgr.codrinterraerp.db.entities.ContainerData;
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
 import com.cgr.codrinterraerp.db.relations.FormulaWithVariables;
+import com.cgr.codrinterraerp.model.ReceptionWithContainer;
 import com.cgr.codrinterraerp.repository.ReceptionDataRepository;
 
 import java.util.List;
@@ -36,6 +37,10 @@ public class ReceptionDataViewModel extends ViewModel {
             boolean result = receptionDataRepository.saveMeasurementData(receptionData, containerData);
             callback.onComplete(result);
         });
+    }
+
+    public List<ReceptionWithContainer> fetchReceptionData(Integer receptionId, String tempReceptionId) {
+        return receptionDataRepository.fetchReceptionData(receptionId, tempReceptionId);
     }
 
     public interface Callback<T> {

@@ -95,63 +95,71 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             Bundle bundle = getIntent().getExtras();
 
             if (bundle != null) {
-                txtTitle.setText(getString(R.string.measurement_data));
-                txtSubTitle.setText(bundle.getString("ica"));
-                imgBack.setOnClickListener(v -> finish());
-
-                dispatchViewModel = new ViewModelProvider(this).get(DispatchViewModel.class);
-                receptionDataViewModel = new ViewModelProvider(this).get(ReceptionDataViewModel.class);
 
                 receptionView = (ReceptionView) bundle.getSerializable("receptionDetails");
 
-                normalColor = getColor(R.color.colorDarkGreen);
-                errorColor = getColor(R.color.colorErrorOrange);
+                if (receptionView != null) {
+                    txtTitle.setText(getString(R.string.measurement_data));
+                    imgBack.setOnClickListener(v -> finish());
 
-                // ✅ Setup RecyclerView (HORIZONTAL)
-                rvAvailableContainers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+                    dispatchViewModel = new ViewModelProvider(this).get(DispatchViewModel.class);
+                    receptionDataViewModel = new ViewModelProvider(this).get(ReceptionDataViewModel.class);
 
-                // ✅ Initialize adapter ONCE
-                initializeAdapter();
+                    txtSubTitle.setVisibility(View.VISIBLE);
+                    txtSubTitle.setText(getString(R.string.reception_subtitle, receptionView.ica, receptionView.supplierName));
 
-                // ✅ Observe data (auto updates)
-                dispatchViewModel.getAvailableContainerList().observe(this, this::bindAvailableContainerData);
-                dispatchViewModel.availableContainerload();
+                    normalColor = getColor(R.color.colorDarkGreen);
+                    errorColor = getColor(R.color.colorErrorOrange);
 
-                CommonUtils.clearErrorOnTyping(etCircumference, tiCircumference);
-                CommonUtils.clearErrorOnTyping(etLength, tiLength);
-                CommonUtils.clearErrorOnTyping(etPieces, tiPieces);
+                    // ✅ Setup RecyclerView (HORIZONTAL)
+                    rvAvailableContainers.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
-                mbClear.setOnClickListener(v -> clearFields());
+                    // ✅ Initialize adapter ONCE
+                    initializeAdapter();
 
-                mbSubmit.setOnClickListener(v -> {
-                    if (validateInputs()) {
+                    // ✅ Observe data (auto updates)
+                    dispatchViewModel.getAvailableContainerList().observe(this, this::bindAvailableContainerData);
+                    dispatchViewModel.availableContainerload();
 
-                        // ✅ NEW: Check container selected
-                        if (selectedContainer == null) {
-                            Toast.makeText(getApplicationContext(), getString(R.string.container_select_error), Toast.LENGTH_SHORT).show();
-                            rvAvailableContainers.smoothScrollToPosition(0);
-                            return;
+                    CommonUtils.clearErrorOnTyping(etCircumference, tiCircumference);
+                    CommonUtils.clearErrorOnTyping(etLength, tiLength);
+                    CommonUtils.clearErrorOnTyping(etPieces, tiPieces);
+
+                    mbClear.setOnClickListener(v -> clearFields());
+
+                    mbSubmit.setOnClickListener(v -> {
+                        if (validateInputs()) {
+
+                            // ✅ Check container selected
+                            if (selectedContainer == null) {
+                                Toast.makeText(getApplicationContext(), getString(R.string.container_select_error), Toast.LENGTH_SHORT).show();
+                                rvAvailableContainers.smoothScrollToPosition(0);
+                                return;
+                            }
+
+                            //if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
+                            //    // TODO SQUARE BLOCKS
+                            //} else {
+                            submitMeasurementData();
+                            //}
                         }
+                    });
 
-                        //if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
-                        //    // TODO SQUARE BLOCKS
-                        //} else {
-                        submitMeasurementData();
-                        //}
-                    }
-                });
+                    ivReceptionInfo.setOnClickListener(v -> showReceptionDetails());
 
-                ivReceptionInfo.setOnClickListener(v -> showReceptionDetails());
+                    ivReceptionData.setOnClickListener(v -> {
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getApplicationContext(), R.anim.fade_fast_in, R.anim.fade_fast_out);
+                        Intent intent = new Intent(this, ReceptionDataActivity.class);
+                        intent.putExtra("receptionDetails", receptionView);
+                        receptionDataResultLauncher.launch(intent, options);
+                    });
 
-                ivReceptionData.setOnClickListener(v -> {
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getApplicationContext(), R.anim.fade_fast_in, R.anim.fade_fast_out);
-                    Intent intent = new Intent(this, ReceptionDataActivity.class);
-                    intent.putExtra("receptionDetails", receptionView);
-                    receptionDataResultLauncher.launch(intent, options);
-                });
-
-                clearFields();
-                fetchFormulas();
+                    clearFields();
+                    fetchFormulas();
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.common_error), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             } else {
                 Toast.makeText(getApplicationContext(), getString(R.string.common_error), Toast.LENGTH_SHORT).show();
                 finish();
@@ -269,7 +277,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
         if (!length.isEmpty()) {
             double l = Double.parseDouble(length);
             if (l <= 100) {
-                Toast.makeText(getApplicationContext(), "Length must be greater than 100", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.length_must_be_greater_than_100), Toast.LENGTH_SHORT).show();
                 isValid = false;
             }
         }
@@ -305,8 +313,6 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
         if (previousPosition != -1) {
             dispatchViewRecyclerViewAdapter.notifyItemChanged(previousPosition);
         }
-
-        rvAvailableContainers.smoothScrollToPosition(0); // ✅ smooth
     }
 
     private void fetchFormulas() {
@@ -387,6 +393,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             receptionData.setDeleted(false);
             receptionData.setEdited(false);
             receptionData.setUpdatedAt(System.currentTimeMillis());
+            receptionData.setContainerReceptionMappingId(receptionView.containerReceptionMappingId);
 
             ContainerData containerData = new ContainerData();
             containerData.setTempReceptionDataId(tempReceptionDataId);
@@ -402,6 +409,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             containerData.setDeleted(false);
             containerData.setEdited(false);
             containerData.setUpdatedAt(System.currentTimeMillis());
+            containerData.setContainerReceptionMappingId(receptionView.containerReceptionMappingId);
 
             receptionDataViewModel.saveMeasurementData(receptionData, containerData, success ->
                     runOnUiThread(() -> {
@@ -492,6 +500,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == Activity.RESULT_OK) {
+                            hideKeyboard(this);
                             Toast.makeText(getApplicationContext(), getString(R.string.data_added_successfully), Toast.LENGTH_SHORT).show();
                         }
                     }

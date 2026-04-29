@@ -26,7 +26,7 @@
             android:orientation="horizontal"
             android:padding="@dimen/padding_12">
 
-            <!-- Invoice Column -->
+            <!-- Container Column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -54,12 +54,13 @@
                     android:textSize="@dimen/text_16" />
             </LinearLayout>
 
-            <!-- Supplier Column -->
+            <!-- Shipping Line Column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="end"
+                android:layout_marginEnd="@dimen/margin_12"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -84,15 +85,32 @@
                     android:textSize="@dimen/text_16" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnContainerImages"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_container_images"
+                    app:tint="@color/colorKellyGreen" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Details Section: 2x2 Grid -->
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:alignmentMode="alignMargins"
             android:columnCount="3"
-            android:rowCount="2"
             android:padding="@dimen/padding_10"
+            android:rowCount="2"
             android:useDefaultMargins="true">
 
             <!-- Date -->
@@ -102,9 +120,9 @@
                 android:layout_row="0"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_marginStart="@dimen/margin_4"
                 android:gravity="start"
-                android:layout_gravity="fill_horizontal"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -220,10 +238,10 @@
                 android:layout_height="wrap_content"
                 android:layout_row="1"
                 android:layout_column="1"
-                android:gravity="center"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal"
                 android:layout_marginTop="@dimen/margin_8"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -250,28 +268,28 @@
                 android:layout_height="wrap_content"
                 android:layout_row="1"
                 android:layout_column="2"
-                android:gravity="end|center_vertical"
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/margin_12"
+                android:gravity="end|center_vertical"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btnContainerImages"
+                    android:id="@+id/btnContainerData"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="6dp"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_container_images"
-                    app:tint="@color/colorKellyGreen" />
+                    android:padding="8dp"
+                    android:src="@drawable/ic_container_data"
+                    app:tint="@color/colorCharcoal" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/btnEditDispatch"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="6dp"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
                     android:src="@drawable/ic_edit"
                     app:tint="@color/darkGreen" />
 
@@ -279,8 +297,8 @@
                     android:id="@+id/btnDeleteDispatch"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:padding="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
                     android:src="@drawable/ic_delete"
                     app:tint="@color/colorRed" />
 

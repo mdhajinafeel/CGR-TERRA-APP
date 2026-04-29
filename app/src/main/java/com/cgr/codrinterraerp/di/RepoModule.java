@@ -1,4 +1,4 @@
-package com.cgr.codrinterraerp.di.modules;
+package com.cgr.codrinterraerp.di;
 
 import com.cgr.codrinterraerp.db.CGRTerraERPDatabase;
 import com.cgr.codrinterraerp.db.dao.ApiLogsDao;
@@ -7,8 +7,6 @@ import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
-import com.cgr.codrinterraerp.db.dao.GirthClassificationDao;
-import com.cgr.codrinterraerp.db.dao.LengthClassificationDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -16,6 +14,7 @@ import com.cgr.codrinterraerp.db.dao.OriginsDao;
 import com.cgr.codrinterraerp.db.dao.ProductTypesDao;
 import com.cgr.codrinterraerp.db.dao.ProductsDao;
 import com.cgr.codrinterraerp.db.dao.PurchaseContractDao;
+import com.cgr.codrinterraerp.db.dao.ReceptionDataDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionDetailsDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionSummaryDao;
@@ -54,10 +53,10 @@ public class RepoModule {
                                              MeasurementSystemFormulasDao measurementSystemFormulasDao, MeasurementSystemFormulaVariablesDao measurementSystemFormulaVariablesDao,
                                              ShippingLinesDao shippingLinesDao, PurchaseContractDao purchaseContractDao, FarmInventoryOrdersDao farmInventoryOrdersDao,
                                              ReceptionInventoryOrdersDao receptionInventoryOrdersDao, DispatchContainersDao dispatchContainersDao, ProductsDao productsDao,
-                                             ProductTypesDao productTypesDao, GirthClassificationDao girthClassificationDao, LengthClassificationDao lengthClassificationDao) {
+                                             ProductTypesDao productTypesDao) {
         return new MasterRepository(cgrTerraERPDatabase, iMasterApiService, originsDao, suppliersDao, supplierProductsDao, supplierProductTypesDao, warehousesDao,
                 measurementSystemsDao, measurementSystemFormulasDao, measurementSystemFormulaVariablesDao, shippingLinesDao, purchaseContractDao, farmInventoryOrdersDao,
-                receptionInventoryOrdersDao, dispatchContainersDao, productsDao, productTypesDao, girthClassificationDao, lengthClassificationDao);
+                receptionInventoryOrdersDao, dispatchContainersDao, productsDao, productTypesDao);
     }
 
     @Provides
@@ -90,7 +89,7 @@ public class RepoModule {
     @Provides
     @Singleton
     ReceptionDataRepository provideReceptionDataRepository(MeasurementSystemFormulasDao measurementSystemFormulasDao, ReceptionTransactionDao receptionTransactionDao,
-                                                           ReceptionRepository receptionRepository, DispatchRepository dispatchRepository) {
-        return new ReceptionDataRepository(measurementSystemFormulasDao, receptionTransactionDao, receptionRepository, dispatchRepository);
+                                                           ReceptionDataDao receptionDataDao, ReceptionRepository receptionRepository, DispatchRepository dispatchRepository) {
+        return new ReceptionDataRepository(measurementSystemFormulasDao, receptionTransactionDao, receptionDataDao, receptionRepository, dispatchRepository);
     }
 }

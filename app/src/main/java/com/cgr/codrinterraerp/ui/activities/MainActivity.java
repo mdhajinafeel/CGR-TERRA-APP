@@ -357,7 +357,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
             Boolean isRunning = syncViewModel.getProgressState().getValue();
 
             if (Boolean.TRUE.equals(isRunning)) {
-                Toast.makeText(this, "Sync already in progress...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.sync_already_in_progress), Toast.LENGTH_SHORT).show();
                 return;
             }
 

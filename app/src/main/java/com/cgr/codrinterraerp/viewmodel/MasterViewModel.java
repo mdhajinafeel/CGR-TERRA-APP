@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.cgr.codrinterraerp.db.entities.GirthClassification;
-import com.cgr.codrinterraerp.db.entities.LengthClassification;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
 import com.cgr.codrinterraerp.db.entities.Origins;
 import com.cgr.codrinterraerp.db.entities.ProductTypes;
@@ -126,13 +124,5 @@ public class MasterViewModel extends ViewModel {
 
     public List<ShippingLines> fetchShippingLines() {
         return masterRepository.fetchShippingLines();
-    }
-
-    public List<GirthClassification> fetchGirthClassification() {
-        return masterRepository.fetchGirthClassification();
-    }
-
-    public List<LengthClassification> fetchLengthClassification() {
-        return masterRepository.fetchLengthClassification();
     }
 }

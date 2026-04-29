@@ -278,7 +278,7 @@ public class LoginActivity extends BaseActivity {
             rvList.setLayoutManager(new LinearLayoutManager(this));
             rvList.addItemDecoration(new DividerItemDecoration(this));
 
-            originsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, originsList, R.layout.row_dialog_list) {
+            originsRecyclerViewAdapter = new RecyclerViewAdapter<>(this, new ArrayList<>(originsList), R.layout.row_dialog_list) {
                 @Override
                 public void onPostBindViewHolder(ViewHolder holder, Origins origins) {
 
