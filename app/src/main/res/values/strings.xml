@@ -109,4 +109,8 @@
     <string name="container_select_error">Please select a container to add the pieces</string>
     <string name="pieces_has_been_added_successfully">Pieces has been added successfully</string>
     <string name="colon">&#160;:&#160;</string>
+    <string name="reception_detail">Reception Detail</string>
+    <string name="farm_contract_details"><u>Farm Contract Details</u></string>
+    <string name="contract_code">Contract Code</string>
+    <string name="description">Description</string>
 </resources>

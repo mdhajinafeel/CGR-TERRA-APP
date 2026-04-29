@@ -4,16 +4,19 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+// Read from local.properties
+def CLIENT_PASSWORD = project.findProperty("CLIENT_PASSWORD") ?: ""
+def CLIENT_USERNAME = project.findProperty("CLIENT_USERNAME") ?: ""
+
 android {
     namespace 'com.cgr.codrinterraerp'
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk 37
 
     defaultConfig {
         applicationId "com.cgr.codrinterraerp"
         minSdk 23
-        targetSdk 36
+        targetSdk 37
+
         versionCode 1
         versionName "1.0"
 
@@ -40,8 +43,8 @@ android {
 
             buildConfigField "String", "APPLICATION_NAME", "\"CGR Terra ERP\""
             buildConfigField "String", "APP_INSTANCE_PREFIX", "\"CGR_TERRAERP-Prod\""
-            buildConfigField "String", "CLIENT_USERNAME", "\"codrindigitalterraerp\""
-            buildConfigField "String", "CLIENT_PASSWORD", "\"CgRTeRR@eRpDigit@l@dm1n#123\""
+            buildConfigField "String", "CLIENT_USERNAME", "\"${CLIENT_USERNAME}\""
+            buildConfigField "String", "CLIENT_PASSWORD", "\"${CLIENT_PASSWORD}\""
             buildConfigField "String", "BASE_URL", "\"https://portal.codringroup.com/api/terraerp/\""
             buildConfigField "String", "CONTENT_TYPE", "\"application/json\""
         }
@@ -52,9 +55,9 @@ android {
             versionNameSuffix "-debug"
 
             buildConfigField "String", "APPLICATION_NAME", "\"CGR Terra ERP\""
-            buildConfigField "String", "APP_INSTANCE_PREFIX", "\"CGR_TERRAERP-Prod\""
-            buildConfigField "String", "CLIENT_USERNAME", "\"codrindigitalterraerp\""
-            buildConfigField "String", "CLIENT_PASSWORD", "\"CgRTeRR@eRpDigit@l@dm1n#123\""
+            buildConfigField "String", "APP_INSTANCE_PREFIX", "\"CGR_TERRAERP-Dev\""
+            buildConfigField "String", "CLIENT_USERNAME", "\"${CLIENT_USERNAME}\""
+            buildConfigField "String", "CLIENT_PASSWORD", "\"${CLIENT_PASSWORD}\""
             buildConfigField "String", "BASE_URL", "\"https://portal.codringroup.com/api/terraerp/\""
             buildConfigField "String", "CONTENT_TYPE", "\"application/json\""
         }
@@ -67,75 +70,78 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 
 dependencies {
 
-    // AndroidX Dependencies
+    // ---------------------------
+    // AndroidX
+    // ---------------------------
     implementation libs.appcompat
     implementation libs.material
 
-    // Room Database
+    // ---------------------------
+    // Room & SQLite
+    // ---------------------------
     implementation libs.room.runtime
     annotationProcessor libs.room.compiler
+    implementation libs.sqlite
 
-    // Dagger Hilt
+    // ---------------------------
+    // Hilt (DI)
+    // ---------------------------
     implementation libs.hilt.android
     annotationProcessor libs.hilt.compiler
 
-    // Dagger
-    implementation libs.dagger.android
-    implementation libs.dagger.android.support
-    annotationProcessor libs.dagger.android.processor
-
-    // JUnit
-    testImplementation libs.junit
-    androidTestImplementation libs.ext.junit
-    androidTestImplementation libs.espresso.core
-
-    // SQL Cipher
-    implementation libs.sqlite
-
-    // Lifecycle + ViewModel
+    // ---------------------------
+    // Lifecycle
+    // ---------------------------
     implementation libs.lifecycle.viewmodel
     implementation libs.lifecycle.livedata
 
-    // Progress Animation
-    implementation libs.lottie
-
-    // Svg
-    implementation libs.androidsvg
-
-    // Secured Preference
-    implementation libs.securedpreferencestore
-
-    // Stetho (for debugging)
-    implementation libs.stetho
-    implementation libs.stetho.okhttp3
-
-    // Okhttp
+    // ---------------------------
+    // Network
+    // ---------------------------
     implementation libs.okhttp
     implementation libs.logging.interceptor
-
-    // Retrofit
     implementation libs.retrofit
-    implementation libs.converter.gson  // Gson converter
+    implementation libs.converter.gson
 
-    //Firebase
+    // ---------------------------
+    // Firebase
+    // ---------------------------
     implementation platform(libs.firebase.bom)
     implementation libs.firebase.analytics
     implementation libs.firebase.messaging
 
+    // ---------------------------
+    // WorkManager
+    // ---------------------------
+    implementation libs.work.runtime
+
+    // ---------------------------
+    // Utilities
+    // ---------------------------
+    implementation libs.lottie
+    implementation libs.androidsvg
+    implementation libs.securedpreferencestore
+    implementation libs.stetho
+    implementation libs.stetho.okhttp3
+    implementation libs.expresson4j
+
+    // ---------------------------
     // Glide
+    // ---------------------------
     implementation libs.glide
     annotationProcessor libs.compiler
 
-    // Work Runtime
-    implementation libs.work.runtime
-
-    // Exp4j
-    implementation libs.expresson4j
+    // ---------------------------
+    // Testing
+    // ---------------------------
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
 }

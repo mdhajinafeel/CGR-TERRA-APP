@@ -1,11 +1,21 @@
 package com.cgr.codrinterraerp.ui.activities;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,6 +89,8 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             etPieces = findViewById(R.id.etPieces);
             MaterialButton mbSubmit = findViewById(R.id.mbSubmit);
             MaterialButton mbClear = findViewById(R.id.mbClear);
+            AppCompatImageView ivReceptionInfo = findViewById(R.id.ivReceptionInfo);
+            AppCompatImageView ivReceptionData = findViewById(R.id.ivReceptionData);
 
             Bundle bundle = getIntent().getExtras();
 
@@ -127,6 +139,15 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                         submitMeasurementData();
                         //}
                     }
+                });
+
+                ivReceptionInfo.setOnClickListener(v -> showReceptionDetails());
+
+                ivReceptionData.setOnClickListener(v -> {
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getApplicationContext(), R.anim.fade_fast_in, R.anim.fade_fast_out);
+                    Intent intent = new Intent(this, ReceptionDataActivity.class);
+                    intent.putExtra("receptionDetails", receptionView);
+                    receptionDataResultLauncher.launch(intent, options);
                 });
 
                 clearFields();
@@ -397,4 +418,82 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             AppLogger.e(getClass(), "submitMeasurementData", e);
         }
     }
+
+    private void showReceptionDetails() {
+        try {
+
+            hideKeyboard(this);
+            Dialog dialog = new Dialog(this, R.style.DialogTheme);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+            dialog.getWindow().setDimAmount(0.6f);
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(dialog.getWindow().getAttributes());
+            layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+            layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.8);
+            layoutParams.gravity = Gravity.CENTER;
+            dialog.getWindow().setAttributes(layoutParams);
+            dialog.setContentView(R.layout.dialog_reception_details);
+
+            AppCompatTextView dialogTitle = dialog.findViewById(R.id.tvDialogTitle);
+            AppCompatImageView closeDialog = dialog.findViewById(R.id.imgClose);
+            closeDialog.setOnClickListener(v -> dialog.dismiss());
+            dialogTitle.setText(getString(R.string.reception_detail));
+
+            AppCompatTextView tvIca = dialog.findViewById(R.id.tvIca);
+            AppCompatTextView tvSupplier = dialog.findViewById(R.id.tvSupplier);
+            AppCompatTextView tvWood = dialog.findViewById(R.id.tvWood);
+            AppCompatTextView tvWoodType = dialog.findViewById(R.id.tvWoodType);
+            AppCompatTextView tvMeasurement = dialog.findViewById(R.id.tvMeasurement);
+            AppCompatTextView tvPieces = dialog.findViewById(R.id.tvPieces);
+            AppCompatTextView tvGrossVolume = dialog.findViewById(R.id.tvGrossVolume);
+            AppCompatTextView tvNetVolume = dialog.findViewById(R.id.tvNetVolume);
+            AppCompatTextView tvContractCode = dialog.findViewById(R.id.tvContractCode);
+            AppCompatTextView tvContractDesc = dialog.findViewById(R.id.tvContractDesc);
+            LinearLayout llFarmContractDetails = dialog.findViewById(R.id.llFarmContractDetails);
+            LinearLayout llContractDesc = dialog.findViewById(R.id.llContractDesc);
+
+            tvIca.setText(receptionView.ica);
+            tvSupplier.setText(receptionView.supplierName);
+            tvWood.setText(receptionView.productName);
+            tvWoodType.setText(receptionView.productTypeName);
+            tvMeasurement.setText(receptionView.measurementName);
+            tvPieces.setText(String.valueOf(receptionView.totalPieces));
+            tvGrossVolume.setText(String.valueOf(receptionView.totalGrossVolume));
+            tvNetVolume.setText(String.valueOf(receptionView.totalNetVolume));
+
+            if(receptionView.isFarmEnabled) {
+                tvContractCode.setText(receptionView.contractCode);
+
+                if(receptionView.description != null && !receptionView.description.isEmpty()) {
+                    tvContractDesc.setText(receptionView.description);
+                    llContractDesc.setVisibility(View.VISIBLE);
+                } else {
+                    llContractDesc.setVisibility(View.GONE);
+                }
+                llFarmContractDetails.setVisibility(View.VISIBLE);
+            } else {
+                llFarmContractDetails.setVisibility(View.GONE);
+            }
+
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+        } catch (Exception e) {
+            AppLogger.e(getClass(), "showDataDialog", e);
+        }
+    }
+
+    private final ActivityResultLauncher<Intent> receptionDataResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Toast.makeText(getApplicationContext(), getString(R.string.data_added_successfully), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
 }

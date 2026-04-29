@@ -16,15 +16,11 @@ import java.io.Serializable;
 )
 public class DispatchView implements Serializable {
 
-    public int id;
-    public String tempDispatchId;
-    public int dispatchId;
-    public String containerNumber;
-    public String dispatchDate;
-    public String shippingLine;
-    public int totalPieces;
-    public double totalGrossVolume;
-    public double totalNetVolume;
-    public double avgGirth;
+    public int id, dispatchId, totalPieces;
+
+    public String tempDispatchId, containerNumber, dispatchDate, shippingLine;
+
+    public double totalGrossVolume, totalNetVolume, avgGirth;
+
     public boolean isClosed;
 }

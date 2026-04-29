@@ -49,10 +49,44 @@
                 android:orientation="vertical"
                 android:padding="@dimen/padding_12">
 
+                <!-- ROW: ICA -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Label -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/exo2_medium"
+                        android:gravity="end"
+                        android:text="@string/ica"
+                        android:textSize="@dimen/text_16" />
+
+                    <!-- Colon -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:text="@string/colon"
+                        android:textSize="@dimen/text_16" />
+
+                    <!-- Value -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvIca"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/exo2_semibold"
+                        android:textSize="@dimen/text_16" />
+                </LinearLayout>
+
                 <!-- ROW: SUPPLIER -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:orientation="horizontal">
 
                     <!-- Label -->
@@ -82,7 +116,6 @@
                         android:fontFamily="@font/exo2_semibold"
                         android:maxLines="2"
                         android:textSize="@dimen/text_16" />
-
                 </LinearLayout>
 
                 <!-- ROW: WOOD -->
@@ -115,11 +148,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ellipsize="end"
                         android:fontFamily="@font/exo2_semibold"
-                        android:maxLines="2"
                         android:textSize="@dimen/text_16" />
-
                 </LinearLayout>
 
                 <!-- ROW: WOOD TYPE -->
@@ -152,48 +182,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ellipsize="end"
                         android:fontFamily="@font/exo2_semibold"
-                        android:maxLines="2"
                         android:textSize="@dimen/text_16" />
-
-                </LinearLayout>
-
-                <!-- ROW: ICA -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:orientation="horizontal">
-
-                    <!-- Label -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/exo2_medium"
-                        android:gravity="end"
-                        android:text="@string/ica"
-                        android:textSize="@dimen/text_16" />
-
-                    <!-- Colon -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="6dp"
-                        android:text="@string/colon"
-                        android:textSize="@dimen/text_16" />
-
-                    <!-- Value -->
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvIca"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:fontFamily="@font/exo2_semibold"
-                        android:maxLines="2"
-                        android:textSize="@dimen/text_16" />
-
                 </LinearLayout>
 
                 <!-- ROW: MEASUREMENT SYSTEM -->
@@ -226,11 +216,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ellipsize="end"
                         android:fontFamily="@font/exo2_semibold"
-                        android:maxLines="2"
                         android:textSize="@dimen/text_16" />
-
                 </LinearLayout>
 
                 <!-- ROW: PIECES -->
@@ -263,11 +250,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ellipsize="end"
                         android:fontFamily="@font/exo2_semibold"
-                        android:maxLines="2"
                         android:textSize="@dimen/text_16" />
-
                 </LinearLayout>
 
                 <!-- ROW: GROSS VOLUME -->
@@ -300,11 +284,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ellipsize="end"
                         android:fontFamily="@font/exo2_semibold"
-                        android:maxLines="2"
                         android:textSize="@dimen/text_16" />
-
                 </LinearLayout>
 
                 <!-- ROW: NET VOLUME -->
@@ -337,11 +318,95 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ellipsize="end"
                         android:fontFamily="@font/exo2_semibold"
-                        android:maxLines="2"
                         android:textSize="@dimen/text_16" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/llFarmContractDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/exo2_bold"
+                        android:letterSpacing="0.01"
+                        android:text="@string/farm_contract_details"
+                        android:textSize="@dimen/text_16"
+                        app:textAllCaps="true" />
+
+                    <!-- ROW: CONTRACT CODE -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_6"
+                        android:orientation="horizontal">
+
+                        <!-- Label -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/exo2_medium"
+                            android:gravity="end"
+                            android:text="@string/contract_code"
+                            android:textSize="@dimen/text_16" />
+
+                        <!-- Colon -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:text="@string/colon"
+                            android:textSize="@dimen/text_16" />
+
+                        <!-- Value -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvContractCode"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/exo2_semibold"
+                            android:textSize="@dimen/text_16" />
+                    </LinearLayout>
+
+                    <!-- ROW: DESC -->
+                    <LinearLayout
+                        android:id="@+id/llContractDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:orientation="horizontal">
+
+                        <!-- Label -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/exo2_medium"
+                            android:gravity="end"
+                            android:text="@string/description"
+                            android:textSize="@dimen/text_16" />
+
+                        <!-- Colon -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="6dp"
+                            android:text="@string/colon"
+                            android:textSize="@dimen/text_16" />
+
+                        <!-- Value -->
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvContractDesc"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/exo2_semibold"
+                            android:textSize="@dimen/text_16" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
