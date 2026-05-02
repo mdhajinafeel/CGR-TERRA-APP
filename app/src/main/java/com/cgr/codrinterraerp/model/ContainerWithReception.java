@@ -72,4 +72,20 @@ public class ContainerWithReception implements Serializable {
     public void setIca(String ica) {
         this.ica = ica;
     }
+
+    public String getTempReceptionId() {
+        return tempReceptionId;
+    }
+
+    public void setTempReceptionId(String tempReceptionId) {
+        this.tempReceptionId = tempReceptionId;
+    }
+
+    public String getTempDispatchId() {
+        return tempDispatchId;
+    }
+
+    public void setTempDispatchId(String tempDispatchId) {
+        this.tempDispatchId = tempDispatchId;
+    }
 }

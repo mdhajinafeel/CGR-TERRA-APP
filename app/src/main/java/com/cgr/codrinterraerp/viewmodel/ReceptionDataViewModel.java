@@ -1,9 +1,11 @@
 package com.cgr.codrinterraerp.viewmodel;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.cgr.codrinterraerp.db.entities.ContainerData;
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
+import com.cgr.codrinterraerp.db.entities.ReceptionSummary;
 import com.cgr.codrinterraerp.db.relations.FormulaWithVariables;
 import com.cgr.codrinterraerp.model.ReceptionWithContainer;
 import com.cgr.codrinterraerp.repository.ReceptionDataRepository;
@@ -39,8 +41,19 @@ public class ReceptionDataViewModel extends ViewModel {
         });
     }
 
-    public List<ReceptionWithContainer> fetchReceptionData(Integer receptionId, String tempReceptionId) {
+    public LiveData<List<ReceptionWithContainer>> fetchReceptionData(Integer receptionId, String tempReceptionId) {
         return receptionDataRepository.fetchReceptionData(receptionId, tempReceptionId);
+    }
+
+    public void deleteReceptionData(String tempReceptionDataId, String tempReceptionId, Callback<Integer> callback) {
+        executor.execute(() -> {
+            int result = receptionDataRepository.deleteReceptionDataById(tempReceptionDataId, tempReceptionId);
+            callback.onComplete(result);
+        });
+    }
+
+    public LiveData<ReceptionSummary> getReceptionSummary(String tempReceptionId) {
+        return receptionDataRepository.getReceptionSummary(tempReceptionId);
     }
 
     public interface Callback<T> {

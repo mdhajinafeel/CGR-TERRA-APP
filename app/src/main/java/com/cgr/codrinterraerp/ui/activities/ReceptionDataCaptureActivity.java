@@ -226,6 +226,13 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
 
                         dispatchViewRecyclerViewAdapter.notifyItemChanged(selectedPosition);
                     });
+
+                    holder.getView(R.id.ivContainerData).setOnClickListener(view -> {
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(getApplicationContext(), R.anim.fade_fast_in, R.anim.fade_fast_out);
+                        Intent intent = new Intent(ReceptionDataCaptureActivity.this, DispatchDataActivity.class);
+                        intent.putExtra("dispatchDetails", dispatchView);
+                        dispatchDataResultLauncher.launch(intent, options);
+                    });
                 }
             }
         };
@@ -374,9 +381,6 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             double netToSave = Math.round(net.doubleValue() * 1000.0) / 1000.0;
             double grossToSave = Math.round(gross.doubleValue() * 1000.0) / 1000.0;
 
-            // ✅ Show result
-            Toast.makeText(getApplicationContext(), "Total Net: " + net.doubleValue() + " - Total Gross: " + gross.doubleValue(), Toast.LENGTH_LONG).show();
-
             String tempReceptionDataId = "TRD_" + CommonUtils.getCurrentLocalDateTimeStamp();
 
             ReceptionData receptionData = new ReceptionData();
@@ -414,7 +418,6 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             receptionDataViewModel.saveMeasurementData(receptionData, containerData, success ->
                     runOnUiThread(() -> {
                         if (success) {
-                            Toast.makeText(this, getString(R.string.pieces_has_been_added_successfully), Toast.LENGTH_SHORT).show();
                             resetContainerSelection();
                             clearFields();
                             dispatchViewModel.availableContainerload();
@@ -502,6 +505,17 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             hideKeyboard(this);
                             Toast.makeText(getApplicationContext(), getString(R.string.data_added_successfully), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+            );
+
+    private final ActivityResultLauncher<Intent> dispatchDataResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    result -> {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            dispatchViewModel.load();
+                            Toast.makeText(getApplicationContext(), getString(R.string.data_updated_successfully), Toast.LENGTH_SHORT).show();
                         }
                     }
             );

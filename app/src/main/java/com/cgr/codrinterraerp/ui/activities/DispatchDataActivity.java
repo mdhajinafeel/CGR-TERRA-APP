@@ -1,10 +1,13 @@
 package com.cgr.codrinterraerp.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,9 +23,12 @@ import com.cgr.codrinterraerp.ui.common.BaseActivity;
 import com.cgr.codrinterraerp.utils.AppLogger;
 import com.cgr.codrinterraerp.utils.CommonUtils;
 import com.cgr.codrinterraerp.viewmodel.DispatchDataViewModel;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -33,6 +39,9 @@ public class DispatchDataActivity extends BaseActivity {
     private MaterialCardView cardDispatch;
     private RecyclerView rvDispatchData;
     private DispatchDataViewModel dispatchDataViewModel;
+    private RecyclerViewAdapter<ContainerWithReception> containerWithReceptionRecyclerViewAdapter;
+    private final List<ContainerWithReception> containerWithReceptionList = new ArrayList<>();
+    private DispatchView dispatchView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +69,7 @@ public class DispatchDataActivity extends BaseActivity {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
 
-                DispatchView dispatchView = (DispatchView) bundle.getSerializable("dispatchDetails");
+                dispatchView = (DispatchView) bundle.getSerializable("dispatchDetails");
 
                 if (dispatchView != null) {
                     txtTitle.setText(getString(R.string.dispatch_data));
@@ -71,7 +80,9 @@ public class DispatchDataActivity extends BaseActivity {
 
                     dispatchDataViewModel = new ViewModelProvider(this).get(DispatchDataViewModel.class);
 
-                    bindData(dispatchView);
+                    setupRecyclerView();
+                    observeHeader();
+                    observeData();
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.common_error), Toast.LENGTH_SHORT).show();
                     finish();
@@ -85,45 +96,95 @@ public class DispatchDataActivity extends BaseActivity {
         }
     }
 
-    private void bindData(DispatchView dispatchView) {
-        try {
-            tvContainerNumber.setText(dispatchView.containerNumber);
-            tvShippingLine.setText(dispatchView.shippingLine);
-            tvPieces.setText(String.valueOf(dispatchView.totalPieces));
-            tvGrossVolume.setText(String.valueOf(dispatchView.totalGrossVolume));
-            tvNetVolume.setText(String.valueOf(dispatchView.totalNetVolume));
+    private void observeHeader() {
+        tvContainerNumber.setText(dispatchView.containerNumber);
+        tvShippingLine.setText(dispatchView.shippingLine);
+        dispatchDataViewModel.getDispatchSummary(dispatchView.tempDispatchId).observe(this, summary -> {
 
-            List<ContainerWithReception> containerWithReceptionList = dispatchDataViewModel.fetchContainerData(dispatchView.dispatchId, dispatchView.tempDispatchId);
+            if (summary != null) {
+                tvPieces.setText(String.valueOf(summary.totalPieces));
+                tvGrossVolume.setText(String.valueOf(summary.totalGrossVolume));
+                tvNetVolume.setText(String.valueOf(summary.totalNetVolume));
+            }
+        });
+    }
 
-            if (containerWithReceptionList != null && !containerWithReceptionList.isEmpty()) {
+    private void setupRecyclerView() {
+        containerWithReceptionRecyclerViewAdapter = new RecyclerViewAdapter<>(getApplicationContext(), containerWithReceptionList, R.layout.row_item_container_data) {
 
-                RecyclerViewAdapter<ContainerWithReception> containerDataRecyclerViewAdapter =
-                        new RecyclerViewAdapter<>(getApplicationContext(), containerWithReceptionList, R.layout.row_item_container_data) {
+            @Override
+            public void onPostBindViewHolder(ViewHolder holder, ContainerWithReception item) {
 
-                            @Override
-                            public void onPostBindViewHolder(ViewHolder holder, ContainerWithReception item) {
+                holder.setViewText(R.id.tvGirth, CommonUtils.formatNumber(item.getCircumference()));
+                holder.setViewText(R.id.tvLength, CommonUtils.formatNumber(item.getLength()));
+                holder.setViewText(R.id.tvPieces, String.valueOf(item.getPieces()));
+                holder.setViewText(R.id.tvIca, item.getIca());
+                holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber(item.getGrossVolume()));
+                holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber(item.getNetVolume()));
 
-                                holder.setViewText(R.id.tvGirth, CommonUtils.formatNumber(item.getCircumference()));
-                                holder.setViewText(R.id.tvLength, CommonUtils.formatNumber(item.getLength()));
-                                holder.setViewText(R.id.tvPieces, String.valueOf(item.getPieces()));
-                                holder.setViewText(R.id.tvIca, item.getIca());
-                                holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber(item.getGrossVolume()));
-                                holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber(item.getNetVolume()));
-                            }
-                        };
+                holder.getView(R.id.ivDelete).setOnClickListener(v -> deleteDispatchData(item.getTempReceptionDataId(), item.getTempReceptionId(), item.getTempDispatchId()));
+            }
+        };
 
-                rvDispatchData.setLayoutManager(new LinearLayoutManager(this));
-                rvDispatchData.setAdapter(containerDataRecyclerViewAdapter);
+        rvDispatchData.setLayoutManager(new LinearLayoutManager(this));
+        rvDispatchData.setAdapter(containerWithReceptionRecyclerViewAdapter);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void observeData() {
+        dispatchDataViewModel.fetchContainerData(dispatchView.dispatchId, dispatchView.tempDispatchId).observe(this, list -> {
+            containerWithReceptionList.clear();
+            if (list != null && !list.isEmpty()) {
+                containerWithReceptionList.addAll(list);
                 tvNoDispatchData.setVisibility(View.GONE);
                 cardDispatch.setVisibility(View.VISIBLE);
-
             } else {
                 tvNoDispatchData.setVisibility(View.VISIBLE);
                 cardDispatch.setVisibility(View.GONE);
             }
+            containerWithReceptionRecyclerViewAdapter.notifyDataSetChanged();
+        });
+    }
 
+    private void deleteDispatchData(String tempReceptionDataId, String tempReceptionId, String tempDispatchId) {
+        try {
+            LayoutInflater dialogInflater = LayoutInflater.from(this);
+            View dialogView = dialogInflater.inflate(R.layout.custom_dialog_delete, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(dialogView);
+
+            AlertDialog dialog = builder.create();
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+            AppCompatTextView dialogHeader = dialogView.findViewById(R.id.dialogHeader);
+            AppCompatTextView dialogBody = dialogView.findViewById(R.id.dialogBody);
+            MaterialButton btnDelete = dialogView.findViewById(R.id.btnDelete);
+            MaterialButton btnCancel = dialogView.findViewById(R.id.btnCancel);
+
+            dialogHeader.setText(R.string.confirmation);
+            dialogBody.setText(R.string.delete_confirmation);
+
+            btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+            btnDelete.setOnClickListener(v -> {
+                dispatchDataViewModel.deleteDispatchDataById(tempReceptionDataId, tempReceptionId, tempDispatchId, result ->
+                        runOnUiThread(() -> {
+                            if (result > 0) {
+                                Toast.makeText(this, getString(R.string.data_deleted), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(this, getString(R.string.data_deleted_failed), Toast.LENGTH_SHORT).show();
+                            }
+                        }));
+
+                dialog.dismiss();
+            });
+
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
         } catch (Exception e) {
-            AppLogger.e(getClass(), "bindData", e);
+            AppLogger.e(getClass(), "deleteReception", e);
         }
     }
 }

@@ -7,7 +7,7 @@ public class ReceptionWithContainer implements Serializable {
     public double circumference, length, grossVolume, netVolume;
     public int pieces;
     private Integer receptionDataId;
-    public String tempReceptionDataId, containerNumber;
+    public String tempReceptionDataId, tempReceptionId, containerNumber;
 
     public double getCircumference() {
         return circumference;
@@ -71,5 +71,13 @@ public class ReceptionWithContainer implements Serializable {
 
     public void setContainerNumber(String containerNumber) {
         this.containerNumber = containerNumber;
+    }
+
+    public String getTempReceptionId() {
+        return tempReceptionId;
+    }
+
+    public void setTempReceptionId(String tempReceptionId) {
+        this.tempReceptionId = tempReceptionId;
     }
 }

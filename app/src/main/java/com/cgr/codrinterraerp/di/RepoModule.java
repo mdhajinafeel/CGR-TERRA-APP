@@ -96,13 +96,15 @@ public class RepoModule {
     @Provides
     @Singleton
     ReceptionDataRepository provideReceptionDataRepository(MeasurementSystemFormulasDao measurementSystemFormulasDao, ReceptionTransactionDao receptionTransactionDao,
-                                                           ReceptionDataDao receptionDataDao, ReceptionRepository receptionRepository, DispatchRepository dispatchRepository) {
-        return new ReceptionDataRepository(measurementSystemFormulasDao, receptionTransactionDao, receptionDataDao, receptionRepository, dispatchRepository);
+                                                           ContainerDataDao containerDataDao, ReceptionDataDao receptionDataDao, ReceptionRepository receptionRepository,
+                                                           DispatchRepository dispatchRepository) {
+        return new ReceptionDataRepository(measurementSystemFormulasDao, receptionTransactionDao, receptionDataDao, containerDataDao, receptionRepository, dispatchRepository);
     }
 
     @Provides
     @Singleton
-    DispatchDataRepository provideDispatchDataRepository(ContainerDataDao containerDataDao) {
-        return new DispatchDataRepository(containerDataDao);
+    DispatchDataRepository provideDispatchDataRepository(ContainerDataDao containerDataDao, ReceptionDataDao receptionDataDao, DispatchRepository dispatchRepository,
+                                                         ReceptionRepository receptionRepository) {
+        return new DispatchDataRepository(containerDataDao, receptionDataDao, dispatchRepository, receptionRepository);
     }
 }

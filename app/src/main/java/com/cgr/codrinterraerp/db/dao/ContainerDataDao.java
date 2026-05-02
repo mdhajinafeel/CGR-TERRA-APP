@@ -1,11 +1,14 @@
 package com.cgr.codrinterraerp.db.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.cgr.codrinterraerp.db.entities.ContainerData;
+import com.cgr.codrinterraerp.db.entities.DispatchSummary;
+import com.cgr.codrinterraerp.db.entities.ReceptionSummary;
 import com.cgr.codrinterraerp.model.ContainerWithReception;
 
 import java.util.List;
@@ -52,15 +55,31 @@ public interface ContainerDataDao {
             "JOIN reception_data r ON r.containerReceptionMappingId = c.containerReceptionMappingId AND r.tempReceptionDataId = c.tempReceptionDataId " +
             "JOIN reception_details rd ON rd.tempReceptionId = r.tempReceptionId " +
             "WHERE c.dispatchId = :dispatchId AND c.isDeleted = 0 AND r.isDeleted = 0 AND rd.isDeleted = 0;")
-    List<ContainerWithReception> fetchByDispatchId(Integer dispatchId);
+    LiveData<List<ContainerWithReception>> fetchByDispatchId(Integer dispatchId);
 
     @Query("SELECT r.circumference, r.length, r.pieces, rd.ica, r.grossVolume, r.netVolume, c.tempReceptionId, c.tempReceptionDataId, c.tempDispatchId, r.receptionDataId " +
             "FROM container_data c " +
             "JOIN reception_data r ON r.containerReceptionMappingId = c.containerReceptionMappingId AND r.tempReceptionDataId = c.tempReceptionDataId " +
             "JOIN reception_details rd ON rd.tempReceptionId = r.tempReceptionId " +
             "WHERE c.tempDispatchId = :tempDispatchId AND c.isDeleted = 0 AND r.isDeleted = 0 AND rd.isDeleted = 0;")
-    List<ContainerWithReception> fetchByTempDispatchId(String tempDispatchId);
+    LiveData<List<ContainerWithReception>> fetchByTempDispatchId(String tempDispatchId);
 
     @Query("SELECT DISTINCT tempReceptionId FROM container_data WHERE isDeleted = 0 AND tempDispatchId = :tempDispatchId")
     List<String> getAllReceptionIds(String tempDispatchId);
+
+    @Query("UPDATE container_data SET isDeleted = 1 WHERE tempReceptionDataId = :tempReceptionDataId AND tempReceptionId = :tempReceptionId")
+    void deleteByReceptionDataId(String tempReceptionDataId, String tempReceptionId);
+
+    @Query("SELECT tempDispatchId FROM container_data WHERE tempReceptionDataId = :tempReceptionDataId AND tempReceptionId = :tempReceptionId")
+    String getAllDispatchId(String tempReceptionId, String tempReceptionDataId);
+
+    @Query("SELECT 0 AS id, 0 AS dispatchId, '' AS tempDispatchId, 0 AS avgGirth, 0 AS updatedAt, " +
+            "IFNULL(SUM(r.pieces), 0) AS totalPieces, IFNULL(SUM(r.grossVolume), 0) AS totalGrossVolume, IFNULL(SUM(r.netVolume), 0) AS totalNetVolume " +
+            "FROM container_data c " +
+            "JOIN reception_data r ON r.tempReceptionId = c.tempReceptionId AND r.tempReceptionDataId = c.tempReceptionDataId " +
+            "WHERE c.isDeleted = 0 AND c.tempDispatchId = :tempDispatchId")
+    LiveData<DispatchSummary> getSummaryByTempId(String tempDispatchId);
+
+    @Query("UPDATE container_data SET isDeleted = 1 WHERE tempReceptionId = :tempReceptionId AND tempReceptionDataId = :tempReceptionDataId AND tempDispatchId = :tempDispatchId")
+    int deleteContainerDataById(String tempReceptionDataId, String tempReceptionId, String tempDispatchId);
 }
