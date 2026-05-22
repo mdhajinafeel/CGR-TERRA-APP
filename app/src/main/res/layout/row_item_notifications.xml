@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notificationCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_8"
+    android:elevation="2dp"
+    app:cardCornerRadius="@dimen/corner_radius_12"
+    app:strokeColor="@color/colorGrey88"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_16">
+
+        <!-- Header Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Unread Indicator -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivTypeIcon"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginEnd="@dimen/margin_12" />
+
+            <!-- Title -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/colorCharcoal"
+                android:textSize="@dimen/text_16"
+                android:fontFamily="@font/exo2_bold"/>
+
+        </LinearLayout>
+
+        <!-- Message Section -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:ellipsize="end"
+            android:lineSpacingMultiplier="1.3"
+            android:maxLines="2"
+            android:fontFamily="@font/exo2_medium"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/text_14" />
+
+        <!-- Meta Information Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- Type Badge -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_12"
+                android:paddingEnd="@dimen/padding_12"
+                android:paddingTop="@dimen/padding_4"
+                android:paddingBottom="@dimen/padding_4"
+                android:textSize="@dimen/text_12"
+                android:fontFamily="@font/exo2_semibold"/>
+
+            <!-- Status Badge -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/padding_12"
+                android:paddingEnd="@dimen/padding_12"
+                android:paddingTop="@dimen/padding_4"
+                android:paddingBottom="@dimen/padding_4"
+                android:layout_marginStart="@dimen/margin_4"
+                android:textSize="@dimen/text_12"
+                android:fontFamily="@font/exo2_semibold"/>
+
+            <!-- Timestamp -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTimestamp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:fontFamily="@font/exo2_bold"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_12" />
+
+        </LinearLayout>
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:spacing="8dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/btnDelete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin_8"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_delete"
+                app:tint="@color/colorErrorRed" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

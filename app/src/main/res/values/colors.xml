@@ -46,4 +46,9 @@
     <color name="colorDBError">#E53935</color>
     <color name="colorDBErrorTrans">#33E53935</color>
     <color name="colorGrey88">#E0E0E0</color>
+    <color name="colorInfo">#4A90E2</color>
+    <color name="colorSuccess">#103b29</color>
+    <color name="colorWarning">#57380a</color>
+    <color name="colorSync">#1772E6</color>
+    <color name="colorReminder">#7C3AED</color>
 </resources>

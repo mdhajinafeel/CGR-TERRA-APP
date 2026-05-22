@@ -38,6 +38,7 @@ import com.cgr.codrinterraerp.repository.ContainerImagesRepository;
 import com.cgr.codrinterraerp.repository.DispatchDataRepository;
 import com.cgr.codrinterraerp.repository.DispatchRepository;
 import com.cgr.codrinterraerp.repository.MasterRepository;
+import com.cgr.codrinterraerp.repository.NotificationRepository;
 import com.cgr.codrinterraerp.repository.ReceptionDataRepository;
 import com.cgr.codrinterraerp.repository.ReceptionRepository;
 import com.cgr.codrinterraerp.repository.SyncRepository;
@@ -128,5 +129,11 @@ public class RepoModule {
                                          DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService) {
         return new SyncRepository(syncDao, receptionDetailsDao, dispatchDetailsDao, receptionDataDao, containerDataDao, receptionSummaryDao,
                 dispatchSummaryDao, pushNotificationsDao, iSyncApiService);
+    }
+
+    @Provides
+    @Singleton
+    NotificationRepository provideNotificationRepository(PushNotificationsDao pushNotificationsDao) {
+        return new NotificationRepository(pushNotificationsDao);
     }
 }

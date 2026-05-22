@@ -159,7 +159,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 }
             });
 
-            frameNotification.setOnClickListener(view -> Toast.makeText(getApplicationContext(), "Click notifications", Toast.LENGTH_SHORT).show());
+            frameNotification.setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            });
 
             observeNotificationCount();
 

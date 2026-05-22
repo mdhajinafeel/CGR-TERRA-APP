@@ -217,7 +217,7 @@ public class CodrinTerraErpApplication extends Application {
 
     private void startSyncReminderWorker() {
         PeriodicWorkRequest request =
-                new PeriodicWorkRequest.Builder(SyncReminderWorker.class, 1, TimeUnit.HOURS).build();
+                new PeriodicWorkRequest.Builder(SyncReminderWorker.class, 3, TimeUnit.HOURS).build();
         WorkManager.getInstance(this).enqueueUniquePeriodicWork("SYNC_REMINDER_WORK", ExistingPeriodicWorkPolicy.KEEP, request);
     }
 }

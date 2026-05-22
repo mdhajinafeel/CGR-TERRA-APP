@@ -201,6 +201,8 @@ public class DataBackupActivity extends BaseActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), getString(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                         }
+
+                        loadBackups();
                     });
 
     private void exportBackup() {

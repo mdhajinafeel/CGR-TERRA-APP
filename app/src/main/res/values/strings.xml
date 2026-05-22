@@ -147,12 +147,18 @@
     <string name="select">Select</string>
     <string name="export_logs">Export Logs</string>
     <string name="clear_logs">Clear Logs</string>
+    <string name="clear_notifications">Clear Notifications</string>
     <string name="share_log">Share Log</string>
     <string name="clear_logs_confirmation">Are you sure you want to clear all logs?</string>
+    <string name="clear_notifications_confirmation">Are you sure you want to clear all notifications?</string>
     <string name="clear_log_confirmation">Are you sure you want to clear all log?</string>
+    <string name="clear_notification_confirmation">Are you sure you want to clear all notification?</string>
     <string name="logs_cleared">" logs cleared"</string>
+    <string name="notifications_cleared">" notifications cleared"</string>
     <string name="delete_log">Delete Log</string>
+    <string name="delete_notification">Delete Notification</string>
     <string name="deleted_log">Log has been deleted successfully</string>
+    <string name="deleted_notification">Notification has been deleted successfully</string>
     <string name="generate">Generate</string>
     <string name="date_format">yyyyMMdd_HHmmssa</string>
     <string name="share_backup">Share Backup</string>
@@ -196,4 +202,7 @@
     <string name="sync_overdue_please_sync_your_pending_data_immediately">Sync overdue. Please sync your pending data immediately.</string>
     <string name="your_data_has_not_been_synced_for_several_hours">Your data has not been synced for several hours.</string>
     <string name="you_have_pending_data_waiting_for_sync">You have pending data waiting for sync.</string>
+    <string name="notifications">Notifications</string>
+    <string name="sync_show">Sync</string>
+    <string name="reminder">Reminder</string>
 </resources>
