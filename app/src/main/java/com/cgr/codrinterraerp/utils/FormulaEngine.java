@@ -28,22 +28,16 @@ public class FormulaEngine {
     }
 
     public static double applyRounding(double value, int precision, String type) {
-        BigDecimal bd = new BigDecimal(value);
 
-        switch (type) {
-            case "TRUNCATE":
-                bd = bd.setScale(precision, RoundingMode.DOWN);
-                break;
-            case "ROUND":
-                bd = bd.setScale(precision, RoundingMode.HALF_UP);
-                break;
-            case "CEIL":
-                bd = bd.setScale(precision, RoundingMode.CEILING);
-                break;
-            case "FLOOR":
-                bd = bd.setScale(precision, RoundingMode.FLOOR);
-                break;
-        }
+        BigDecimal bd = BigDecimal.valueOf(value);
+
+        bd = switch (type) {
+            case "TRUNCATE" -> bd.setScale(precision, RoundingMode.DOWN);
+            case "ROUND" -> bd.setScale(precision, RoundingMode.HALF_UP);
+            case "CEIL" -> bd.setScale(precision, RoundingMode.CEILING);
+            case "FLOOR" -> bd.setScale(precision, RoundingMode.FLOOR);
+            default -> bd;
+        };
 
         return bd.doubleValue();
     }

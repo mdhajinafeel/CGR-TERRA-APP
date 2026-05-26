@@ -108,7 +108,7 @@ public class ReceptionDataActivity extends BaseActivity {
 
             if (summary != null) {
                 tvPieces.setText(String.valueOf(summary.totalPieces));
-                tvNetVolume.setText(CommonUtils.formatNumber(CommonUtils.round(summary.totalNetVolume, 3)));
+                tvNetVolume.setText(CommonUtils.formatNumber3(CommonUtils.round(summary.totalNetVolume, 3)));
 
                 if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
 
@@ -116,14 +116,14 @@ public class ReceptionDataActivity extends BaseActivity {
                     llDataSquareLogs.setVisibility(View.VISIBLE);
 
                     tvGrossTitle.setText(getString(R.string.volume_pie));
-                    tvGrossVolume.setText(CommonUtils.formatNumber(CommonUtils.round(summary.totalVolumePie, 3)));
+                    tvGrossVolume.setText(CommonUtils.formatNumber2(CommonUtils.round(summary.totalVolumePie, 3)));
                 } else {
 
                     llDataRoundLogs.setVisibility(View.VISIBLE);
                     llDataSquareLogs.setVisibility(View.GONE);
 
                     tvGrossTitle.setText(getString(R.string.gross_volume));
-                    tvGrossVolume.setText(CommonUtils.formatNumber(CommonUtils.round(summary.totalGrossVolume, 3)));
+                    tvGrossVolume.setText(CommonUtils.formatNumber3(CommonUtils.round(summary.totalGrossVolume, 3)));
                 }
             }
         });
@@ -147,13 +147,13 @@ public class ReceptionDataActivity extends BaseActivity {
                     holder.setViewText(R.id.tvVolumePie, CommonUtils.formatNumber(item.getVolumePie()));
                 } else {
                     holder.setViewText(R.id.tvGirth, CommonUtils.formatNumber(item.getCircumference()));
-                    holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber(item.getGrossVolume()));
+                    holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(item.getGrossVolume()));
                 }
 
                 holder.setViewText(R.id.tvLength, CommonUtils.formatNumber(item.getLength()));
                 holder.setViewText(R.id.tvPieces, String.valueOf(item.getPieces()));
                 holder.setViewText(R.id.tvContainerNumber, item.getContainerNumber());
-                holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber(item.getNetVolume()));
+                holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(item.getNetVolume()));
 
                 holder.getView(R.id.ivDelete).setOnClickListener(v -> deleteReceptionData(item.getTempReceptionDataId(), item.getTempReceptionId()));
             }

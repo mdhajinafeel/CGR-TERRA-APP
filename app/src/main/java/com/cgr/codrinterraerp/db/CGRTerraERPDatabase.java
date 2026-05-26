@@ -16,15 +16,19 @@ import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
+import com.cgr.codrinterraerp.db.dao.FarmDataDao;
+import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
+import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
+import com.cgr.codrinterraerp.db.dao.FarmViewDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
-import com.cgr.codrinterraerp.db.dao.PushNotificationsDao;
 import com.cgr.codrinterraerp.db.dao.OriginsDao;
 import com.cgr.codrinterraerp.db.dao.ProductTypesDao;
 import com.cgr.codrinterraerp.db.dao.ProductsDao;
 import com.cgr.codrinterraerp.db.dao.PurchaseContractDao;
+import com.cgr.codrinterraerp.db.dao.PushNotificationsDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionDataDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionDetailsDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionInventoryOrdersDao;
@@ -44,15 +48,18 @@ import com.cgr.codrinterraerp.db.entities.ContainerImages;
 import com.cgr.codrinterraerp.db.entities.DispatchContainers;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
 import com.cgr.codrinterraerp.db.entities.DispatchSummary;
+import com.cgr.codrinterraerp.db.entities.FarmData;
+import com.cgr.codrinterraerp.db.entities.FarmDetails;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
+import com.cgr.codrinterraerp.db.entities.FarmSummary;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulas;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
-import com.cgr.codrinterraerp.db.entities.PushNotifications;
 import com.cgr.codrinterraerp.db.entities.Origins;
 import com.cgr.codrinterraerp.db.entities.ProductTypes;
 import com.cgr.codrinterraerp.db.entities.Products;
 import com.cgr.codrinterraerp.db.entities.PurchaseContracts;
+import com.cgr.codrinterraerp.db.entities.PushNotifications;
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
 import com.cgr.codrinterraerp.db.entities.ReceptionDetails;
 import com.cgr.codrinterraerp.db.entities.ReceptionInventoryOrders;
@@ -63,13 +70,15 @@ import com.cgr.codrinterraerp.db.entities.SupplierProducts;
 import com.cgr.codrinterraerp.db.entities.Suppliers;
 import com.cgr.codrinterraerp.db.entities.Warehouses;
 import com.cgr.codrinterraerp.db.views.DispatchView;
+import com.cgr.codrinterraerp.db.views.FarmView;
 import com.cgr.codrinterraerp.db.views.ReceptionView;
 
 @Database(entities = {Origins.class, ApiLogs.class, Suppliers.class, SupplierProducts.class, SupplierProductTypes.class, MeasurementSystems.class, PurchaseContracts.class,
         ShippingLines.class, Warehouses.class, FarmInventoryOrders.class, ReceptionInventoryOrders.class, DispatchContainers.class, Products.class, ProductTypes.class,
         ReceptionDetails.class, DispatchDetails.class, ReceptionData.class, ContainerData.class, ContainerCategories.class, ContainerImages.class,
-        DispatchSummary.class, ReceptionSummary.class, MeasurementSystemFormulas.class, MeasurementSystemFormulaVariables.class, PushNotifications.class},
-        views = {ReceptionView.class, DispatchView.class},
+        DispatchSummary.class, ReceptionSummary.class, MeasurementSystemFormulas.class, MeasurementSystemFormulaVariables.class, PushNotifications.class,
+        FarmDetails.class, FarmData.class, FarmSummary.class},
+        views = {ReceptionView.class, DispatchView.class, FarmView.class},
         version = 1)
 public abstract class CGRTerraERPDatabase extends RoomDatabase {
 
@@ -125,12 +134,20 @@ public abstract class CGRTerraERPDatabase extends RoomDatabase {
 
     public abstract PushNotificationsDao pushNotificationsDao();
 
+    public abstract FarmDetailsDao farmDetailsDao();
+
+    public abstract FarmDataDao farmDataDao();
+
+    public abstract FarmSummaryDao farmSummaryDao();
+
+    public abstract SyncDao syncDao();
+
     //VIEWS
     public abstract ReceptionViewDao receptionViewDao();
 
     public abstract DispatchViewDao dispatchViewDao();
 
-    public abstract SyncDao syncDao();
+    public abstract FarmViewDao farmViewDao();
 
     // TRANSACTIONS
     public abstract ReceptionTransactionDao receptionTransactionDao();

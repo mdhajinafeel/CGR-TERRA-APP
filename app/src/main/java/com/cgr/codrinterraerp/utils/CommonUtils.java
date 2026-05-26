@@ -284,6 +284,14 @@ public class CommonUtils {
         }
     }
 
+    public static String formatNumber3(double value) {
+        return String.format(Locale.US, "%.3f", value);
+    }
+
+    public static String formatNumber2(double value) {
+        return String.format(Locale.US, "%.2f", value);
+    }
+
     public static int getTagInt(Object tag) {
         try {
             return tag instanceof Integer ? (int) tag : 0;

@@ -9,7 +9,10 @@ import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
+import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
+import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
+import com.cgr.codrinterraerp.db.dao.FarmViewDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -31,12 +34,14 @@ import com.cgr.codrinterraerp.db.dao.SuppliersDao;
 import com.cgr.codrinterraerp.db.dao.SyncDao;
 import com.cgr.codrinterraerp.db.dao.WarehousesDao;
 import com.cgr.codrinterraerp.helper.DispatchSummaryHelper;
+import com.cgr.codrinterraerp.helper.FarmSummaryHelper;
 import com.cgr.codrinterraerp.helper.ReceptionSummaryHelper;
 import com.cgr.codrinterraerp.repository.AppStatusRepository;
 import com.cgr.codrinterraerp.repository.AuthRepository;
 import com.cgr.codrinterraerp.repository.ContainerImagesRepository;
 import com.cgr.codrinterraerp.repository.DispatchDataRepository;
 import com.cgr.codrinterraerp.repository.DispatchRepository;
+import com.cgr.codrinterraerp.repository.FarmRepository;
 import com.cgr.codrinterraerp.repository.MasterRepository;
 import com.cgr.codrinterraerp.repository.NotificationRepository;
 import com.cgr.codrinterraerp.repository.ReceptionDataRepository;
@@ -124,10 +129,17 @@ public class RepoModule {
 
     @Provides
     @Singleton
-    SyncRepository provideSyncRepository(SyncDao syncDao, ReceptionDetailsDao receptionDetailsDao, DispatchDetailsDao dispatchDetailsDao,
+    FarmRepository provideFarmRepository(FarmDetailsDao farmDetailsDao, FarmInventoryOrdersDao farmInventoryOrdersDao, FarmSummaryDao farmSummaryDao,
+                                         FarmViewDao farmViewDao, FarmSummaryHelper farmSummaryHelper) {
+        return new FarmRepository(farmDetailsDao, farmInventoryOrdersDao, farmSummaryDao, farmViewDao, farmSummaryHelper);
+    }
+
+    @Provides
+    @Singleton
+    SyncRepository provideSyncRepository(SyncDao syncDao, ReceptionDetailsDao receptionDetailsDao, DispatchDetailsDao dispatchDetailsDao, FarmDetailsDao farmDetailsDao,
                                          ReceptionDataDao receptionDataDao, ContainerDataDao containerDataDao, ReceptionSummaryDao receptionSummaryDao,
                                          DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService) {
-        return new SyncRepository(syncDao, receptionDetailsDao, dispatchDetailsDao, receptionDataDao, containerDataDao, receptionSummaryDao,
+        return new SyncRepository(syncDao, receptionDetailsDao, dispatchDetailsDao, farmDetailsDao, receptionDataDao, containerDataDao, receptionSummaryDao,
                 dispatchSummaryDao, pushNotificationsDao, iSyncApiService);
     }
 

@@ -169,6 +169,8 @@ public class SyncViewModel extends ViewModel {
                                 executor.execute(() -> {
                                     long threeMonthsAgo = System.currentTimeMillis() - (90L * 24 * 60 * 60 * 1000);
                                     syncRepository.deleteOldReceptionDetails(threeMonthsAgo);
+                                    syncRepository.deleteOldDispatchDetails(threeMonthsAgo);
+                                    syncRepository.deleteOldFarmDetails(threeMonthsAgo);
                                 });
                             }
                         } catch (Exception e) {

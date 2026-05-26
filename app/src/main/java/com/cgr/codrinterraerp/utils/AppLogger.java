@@ -5,6 +5,8 @@ import android.util.Log;
 import com.cgr.codrinterraerp.BuildConfig;
 import com.cgr.codrinterraerp.db.dao.ApiLogsDao;
 import com.cgr.codrinterraerp.db.entities.ApiLogs;
+import com.cgr.codrinterraerp.helper.PreferenceManager;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -26,7 +28,7 @@ public class AppLogger {
     private static void log(int level, Class<?> cls, String message, Throwable throwable) {
 
         String tag = cls.getSimpleName();
-        boolean shouldSkip =  level == Log.WARN && "ApiLoggingInterceptor".equalsIgnoreCase(tag);
+        boolean shouldSkip = level == Log.WARN && "ApiLoggingInterceptor".equalsIgnoreCase(tag);
 
         // ✅ Always log to Logcat in debug
         if (BuildConfig.DEBUG) {
@@ -67,6 +69,16 @@ public class AppLogger {
 
                     if (!shouldSkip) {
                         apiLogsDao.insertApiLogs(log);
+                    }
+
+                    if (throwable != null) {
+
+                        FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+                        crashlytics.log(message);
+                        crashlytics.setCustomKey("screen", tag);
+                        crashlytics.setCustomKey("user_id", String.valueOf(PreferenceManager.INSTANCE.getUserId()));
+                        crashlytics.setCustomKey("name", PreferenceManager.INSTANCE.getName());
+                        crashlytics.recordException(throwable);
                     }
 
                 } catch (Exception e) {

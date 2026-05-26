@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorMildGreen"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/margin_14"
+        app:cardCornerRadius="@dimen/corner_radius_8"
+        app:cardElevation="@dimen/corner_elevation_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_16"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnOpenFarm"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:visibility="gone"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:paddingStart="@dimen/padding_16"
+                    android:paddingEnd="@dimen/padding_16"
+                    android:text="@string/open"
+                    android:textSize="@dimen/text_16"
+                    app:backgroundTint="@color/darkGreen"
+                    app:cornerRadius="@dimen/corner_radius_8"
+                    app:icon="@drawable/ic_open_clock"
+                    app:iconGravity="textStart" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCloseFarm"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:visibility="gone"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:paddingStart="@dimen/padding_16"
+                    android:paddingEnd="@dimen/padding_16"
+                    android:text="@string/close"
+                    android:textSize="@dimen/text_16"
+                    app:backgroundTint="@color/colorRed"
+                    app:cornerRadius="@dimen/corner_radius_8"
+                    app:icon="@drawable/ic_close"
+                    app:iconGravity="textStart" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiSupplier"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:hint="@string/supplier"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSupplier"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:drawableStart="@drawable/ic_username"
+                        android:drawableEnd="@drawable/ic_dropdown_arrow"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:focusable="true"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="none"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiProduct"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:hint="@string/wood"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etProduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:drawableStart="@drawable/ic_product"
+                        android:drawableEnd="@drawable/ic_dropdown_arrow"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:focusable="true"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="none"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiProductType"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:hint="@string/wood_type"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etProductType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:drawableStart="@drawable/ic_product_type"
+                        android:drawableEnd="@drawable/ic_dropdown_arrow"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:focusable="true"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="none"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiPurchaseContract"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:hint="@string/purchase_contract"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPurchaseContract"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:drawableStart="@drawable/ic_contract"
+                        android:drawableEnd="@drawable/ic_dropdown_arrow"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:focusable="true"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="none"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiIca"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_12"
+                    android:hint="@string/ica"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etIca"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_ica"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/colorBlack"
+                        android:textColorHint="@color/colorGrey"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiPurchaseDate"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:hint="@string/date"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPurchaseDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:drawableStart="@drawable/ic_calendar"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:focusable="true"
+                        android:focusableInTouchMode="false"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="none"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiTruckNumber"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:hint="@string/truck_plate_number"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etTruckNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_truck"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiTruckDriverName"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_16"
+                    android:hint="@string/truck_driver_name"
+                    app:boxStrokeColor="@color/colorDarkGreen"
+                    app:boxStrokeErrorColor="@color/colorErrorOrange"
+                    app:boxStrokeWidth="@dimen/box_stroke"
+                    app:errorEnabled="false"
+                    app:errorTextAppearance="@style/CustomErrorText"
+                    app:hintEnabled="true"
+                    app:hintTextColor="@color/colorDarkGrey">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etTruckDriverName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_truck_driver"
+                        android:drawablePadding="@dimen/padding_10"
+                        android:drawableTint="@color/colorDarkGreen"
+                        android:fontFamily="@font/exo2_medium"
+                        android:inputType="textCapCharacters"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/text_18" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginTop="@dimen/margin_20"
+                    android:layout_marginBottom="@dimen/margin_36"
+                    android:background="@drawable/btn_gradient"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:text="@string/submit"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_16"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <include
+        layout="@layout/layout_progress_bar"
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

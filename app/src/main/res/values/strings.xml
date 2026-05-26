@@ -112,6 +112,7 @@
     <string name="colon">&#160;:&#160;</string>
     <string name="reception_detail">Reception Detail</string>
     <string name="farm_contract_details"><u>Farm Contract Details</u></string>
+    <string name="contract">Contract</string>
     <string name="contract_code">Contract Code</string>
     <string name="description">Description</string>
     <string name="length_must_be_greater_than_100">Length must be greater than 100</string>
@@ -205,4 +206,13 @@
     <string name="notifications">Notifications</string>
     <string name="sync_show">Sync</string>
     <string name="reminder">Reminder</string>
+    <string name="add_farm">Add Farm</string>
+    <string name="edit_farm">Edit Farm</string>
+    <string name="farm_closed_successfully">Farm has been closed successfully</string>
+    <string name="farm_opened_successfully">Farm has been opened successfully</string>
+    <string name="dispatch_closed_successfully">Dispatch has been closed successfully</string>
+    <string name="dispatch_opened_successfully">Dispatch has been opened successfully</string>
+    <string name="farm_added_successfully">Farm has been added successfully</string>
+    <string name="reception_added_successfully">Reception has been added successfully</string>
+    <string name="dispatch_added_successfully">Dispatch has been added successfully</string>
 </resources>

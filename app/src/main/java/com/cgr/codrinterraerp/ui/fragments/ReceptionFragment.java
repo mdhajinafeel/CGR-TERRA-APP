@@ -113,13 +113,13 @@ public class ReceptionFragment extends Fragment {
 
                     if (receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
                         holder.setViewText(R.id.tvGrossTitle, getString(R.string.volume_pie));
-                        holder.setViewText(R.id.tvGrossVolume, String.valueOf(receptionView.totalVolumePie));
+                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber2(receptionView.totalVolumePie));
                     } else {
                         holder.setViewText(R.id.tvGrossTitle, getString(R.string.gross_volume));
-                        holder.setViewText(R.id.tvGrossVolume, String.valueOf(receptionView.totalGrossVolume));
+                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(receptionView.totalGrossVolume));
                     }
 
-                    holder.setViewText(R.id.tvNetVolume, String.valueOf(receptionView.totalNetVolume));
+                    holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(receptionView.totalNetVolume));
                     holder.setViewText(R.id.tvDate, receptionView.receptionDate);
                     holder.setViewText(R.id.tvMeasurement, receptionView.measurementName);
 
@@ -191,11 +191,11 @@ public class ReceptionFragment extends Fragment {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             Intent data = result.getData();
                             if (data != null) {
-                                int savedReceptionId = data.getIntExtra("savedReceptionId", 0);
+                                int savedReceptionId = (int) data.getLongExtra("savedReceptionId", 0);
                                 boolean isClosed = data.getBooleanExtra("isClosed", false);
                                 boolean isOpened = data.getBooleanExtra("isOpened", false);
                                 if (savedReceptionId > 0) {
-                                    Toast.makeText(requireContext(), getString(R.string.data_added_successfully), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), getString(R.string.reception_added_successfully), Toast.LENGTH_SHORT).show();
                                 } else if (isClosed) {
                                     Toast.makeText(requireContext(), getString(R.string.data_closed_successfully), Toast.LENGTH_SHORT).show();
                                 } else if (isOpened) {

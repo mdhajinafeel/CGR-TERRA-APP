@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_12"
+    android:layout_marginTop="@dimen/margin_12"
+    android:layout_marginEnd="@dimen/margin_12"
+    android:layout_marginBottom="@dimen/margin_12"
+    app:cardBackgroundColor="@color/colorWhite"
+    app:cardCornerRadius="@dimen/corner_radius_20"
+    app:cardElevation="@dimen/corner_elevation_8">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Header Section: Invoice & Supplier -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorLightGrey"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_12">
+
+            <!-- Invoice Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:gravity="start"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_medium"
+                    android:letterSpacing="0.05"
+                    android:text="@string/ica"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvIca"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
+            <!-- Supplier Column -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_medium"
+                    android:gravity="end"
+                    android:letterSpacing="0.05"
+                    android:text="@string/supplier"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSupplier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_bold"
+                    android:gravity="end"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_16" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Details Section: 2x2 Grid -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="2"
+            android:padding="@dimen/padding_10"
+            android:useDefaultMargins="true">
+
+            <!-- Date -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="@dimen/margin_4"
+                android:gravity="start"
+                android:layout_gravity="fill_horizontal"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_medium"
+                    android:text="@string/pieces"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPieces"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_16" />
+
+            </LinearLayout>
+
+            <!-- Pieces -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal|center_vertical"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvGrossTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_medium"
+                    android:text="@string/gross_volume"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvGrossVolume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
+            <!-- Gross Volume -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginEnd="@dimen/margin_4"
+                android:gravity="end"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_medium"
+                    android:text="@string/net_volume"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNetVolume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
+            <!-- Date -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginTop="@dimen/margin_8"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_medium"
+                    android:text="@string/date"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
+            <!-- Measurement -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal|center_vertical"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_8"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_medium"
+                    android:text="@string/contract"
+                    android:textColor="@color/colorDarkGrey"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvContract"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:layout_gravity="bottom"
+                android:gravity="end"
+                android:layout_marginStart="@dimen/margin_6"
+                android:layout_marginTop="@dimen/margin_12"
+                android:orientation="horizontal">
+
+                <!-- List Button -->
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnFarmData"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="@dimen/margin_6"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/padding_8"
+                    android:src="@drawable/ic_reception_list"
+                    app:tint="@color/colorCharcoal" />
+
+                <!-- Edit Button -->
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnEditFarm"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="@dimen/margin_6"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/padding_8"
+                    android:src="@drawable/ic_edit"
+                    app:tint="@color/darkGreen" />
+
+                <!-- View Button -->
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnViewFarm"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:visibility="gone"
+                    android:layout_marginEnd="@dimen/margin_6"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/padding_8"
+                    android:src="@drawable/ic_reception_info"
+                    app:tint="@color/darkGreen" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnDeleteFarm"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/padding_8"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/colorRed" />
+            </LinearLayout>
+        </GridLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

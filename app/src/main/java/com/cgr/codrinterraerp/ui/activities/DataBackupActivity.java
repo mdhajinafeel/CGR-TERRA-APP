@@ -203,6 +203,7 @@ public class DataBackupActivity extends BaseActivity {
                         }
 
                         loadBackups();
+                        bindBackupData();
                     });
 
     private void exportBackup() {

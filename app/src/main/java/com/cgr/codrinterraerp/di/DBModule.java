@@ -11,7 +11,11 @@ import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
+import com.cgr.codrinterraerp.db.dao.FarmDataDao;
+import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
+import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
+import com.cgr.codrinterraerp.db.dao.FarmViewDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -189,6 +193,24 @@ public class DBModule {
         return db.pushNotificationsDao();
     }
 
+    @Provides
+    @Singleton
+    public FarmDetailsDao provideFarmDetailsDao(CGRTerraERPDatabase db) {
+        return db.farmDetailsDao();
+    }
+
+    @Provides
+    @Singleton
+    public FarmDataDao provideFarmDataDao(CGRTerraERPDatabase db) {
+        return db.farmDataDao();
+    }
+
+    @Provides
+    @Singleton
+    public FarmSummaryDao provideFarmSummaryDao(CGRTerraERPDatabase db) {
+        return db.farmSummaryDao();
+    }
+
     // VIEWS
     @Provides
     @Singleton
@@ -200,6 +222,12 @@ public class DBModule {
     @Singleton
     public DispatchViewDao provideDispatchViewDao(CGRTerraERPDatabase db) {
         return db.dispatchViewDao();
+    }
+
+    @Provides
+    @Singleton
+    public FarmViewDao provideFarmViewDao(CGRTerraERPDatabase db) {
+        return db.farmViewDao();
     }
 
     @Provides

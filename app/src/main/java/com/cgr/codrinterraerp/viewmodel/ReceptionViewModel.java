@@ -87,7 +87,6 @@ public class ReceptionViewModel extends ViewModel {
         return receptionRepository.getReceptionInventoryOrdersCountForEdit(inventoryOrder, supplierId, tempReceptionId);
     }
 
-
     public LiveData<List<ReceptionView>> getReceptionList() {
         return receptionList;
     }

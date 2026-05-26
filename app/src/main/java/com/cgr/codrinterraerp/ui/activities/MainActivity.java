@@ -270,7 +270,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
             cardMenu.setOnClickListener(v -> {
                 animateIcon(img);
 
-                if (item.getTag() == 2) {
+                if (item.getTag() == 1) {
+                    startActivity(new Intent(MainActivity.this, FarmListsActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                } else if (item.getTag() == 2) {
                     startActivity(new Intent(MainActivity.this, WarehouseActivity.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }

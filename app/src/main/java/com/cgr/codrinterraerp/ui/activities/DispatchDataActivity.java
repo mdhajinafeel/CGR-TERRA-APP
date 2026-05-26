@@ -110,8 +110,8 @@ public class DispatchDataActivity extends BaseActivity {
         dispatchDataViewModel.getDispatchSummary(dispatchView.tempDispatchId).observe(this, summary -> {
             if (summary != null) {
                 tvPieces.setText(String.valueOf(summary.totalPieces));
-                tvGrossVolume.setText(CommonUtils.formatNumber(CommonUtils.round(summary.totalGrossVolume, 3)));
-                tvNetVolume.setText(CommonUtils.formatNumber(CommonUtils.round(summary.totalNetVolume, 3)));
+                tvGrossVolume.setText(CommonUtils.formatNumber3(CommonUtils.round(summary.totalGrossVolume, 3)));
+                tvNetVolume.setText(CommonUtils.formatNumber3(CommonUtils.round(summary.totalNetVolume, 3)));
 
                 if(dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
 
@@ -120,7 +120,7 @@ public class DispatchDataActivity extends BaseActivity {
                     llDataRoundLogs.setVisibility(View.GONE);
 
                     tvAvgGirthTitle.setText(getString(R.string.volume_pie));
-                    tvAvgGirth.setText(CommonUtils.formatNumber(CommonUtils.round(summary.totalVolumePie, 2)));
+                    tvAvgGirth.setText(CommonUtils.formatNumber2(CommonUtils.round(summary.totalVolumePie, 2)));
                 } else {
 
                     llGrossVolume.setVisibility(View.VISIBLE);
@@ -129,10 +129,10 @@ public class DispatchDataActivity extends BaseActivity {
 
                     if (dispatchView.categoryId == 1) {
                         tvAvgGirthTitle.setText(getString(R.string.cft));
-                        tvAvgGirth.setText(CommonUtils.formatNumber(CommonUtils.round(summary.cft, 2)));
+                        tvAvgGirth.setText(CommonUtils.formatNumber2(CommonUtils.round(summary.cft, 2)));
                     } else {
                         tvAvgGirthTitle.setText(getString(R.string.avg_girth));
-                        tvAvgGirth.setText(CommonUtils.formatNumber(CommonUtils.round(summary.avgGirth, 2)));
+                        tvAvgGirth.setText(CommonUtils.formatNumber2(CommonUtils.round(summary.avgGirth, 2)));
                     }
                 }
             }
@@ -157,13 +157,13 @@ public class DispatchDataActivity extends BaseActivity {
                     holder.setViewText(R.id.tvVolumePie, CommonUtils.formatNumber(item.getVolumePie()));
                 } else {
                     holder.setViewText(R.id.tvGirth, CommonUtils.formatNumber(item.getCircumference()));
-                    holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber(item.getGrossVolume()));
+                    holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(item.getGrossVolume()));
                 }
 
                 holder.setViewText(R.id.tvLength, CommonUtils.formatNumber(item.getLength()));
                 holder.setViewText(R.id.tvPieces, String.valueOf(item.getPieces()));
                 holder.setViewText(R.id.tvIca, item.getIca());
-                holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber(item.getNetVolume()));
+                holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(item.getNetVolume()));
 
                 holder.getView(R.id.ivDelete).setOnClickListener(v -> deleteDispatchData(item.getTempReceptionDataId(), item.getTempReceptionId(), item.getTempDispatchId()));
             }

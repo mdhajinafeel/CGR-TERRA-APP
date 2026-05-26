@@ -273,7 +273,7 @@ public class NotificationActivity extends BaseActivity {
             btnOk.setOnClickListener(v -> {
                 dialog.dismiss();
                 notificationViewModel.clearNotification(selectedFilter);
-                Toast.makeText(getApplicationContext(), CommonUtils.capitalize(selectedFilter) + getString(R.string.logs_cleared), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), CommonUtils.capitalize(selectedFilter) + getString(R.string.notifications_cleared), Toast.LENGTH_SHORT).show();
             });
 
             dialog.setCancelable(false);
@@ -309,14 +309,14 @@ public class NotificationActivity extends BaseActivity {
             btnOk.setOnClickListener(v -> {
                 dialog.dismiss();
                 notificationViewModel.clearNotification(pushNotification.id, pushNotification.createdAt);
-                Toast.makeText(getApplicationContext(), getString(R.string.deleted_log), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.deleted_notification), Toast.LENGTH_SHORT).show();
             });
 
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         } catch (Exception e) {
-            AppLogger.e(getClass(), "deleteLog", e);
+            AppLogger.e(getClass(), "deleteNotification", e);
         }
     }
 }

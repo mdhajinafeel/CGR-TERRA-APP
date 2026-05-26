@@ -72,7 +72,7 @@ public interface ContainerDataDao {
             "FROM container_data c " +
             "JOIN reception_data r ON r.containerReceptionMappingId = c.containerReceptionMappingId AND r.tempReceptionDataId = c.tempReceptionDataId " +
             "JOIN reception_details rd ON rd.tempReceptionId = r.tempReceptionId " +
-            "WHERE c.tempDispatchId = :tempDispatchId AND c.isDeleted = 0 AND r.isDeleted = 0 AND rd.isDeleted = 0;")
+            "WHERE c.tempDispatchId = :tempDispatchId AND c.isDeleted = 0 AND r.isDeleted = 0 AND rd.isDeleted = 0 ORDER BY c.createdAt DESC")
     LiveData<List<ContainerWithReception>> fetchByTempDispatchId(String tempDispatchId);
 
     @Query("SELECT DISTINCT tempReceptionId FROM container_data WHERE isDeleted = 0 AND tempDispatchId = :tempDispatchId")

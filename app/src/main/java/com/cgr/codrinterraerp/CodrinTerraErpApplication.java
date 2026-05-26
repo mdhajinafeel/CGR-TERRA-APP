@@ -12,11 +12,13 @@ import androidx.work.WorkManager;
 
 import com.cgr.codrinterraerp.db.CGRTerraERPDatabase;
 import com.cgr.codrinterraerp.db.entities.ApiLogs;
+import com.cgr.codrinterraerp.helper.PreferenceManager;
 import com.cgr.codrinterraerp.utils.AppLogger;
 import com.cgr.codrinterraerp.utils.CommonUtils;
 import com.cgr.codrinterraerp.worker.LogCleanupWorker;
 import com.cgr.codrinterraerp.worker.SyncReminderWorker;
 import com.cgr.codrinterraerp.worker.TransactionDataCleanupWorker;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import java.security.KeyStore;
 import java.util.List;
@@ -50,113 +52,72 @@ public class CodrinTerraErpApplication extends Application {
 
         AppLogger.init(db.apiLogsDao());
 
+        Thread.UncaughtExceptionHandler defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+
         Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
 
             try {
 
                 ApiLogs log = new ApiLogs();
 
-                // =========================
-                // BASIC INFO
-                // =========================
-
                 log.success = false;
                 log.createdAt = System.currentTimeMillis();
 
-                // Exception class
-                log.exceptionType = throwable.getClass().getSimpleName();
-
-                // Your custom classifier
-                log.type = CommonUtils.classifyError(throwable);
-
-                // =========================
-                // FIND ROOT CAUSE
-                // =========================
-
                 Throwable rootCause = throwable;
 
-                while (rootCause.getCause() != null
-                        && rootCause.getCause() != rootCause) {
-
+                while (rootCause.getCause() != null && rootCause.getCause() != rootCause) {
                     rootCause = rootCause.getCause();
                 }
 
-                // =========================
-                // ERROR MESSAGE
-                // =========================
+                log.exceptionType = rootCause.getClass().getSimpleName();
 
-                if (rootCause.getMessage() != null
-                        && !rootCause.getMessage().trim().isEmpty()) {
+                log.type = CommonUtils.classifyError(rootCause);
 
-                    log.errorMessage = rootCause.getMessage();
+                log.errorMessage = rootCause.getMessage() != null ? rootCause.getMessage() : rootCause.toString();
 
-                } else {
+                String stackTrace = Log.getStackTraceString(rootCause);
 
-                    log.errorMessage = rootCause.toString();
+                if (stackTrace.length() > 5000) {
+                    stackTrace = stackTrace.substring(0, 5000) + "...";
                 }
 
-                // =========================
-                // STACK TRACE
-                // =========================
+                log.responseBody = stackTrace;
 
-                String stackTraceString =
-                        Log.getStackTraceString(rootCause);
-
-                if (stackTraceString.length() > 5000) {
-
-                    stackTraceString =
-                            stackTraceString.substring(0, 5000) + "...";
-                }
-
-                log.responseBody = stackTraceString;
-
-                // =========================
-                // CLASS + METHOD
-                // =========================
-
-                StackTraceElement[] stackTrace =
-                        rootCause.getStackTrace();
+                StackTraceElement[] trace = rootCause.getStackTrace();
 
                 log.tag = "UNKNOWN";
                 log.methodName = "UNKNOWN";
 
-                if (stackTrace.length > 0) {
+                for (StackTraceElement element : trace) {
+                    String className = element.getClassName();
 
-                    for (StackTraceElement element : stackTrace) {
-                        String className = element.getClassName();
+                    if (className.startsWith("com.cgr.codrinterraerp")) {
 
-                        if (className.startsWith("com.cgr.codrinterraerp")) {
-                            log.tag = className.substring(className.lastIndexOf(".") + 1);
-                            log.methodName = element.getMethodName();
-                            break;
-                        }
-                    }
-
-                    // Fallback if no app class found
-                    if ("UNKNOWN".equals(log.tag)) {
-                        StackTraceElement element = stackTrace[0];
-                        log.tag = element.getClassName();
+                        log.tag = className.substring(className.lastIndexOf(".") + 1);
                         log.methodName = element.getMethodName();
+                        break;
                     }
                 }
 
-                // =========================
-                // SAVE LOG
-                // =========================
-
                 db.apiLogsDao().insertApiLogs(log);
 
-            } catch (Exception e) {
+                FirebaseCrashlytics crashlytics = FirebaseCrashlytics.getInstance();
+                crashlytics.log(log.errorMessage);
+                crashlytics.setCustomKey("screen", log.tag);
+                crashlytics.setCustomKey("method", log.methodName);
+                crashlytics.setCustomKey("user_id", String.valueOf(PreferenceManager.INSTANCE.getUserId()));
+                crashlytics.setCustomKey("name", PreferenceManager.INSTANCE.getName());
 
-                Log.e("CRASH_HANDLER",
-                        "Failed to save crash log", e);
+                crashlytics.recordException(rootCause);
+
+            } catch (Exception e) {
+                Log.e("CRASH_HANDLER", "Failed to save crash log", e);
             }
 
-            // =========================
-            // TERMINATE APP
-            // =========================
-
-            System.exit(2);
+            // VERY IMPORTANT
+            if (defaultHandler != null) {
+                defaultHandler.uncaughtException(thread, throwable);
+            }
         });
     }
 

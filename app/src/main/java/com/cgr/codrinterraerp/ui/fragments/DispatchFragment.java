@@ -47,6 +47,7 @@ import com.cgr.codrinterraerp.ui.activities.DispatchDataActivity;
 import com.cgr.codrinterraerp.ui.adapters.RecyclerViewAdapter;
 import com.cgr.codrinterraerp.ui.adapters.ViewHolder;
 import com.cgr.codrinterraerp.utils.AppLogger;
+import com.cgr.codrinterraerp.utils.CommonUtils;
 import com.cgr.codrinterraerp.viewmodel.DispatchViewModel;
 import com.google.android.material.button.MaterialButton;
 
@@ -126,11 +127,11 @@ public class DispatchFragment extends Fragment {
                     if (dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
                         holder.setViewImageDrawable(R.id.ivTypeIcon, ContextCompat.getDrawable(requireContext(), R.drawable.ic_square_logs));
                         holder.setViewText(R.id.tvGrossTitle, getString(R.string.volume_pie));
-                        holder.setViewText(R.id.tvGrossVolume, String.valueOf(dispatchView.totalVolumePie));
+                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber2(dispatchView.totalVolumePie));
                     } else {
                         holder.setViewImageDrawable(R.id.ivTypeIcon, ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_logs));
                         holder.setViewText(R.id.tvGrossTitle, getString(R.string.gross_volume));
-                        holder.setViewText(R.id.tvGrossVolume, String.valueOf(dispatchView.totalGrossVolume));
+                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
 
                         if (dispatchView.categoryId == 1) {
                             holder.setViewText(R.id.tvAvgGirthTitle, getString(R.string.cft));
@@ -141,7 +142,7 @@ public class DispatchFragment extends Fragment {
                         }
                     }
 
-                    holder.setViewText(R.id.tvNetVolume, String.valueOf(dispatchView.totalNetVolume));
+                    holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(dispatchView.totalNetVolume));
                     holder.setViewText(R.id.tvDate, dispatchView.dispatchDate);
 
                     holder.getView(R.id.btnEditDispatch).setTag(dispatchView);
@@ -199,15 +200,15 @@ public class DispatchFragment extends Fragment {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             Intent data = result.getData();
                             if (data != null) {
-                                int savedDispatchId = data.getIntExtra("savedDispatchId", 0);
+                                int savedDispatchId = (int) data.getLongExtra("savedDispatchId", 0);
                                 boolean isClosed = data.getBooleanExtra("isClosed", false);
                                 boolean isOpened = data.getBooleanExtra("isOpened", false);
                                 if (savedDispatchId > 0) {
-                                    Toast.makeText(requireContext(), getString(R.string.data_added_successfully), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), getString(R.string.dispatch_added_successfully), Toast.LENGTH_SHORT).show();
                                 } else if(isClosed) {
-                                    Toast.makeText(requireContext(), getString(R.string.data_closed_successfully), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), getString(R.string.dispatch_closed_successfully), Toast.LENGTH_SHORT).show();
                                 } else if(isOpened) {
-                                    Toast.makeText(requireContext(), getString(R.string.data_opened_successfully), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), getString(R.string.dispatch_opened_successfully), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

@@ -9,6 +9,7 @@ import com.cgr.codrinterraerp.db.CGRTerraERPDatabase;
 import com.cgr.codrinterraerp.db.dao.ContainerDataDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
+import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.PushNotificationsDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionDataDao;
 import com.cgr.codrinterraerp.db.dao.ReceptionDetailsDao;
@@ -49,6 +50,7 @@ public class SyncRepository {
     private final ISyncApiService iSyncApiService;
     private final ReceptionDetailsDao receptionDetailsDao;
     private final DispatchDetailsDao dispatchDetailsDao;
+    private final FarmDetailsDao farmDetailsDao;
     private final ReceptionDataDao receptionDataDao;
     private final ContainerDataDao containerDataDao;
     private final ReceptionSummaryDao receptionSummaryDao;
@@ -60,6 +62,7 @@ public class SyncRepository {
         this.syncDao = db.syncDao();
         this.receptionDetailsDao = db.receptionDetailsDao();
         this.dispatchDetailsDao = db.dispatchDetailsDao();
+        this.farmDetailsDao = db.farmDetailsDao();
         this.receptionDataDao = db.receptionDataDao();
         this.containerDataDao = db.containerDataDao();
         this.receptionSummaryDao = db.receptionSummaryDao();
@@ -68,12 +71,13 @@ public class SyncRepository {
         this.iSyncApiService = null;
     }
 
-    public SyncRepository(SyncDao syncDao, ReceptionDetailsDao receptionDetailsDao, DispatchDetailsDao dispatchDetailsDao,
-                          ReceptionDataDao receptionDataDao, ContainerDataDao containerDataDao, ReceptionSummaryDao receptionSummaryDao,
+    public SyncRepository(SyncDao syncDao, ReceptionDetailsDao receptionDetailsDao, DispatchDetailsDao dispatchDetailsDao, FarmDetailsDao farmDetailsDao,
+                          ReceptionDataDao receptionDataDao,  ContainerDataDao containerDataDao, ReceptionSummaryDao receptionSummaryDao,
                           DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService) {
         this.syncDao = syncDao;
         this.receptionDetailsDao = receptionDetailsDao;
         this.dispatchDetailsDao = dispatchDetailsDao;
+        this.farmDetailsDao = farmDetailsDao;
         this.receptionDataDao = receptionDataDao;
         this.containerDataDao = containerDataDao;
         this.receptionSummaryDao = receptionSummaryDao;
@@ -237,6 +241,14 @@ public class SyncRepository {
 
     public void deleteOldReceptionDetails(long threeMonthsAgo) {
         receptionDetailsDao.deleteOldData(threeMonthsAgo);
+    }
+
+    public void deleteOldDispatchDetails(long threeMonthsAgo) {
+        dispatchDetailsDao.deleteOldData(threeMonthsAgo);
+    }
+
+    public void deleteOldFarmDetails(long threeMonthsAgo) {
+        farmDetailsDao.deleteOldData(threeMonthsAgo);
     }
 
     public void upsertReceptionDetails(List<ReceptionDetails> receptionDetailsList) {

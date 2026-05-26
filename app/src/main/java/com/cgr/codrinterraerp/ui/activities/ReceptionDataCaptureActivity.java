@@ -228,17 +228,17 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
 
                     if(dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
                         holder.setViewText(R.id.tvGrossTitle, getString(R.string.volume_pie));
-                        holder.setViewText(R.id.tvGrossVolume, String.valueOf(dispatchView.totalVolumePie));
+                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber2(dispatchView.totalVolumePie));
 
                         llAvgGirth.setVisibility(View.GONE);
                     } else {
                         holder.setViewText(R.id.tvGrossTitle, getString(R.string.gross_volume));
-                        holder.setViewText(R.id.tvGrossVolume, String.valueOf(dispatchView.totalGrossVolume));
-                        holder.setViewText(R.id.tvAvgGirth, String.valueOf(dispatchView.avgGirth));
+                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
+                        holder.setViewText(R.id.tvAvgGirth, CommonUtils.formatNumber2(dispatchView.avgGirth));
                         llAvgGirth.setVisibility(View.VISIBLE);
                     }
 
-                    holder.setViewText(R.id.tvNetVolume, String.valueOf(dispatchView.totalNetVolume));
+                    holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(dispatchView.totalNetVolume));
 
                     View cardBg = holder.getView(R.id.cardBackground);
                     AppCompatImageView tick = (AppCompatImageView) holder.getView(R.id.ivSelected);
@@ -757,13 +757,13 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
 
             if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
                 tvGrossTitle.setText(getString(R.string.volume_pie));
-                tvGrossVolume.setText(String.valueOf(receptionView.totalVolumePie));
+                tvGrossVolume.setText(CommonUtils.formatNumber2(receptionView.totalVolumePie));
             } else {
                 tvGrossTitle.setText(getString(R.string.gross_volume));
-                tvGrossVolume.setText(String.valueOf(receptionView.totalGrossVolume));
+                tvGrossVolume.setText(CommonUtils.formatNumber3(receptionView.totalGrossVolume));
             }
 
-            tvNetVolume.setText(String.valueOf(receptionView.totalNetVolume));
+            tvNetVolume.setText(CommonUtils.formatNumber3(receptionView.totalNetVolume));
 
             if (receptionView.isFarmEnabled) {
                 tvContractCode.setText(receptionView.contractCode);

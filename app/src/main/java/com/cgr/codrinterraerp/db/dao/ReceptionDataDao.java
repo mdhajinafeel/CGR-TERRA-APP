@@ -44,7 +44,7 @@ public interface ReceptionDataDao {
             "JOIN container_data c ON c.containerReceptionMappingId = r.containerReceptionMappingId " +
             "AND c.tempReceptionDataId = r.tempReceptionDataId " +
             "JOIN dispatch_details d ON d.tempDispatchId = c.tempDispatchId " +
-            "WHERE r.tempReceptionId = :tempReceptionId AND r.isDeleted = 0 AND c.isDeleted = 0 AND d.isDeleted = 0;")
+            "WHERE r.tempReceptionId = :tempReceptionId AND r.isDeleted = 0 AND c.isDeleted = 0 AND d.isDeleted = 0 ORDER BY r.createdAt DESC")
     LiveData<List<ReceptionWithContainer>> fetchByTempReceptionId(String tempReceptionId);
 
     @Query("UPDATE reception_data SET updatedAt = :updatedAt, isDeleted = 1 WHERE tempReceptionId = :tempReceptionId")

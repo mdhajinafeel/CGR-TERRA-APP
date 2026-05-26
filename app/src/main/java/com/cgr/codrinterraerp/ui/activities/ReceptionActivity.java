@@ -61,11 +61,10 @@ public class ReceptionActivity extends BaseActivity {
             tiWarehouse, tiReceptionDate, tiPurchaseContract, tiTruckNumber, tiTruckDriverName;
     private AppCompatEditText etSupplier, etSupplierProduct, etSupplierProductType, etIca, etMeasurementSystem,
             etWarehouse, etReceptionDate, etPurchaseContract, etTruckNumber, etTruckDriverName;
-    private MaterialButton btnCloseReception, btnOpenReception;
+    private MaterialButton btnCloseReception, btnOpenReception, btnSubmit;
     private AppCompatTextView tvNoDataFound;
     private MaterialCheckBox cbEnableFarm;
     private LinearLayout llFarm;
-    private MaterialButton btnSubmit;
     private List<Suppliers> suppliersList;
     private List<SupplierProducts> supplierProductsList;
     private List<SupplierProductTypes> supplierProductTypesList;
@@ -196,7 +195,6 @@ public class ReceptionActivity extends BaseActivity {
                     btnCloseReception.setVisibility(View.VISIBLE);
                     btnOpenReception.setVisibility(View.GONE);
                 }
-
 
                 if (receptionView.totalPieces > 0) {
                     int colorLightGrey = ContextCompat.getColor(this, R.color.colorLightGrey);

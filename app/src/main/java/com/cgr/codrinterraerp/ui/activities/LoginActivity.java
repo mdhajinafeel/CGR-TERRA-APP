@@ -166,7 +166,7 @@ public class LoginActivity extends BaseActivity {
         try {
             originsList = masterViewModel.fetchOrigins();
 
-            if(originsList.isEmpty() && new NetworkConnectivity(this).isNetworkAvailable()) {
+            if (originsList.isEmpty() && new NetworkConnectivity(this).isNetworkAvailable()) {
                 masterViewModel.getOrigins();
             }
         } catch (Exception e) {
@@ -212,15 +212,17 @@ public class LoginActivity extends BaseActivity {
                 if (new NetworkConnectivity(this).isNetworkAvailable()) {
                     networkStatusView.stop();
 
-                    String token = PreferenceManager.INSTANCE.getFirebaseToken();
-                    if (token.isEmpty()) {
-                        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(newToken -> {
-                            PreferenceManager.INSTANCE.setFirebaseToken(newToken);
-                            callLogin(newToken);
-                        });
-                    } else {
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+                        if (!task.isSuccessful()) {
+                            AppLogger.e(getClass(), "Fetching FCM registration token failed", task.getException());
+                            callLogin("");
+                            return;
+                        }
+
+                        String token = task.getResult();
+                        PreferenceManager.INSTANCE.setFirebaseToken(token);
                         callLogin(token);
-                    }
+                    });
                 } else {
                     showCustomDialog(getString(R.string.information), getString(R.string.internet_not_available), false);
                 }
