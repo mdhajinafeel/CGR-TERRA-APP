@@ -47,7 +47,7 @@ public class ReceptionViewModel extends ViewModel {
 
             // ================= DELETE OLD INVENTORY =================
             receptionRepository.deleteReceptionInventoryOrder(deleteIca, deleteSupplierId);
-            receptionRepository.deleteFarmInventoryOrder(deleteIca, deleteSupplierId);
+            receptionRepository.deleteFarmInventoryOrder(deleteIca, deleteSupplierId, true);
 
             // ================= INSERT NEW RECEPTION INVENTORY =================
             ReceptionInventoryOrders receptionInventoryOrders = new ReceptionInventoryOrders();
@@ -61,6 +61,7 @@ public class ReceptionViewModel extends ViewModel {
                 FarmInventoryOrders farmInventoryOrders = new FarmInventoryOrders();
                 farmInventoryOrders.setInventoryOrder(receptionDetails.getIca());
                 farmInventoryOrders.setSupplierId(receptionDetails.getSupplierId());
+                farmInventoryOrders.setFromReception(true);
 
                 receptionRepository.insertFarmInventoryOrder(farmInventoryOrders);
             }
@@ -85,6 +86,10 @@ public class ReceptionViewModel extends ViewModel {
 
     public int getReceptionInventoryOrdersCountForEdit(String inventoryOrder, int supplierId, String tempReceptionId) {
         return receptionRepository.getReceptionInventoryOrdersCountForEdit(inventoryOrder, supplierId, tempReceptionId);
+    }
+
+    public int getFarmInventoryOrdersCount(String inventoryOrder, int supplierId) {
+        return receptionRepository.getFarmInventoryOrdersCount(inventoryOrder, supplierId);
     }
 
     public LiveData<List<ReceptionView>> getReceptionList() {

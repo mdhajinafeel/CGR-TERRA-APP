@@ -106,6 +106,20 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Farm Captured Data Screen -->
+        <activity
+            android:name=".ui.activities.FarmDataCaptureActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Farm Data Screen -->
+        <activity
+            android:name=".ui.activities.FarmDataActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Warehouse Screen -->
         <activity
             android:name=".ui.activities.WarehouseActivity"

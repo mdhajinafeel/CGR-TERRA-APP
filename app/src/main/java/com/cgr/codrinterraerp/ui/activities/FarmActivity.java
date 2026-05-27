@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,6 +32,8 @@ import com.cgr.codrinterraerp.db.entities.ProductTypes;
 import com.cgr.codrinterraerp.db.entities.Products;
 import com.cgr.codrinterraerp.db.entities.PurchaseContracts;
 import com.cgr.codrinterraerp.db.entities.Suppliers;
+import com.cgr.codrinterraerp.db.views.FarmView;
+import com.cgr.codrinterraerp.helper.PreferenceManager;
 import com.cgr.codrinterraerp.ui.adapters.RecyclerViewAdapter;
 import com.cgr.codrinterraerp.ui.adapters.ViewHolder;
 import com.cgr.codrinterraerp.ui.common.BaseActivity;
@@ -68,6 +71,7 @@ public class FarmActivity extends BaseActivity {
     private FarmViewModel farmViewModel;
     private boolean isFarmEdit = false;
     private FarmDetails existingFarmDetail;
+    private FarmView farmView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,7 +137,15 @@ public class FarmActivity extends BaseActivity {
                 });
 
                 if (isFarmEdit) {
+                    farmView = (FarmView) bundle.getSerializable("farmDetails");
 
+                    if (farmView != null) {
+                        existingFarmDetail = farmViewModel.fetchFarmDetailById(farmView.tempFarmId);
+                        fetchData(true, existingFarmDetail);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getString(R.string.common_error), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                 } else {
                     fetchData(false, null);
                 }
@@ -157,6 +169,77 @@ public class FarmActivity extends BaseActivity {
 
             if (isEdit) {
 
+                if (farmView.totalPieces > 0) {
+
+                    if (farmView.isClosed) {
+                        btnOpenFarm.setVisibility(View.VISIBLE);
+                        btnCloseFarm.setVisibility(View.GONE);
+                    } else {
+                        btnCloseFarm.setVisibility(View.VISIBLE);
+                        btnOpenFarm.setVisibility(View.GONE);
+                    }
+
+                    int colorLightGrey = ContextCompat.getColor(this, R.color.colorLightGrey);
+
+                    tiSupplier.setEnabled(false);
+                    tiProduct.setEnabled(false);
+                    tiProductType.setEnabled(false);
+                    tiPurchaseContract.setEnabled(false);
+
+                    tiSupplier.setBoxBackgroundColor(colorLightGrey);
+                    tiProduct.setBoxBackgroundColor(colorLightGrey);
+                    tiProductType.setBoxBackgroundColor(colorLightGrey);
+                    tiPurchaseContract.setBoxBackgroundColor(colorLightGrey);
+
+                    tiSupplier.setAlpha(0.9f);
+                    tiProduct.setAlpha(0.9f);
+                    tiProductType.setAlpha(0.9f);
+                    tiPurchaseContract.setAlpha(0.9f);
+                }
+
+                // Supplier
+                for (Suppliers s : suppliersList) {
+                    if (s.getSupplierId() == farmDetail.getSupplierId()) {
+                        etSupplier.setText(s.getSupplierName());
+                        etSupplier.setTag(s.getSupplierId());
+                        break;
+                    }
+                }
+
+                // Product
+                for (Products p : productsList) {
+                    if (p.getProductId() == farmDetail.getProductId()) {
+                        etProduct.setText(p.getProductName());
+                        etProduct.setTag(p.getProductId());
+                        break;
+                    }
+                }
+
+                // Product Type
+                for (ProductTypes pt : productTypesList) {
+                    if (pt.getTypeId() == farmDetail.getProductTypeId()) {
+                        etProductType.setText(pt.getProductTypeName());
+                        etProductType.setTag(pt.getTypeId());
+                        break;
+                    }
+                }
+
+                // Purchase Contract
+                purchaseContractsList = masterViewModel.fetchPurchaseContracts(existingFarmDetail.getSupplierId(), existingFarmDetail.getProductId(),
+                        existingFarmDetail.getProductTypeId());
+
+                for (PurchaseContracts pc : purchaseContractsList) {
+                    if (pc.getContractId() == existingFarmDetail.getPurchaseContract()) {
+                        etPurchaseContract.setText(pc.getContractCode());
+                        etPurchaseContract.setTag(pc.getContractId());
+                        break;
+                    }
+                }
+
+                etIca.setText(existingFarmDetail.getIca());
+                etPurchaseDate.setText(existingFarmDetail.getPurchaseDate());
+                etTruckNumber.setText(existingFarmDetail.getTruckNumber());
+                etTruckDriverName.setText(existingFarmDetail.getTruckDriverName());
             } else {
                 btnCloseFarm.setVisibility(View.GONE);
                 btnOpenFarm.setVisibility(View.GONE);
@@ -189,9 +272,9 @@ public class FarmActivity extends BaseActivity {
                 saveOrUpdateFarmDetails();
             });
 
-            //btnCloseFarm.setOnClickListener(v -> closeConfirmation(true));
+            btnCloseFarm.setOnClickListener(v -> closeConfirmation(true));
 
-            //btnOpenFarm.setOnClickListener(v -> closeConfirmation(false));
+            btnOpenFarm.setOnClickListener(v -> closeConfirmation(false));
         } catch (Exception e) {
             AppLogger.e(getClass(), "clickListeners", e);
         }
@@ -623,6 +706,10 @@ public class FarmActivity extends BaseActivity {
                         CommonUtils.getTagInt(etSupplier.getTag()),
                         existingFarmDetail.getTempFarmId()
                 );
+
+                if(icaCount <= 0) {
+                    icaCount = farmViewModel.getFarmInventoryOrdersCount(etIca.getText().toString(), CommonUtils.getTagInt(etSupplier.getTag()));
+                }
             } else {
                 icaCount = farmViewModel.getFarmInventoryOrdersCount(etIca.getText().toString(), CommonUtils.getTagInt(etSupplier.getTag()));
             }
@@ -637,6 +724,7 @@ public class FarmActivity extends BaseActivity {
             FarmDetails farmDetail;
             String oldIca = null;
             int oldSupplierId = 0;
+            long currentTimeStamp = CommonUtils.getCurrentLocalDateTimeStamp();
 
             if (isFarmEdit && existingFarmDetail != null) {
                 oldIca = existingFarmDetail.getIca();
@@ -662,7 +750,7 @@ public class FarmActivity extends BaseActivity {
                 farmDetail.setFarmId(existingFarmDetail.getFarmId());
                 farmDetail.setEdited(true);
             } else {
-                farmDetail.setTempFarmId("FARM_" + CommonUtils.getCurrentLocalDateTimeStamp());
+                farmDetail.setTempFarmId("FARM_" + currentTimeStamp);
                 farmDetail.setFarmId(null);
                 farmDetail.setEdited(false);
                 farmDetail.setCreatedAt(System.currentTimeMillis());
@@ -687,6 +775,7 @@ public class FarmActivity extends BaseActivity {
                     if (aBoolean) {
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("savedFarmId", farmViewModel.getFarmSavedId());
+                        resultIntent.putExtra("isEdit", isFarmEdit);
                         setResult(RESULT_OK, resultIntent);
                         finish();
                     } else {
@@ -722,31 +811,30 @@ public class FarmActivity extends BaseActivity {
 
             dialogHeader.setText(getString(R.string.confirmation));
 
-//            if (receptionView.isClosed) {
-//                dialogBody.setText(R.string.open_confirmation);
-//            } else {
-//                dialogBody.setText(R.string.close_confirmation);
-//            }
-
+            if (farmView.isClosed) {
+                dialogBody.setText(R.string.open_confirmation);
+            } else {
+                dialogBody.setText(R.string.close_confirmation);
+            }
 
             btnCancel.setOnClickListener(v -> dialog.dismiss());
 
-//            btnOk.setOnClickListener(v -> {
-//                dialog.dismiss();
-//                boolean closed = farmViewModel.closeFarmDetails(receptionView.tempReceptionId,
-//                        CommonUtils.getCurrentLocalDateTimeStamp(), PreferenceManager.INSTANCE.getUserId(), isClose);
-//
-//                if (closed) {
-//                    Intent resultIntent = new Intent();
-//                    if (isClose) {
-//                        resultIntent.putExtra("isClosed", true);
-//                    } else {
-//                        resultIntent.putExtra("isOpened", true);
-//                    }
-//                    setResult(RESULT_OK, resultIntent);
-//                    finish();
-//                }
-//            });
+            btnOk.setOnClickListener(v -> {
+                dialog.dismiss();
+                boolean closed = farmViewModel.closeFarmDetails(farmView.tempFarmId,
+                        CommonUtils.getCurrentLocalDateTimeStamp(), PreferenceManager.INSTANCE.getUserId(), isClose);
+
+                if (closed) {
+                    Intent resultIntent = new Intent();
+                    if (isClose) {
+                        resultIntent.putExtra("isClosed", true);
+                    } else {
+                        resultIntent.putExtra("isOpened", true);
+                    }
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                }
+            });
 
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);

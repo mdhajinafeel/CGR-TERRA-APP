@@ -1,17 +1,17 @@
 package com.cgr.codrinterraerp.repository;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Transaction;
 
+import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
 import com.cgr.codrinterraerp.db.dao.FarmViewDao;
-import com.cgr.codrinterraerp.db.dao.ReceptionSummaryDao;
 import com.cgr.codrinterraerp.db.entities.FarmDetails;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
 import com.cgr.codrinterraerp.db.entities.FarmSummary;
 import com.cgr.codrinterraerp.db.views.FarmView;
-import com.cgr.codrinterraerp.db.views.ReceptionView;
 import com.cgr.codrinterraerp.helper.FarmSummaryHelper;
 
 import java.util.List;
@@ -24,15 +24,18 @@ public class FarmRepository {
     private final FarmInventoryOrdersDao farmInventoryOrdersDao;
     private final FarmSummaryDao farmSummaryDao;
     private final FarmViewDao farmViewDao;
+    private final FarmDataDao farmDataDao;
     private final FarmSummaryHelper farmSummaryHelper;
     private final Executor executor = Executors.newSingleThreadExecutor();
 
     public FarmRepository(FarmDetailsDao farmDetailsDao, FarmInventoryOrdersDao farmInventoryOrdersDao, FarmSummaryDao farmSummaryDao,
-                          FarmViewDao farmViewDao, FarmSummaryHelper farmSummaryHelper) {
+                          FarmViewDao farmViewDao, FarmDataDao farmDataDao, FarmSummaryHelper farmSummaryHelper) {
         this.farmDetailsDao = farmDetailsDao;
         this.farmInventoryOrdersDao = farmInventoryOrdersDao;
         this.farmSummaryDao = farmSummaryDao;
         this.farmSummaryHelper = farmSummaryHelper;
+        this.farmViewDao = farmViewDao;
+        this.farmDataDao = farmDataDao;
     }
 
     public long saveFarmDetails(FarmDetails farmDetails) {
@@ -55,8 +58,8 @@ public class FarmRepository {
         return farmDetailsDao.fetchFarmDetailById(tempFarmId);
     }
 
-    public void deleteFarmInventoryOrder(String ica, int supplierId) {
-        farmInventoryOrdersDao.deleteFarmInventoryOrder(ica, supplierId);
+    public void deleteFarmInventoryOrder(String ica, int supplierId, boolean isFromReception) {
+        farmInventoryOrdersDao.deleteFarmInventoryOrder(ica, supplierId, isFromReception);
     }
 
     public boolean closeFarmDetails(String tempFarmId, long closedDate, int closedBy, boolean isClose) {
@@ -73,5 +76,19 @@ public class FarmRepository {
 
     public LiveData<List<FarmView>> getFarmList(boolean isClosed) {
         return farmViewDao.getFarmList(isClosed);
+    }
+
+    @Transaction
+    public int deleteFullFarm(String tempFarmId, long updatedAt) {
+
+        int totalDeleted = 0;
+
+        // ✅ Delete child first
+        totalDeleted += farmDataDao.deleteFarmData(tempFarmId, updatedAt);
+
+        // ✅ Finally root
+        totalDeleted += farmDetailsDao.deleteFarmDetails(tempFarmId, updatedAt);
+
+        return totalDeleted;
     }
 }

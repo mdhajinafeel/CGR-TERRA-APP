@@ -151,6 +151,36 @@
                     android:textSize="@dimen/text_18" />
             </LinearLayout>
 
+            <!-- Volume Pie -->
+            <LinearLayout
+                android:id="@+id/llVolumePie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
+                android:orientation="horizontal"
+                android:paddingBottom="4dp"
+                android:weightSum="1">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/exo2_medium"
+                    android:text="@string/volume_pie"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvVolumePie"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:gravity="end"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_18" />
+            </LinearLayout>
+
             <!-- Avg Girth -->
             <LinearLayout
                 android:id="@+id/llAvgGirth"

@@ -20,6 +20,7 @@ import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
+import com.cgr.codrinterraerp.db.dao.FarmTransactionDao;
 import com.cgr.codrinterraerp.db.dao.FarmViewDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
@@ -151,6 +152,8 @@ public abstract class CGRTerraERPDatabase extends RoomDatabase {
 
     // TRANSACTIONS
     public abstract ReceptionTransactionDao receptionTransactionDao();
+
+    public abstract FarmTransactionDao farmTransactionDao();
 
     public static CGRTerraERPDatabase getInstance(Context context) {
         if (INSTANCE == null) {

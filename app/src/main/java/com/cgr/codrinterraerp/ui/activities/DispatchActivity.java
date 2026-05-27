@@ -168,15 +168,15 @@ public class DispatchActivity extends BaseActivity {
 
             if (isEdit) {
 
-                if (dispatchView.isClosed) {
-                    btnOpenDispatch.setVisibility(View.VISIBLE);
-                    btnCloseDispatch.setVisibility(View.GONE);
-                } else {
-                    btnCloseDispatch.setVisibility(View.VISIBLE);
-                    btnOpenDispatch.setVisibility(View.GONE);
-                }
-
                 if (dispatchView.totalPieces > 0) {
+
+                    if (dispatchView.isClosed) {
+                        btnOpenDispatch.setVisibility(View.VISIBLE);
+                        btnCloseDispatch.setVisibility(View.GONE);
+                    } else {
+                        btnCloseDispatch.setVisibility(View.VISIBLE);
+                        btnOpenDispatch.setVisibility(View.GONE);
+                    }
 
                     int colorLightGrey = ContextCompat.getColor(this, R.color.colorLightGrey);
 
@@ -744,6 +744,10 @@ public class DispatchActivity extends BaseActivity {
                         CommonUtils.getTagInt(etShippingLine.getTag()),
                         existingDispatchDetail.getTempDispatchId()
                 );
+
+                if(containerCount <= 0) {
+                    containerCount = dispatchViewModel.getDispatchContainersCount(etContainerNumber.getText().toString(), CommonUtils.getTagInt(etShippingLine.getTag()));
+                }
             } else {
                 containerCount = dispatchViewModel.getDispatchContainersCount(etContainerNumber.getText().toString(), CommonUtils.getTagInt(etShippingLine.getTag()));
             }
@@ -758,6 +762,7 @@ public class DispatchActivity extends BaseActivity {
             DispatchDetails dispatchDetail;
             String oldContainerNumber = null;
             int oldShippingLineId = 0;
+            long currentTimeStamp = CommonUtils.getCurrentLocalDateTimeStamp();
 
             if (isDispatchEdit && existingDispatchDetail != null) {
                 oldContainerNumber = existingDispatchDetail.getContainerNumber();
@@ -783,7 +788,7 @@ public class DispatchActivity extends BaseActivity {
                 dispatchDetail.setEdited(true);
                 dispatchDetail.setCreatedAt(System.currentTimeMillis());
             } else {
-                dispatchDetail.setTempDispatchId("DISP_" + CommonUtils.getCurrentLocalDateTimeStamp());
+                dispatchDetail.setTempDispatchId("DISP_" + currentTimeStamp);
                 dispatchDetail.setDispatchId(null);
                 dispatchDetail.setEdited(false);
             }
@@ -808,6 +813,7 @@ public class DispatchActivity extends BaseActivity {
                     if (aBoolean) {
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("savedDispatchId", dispatchViewModel.getDispatchSavedId());
+                        resultIntent.putExtra("isEdit", isDispatchEdit);
                         setResult(RESULT_OK, resultIntent);
                         finish();
                     } else {
@@ -873,7 +879,7 @@ public class DispatchActivity extends BaseActivity {
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         } catch (Exception e) {
-            AppLogger.e(getClass(), "performLogout", e);
+            AppLogger.e(getClass(), "closeConfirmation", e);
         }
     }
 }

@@ -62,6 +62,10 @@ public class ReceptionRepository {
         return receptionInventoryOrdersDao.getReceptionInventoryOrdersCount(inventoryOrder, supplierId);
     }
 
+    public int getFarmInventoryOrdersCount(String inventoryOrder, int supplierId) {
+        return farmInventoryOrdersDao.getFarmInventoryOrdersCount(inventoryOrder, supplierId);
+    }
+
     public int getReceptionInventoryOrdersCountForEdit(String inventoryOrder, int supplierId, String tempReceptionId) {
         return receptionDetailsDao.getReceptionInventoryOrdersCountForEdit(inventoryOrder, supplierId, tempReceptionId);
     }
@@ -103,8 +107,8 @@ public class ReceptionRepository {
         receptionInventoryOrdersDao.deleteReceptionInventoryOrder(ica, supplierId);
     }
 
-    public void deleteFarmInventoryOrder(String ica, int supplierId) {
-        farmInventoryOrdersDao.deleteFarmInventoryOrder(ica, supplierId);
+    public void deleteFarmInventoryOrder(String ica, int supplierId, boolean isFromReception) {
+        farmInventoryOrdersDao.deleteFarmInventoryOrder(ica, supplierId, isFromReception);
     }
 
     @Transaction

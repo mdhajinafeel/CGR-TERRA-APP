@@ -27,7 +27,7 @@
     <string name="password">Password</string>
     <string name="login_failed">Login failed</string>
     <string name="logout_failed">Logout failed</string>
-    <string name="select_origins">Select Origins</string>
+    <string name="select_origins">Select Origin</string>
 
     <!-- MAIN -->
     <string name="sync">Synchronization</string>
@@ -78,6 +78,7 @@
     <string name="enable_farm">Enable Farm</string>
     <string name="purchase_contract">Purchase Contract</string>
     <string name="truck_plate_number">Truck Plate Number</string>
+    <string name="plate">Plate #</string>
     <string name="add_reception">Add Reception</string>
     <string name="edit_reception">Edit Reception</string>
     <string name="add_dispatch">Add Dispatch</string>
@@ -90,6 +91,7 @@
     <string name="select_wood_type">Select wood type</string>
     <string name="select_measurement_system">Select measurement system</string>
     <string name="truck_driver_name">Truck Driver Name</string>
+    <string name="driver_name">Driver Name</string>
     <string name="select_purchase_contract">Select purchase contract</string>
     <string name="category">Category</string>
     <string name="select_shipping_line">Select shipping line</string>
@@ -99,6 +101,7 @@
     <string name="data_updated_successfully">Data has been updated successfully</string>
     <string name="data_updated_failed">Failed to update the data</string>
     <string name="ica_exists">ICA already exists. Please verify and try again.</string>
+    <string name="farm_ica_exists">ICA already exists in the farm. Please verify and try again.</string>
     <string name="container_exists">Container already exists. Please verify and try again.</string>
     <string name="measurement">Measurement</string>
     <string name="available_containers">Available Containers</string>
@@ -110,12 +113,14 @@
     <string name="container_select_error">Please select a container to add the pieces</string>
     <string name="pieces_has_been_added_successfully">Pieces has been added successfully</string>
     <string name="colon">&#160;:&#160;</string>
+    <string name="farm_detail">Farm Detail</string>
     <string name="reception_detail">Reception Detail</string>
+    <string name="dispatch_detail">Dispatch Detail</string>
     <string name="farm_contract_details"><u>Farm Contract Details</u></string>
     <string name="contract">Contract</string>
     <string name="contract_code">Contract Code</string>
     <string name="description">Description</string>
-    <string name="length_must_be_greater_than_100">Length must be greater than 100</string>
+    <string name="length_must_be_greater_than_10">Length must be greater than 10</string>
     <string name="sync_already_in_progress">Sync already in progress…</string>
     <string name="reception_subtitle">%1$s / %2$s</string>
     <string name="reception_data">Reception Data</string>
@@ -213,6 +218,9 @@
     <string name="dispatch_closed_successfully">Dispatch has been closed successfully</string>
     <string name="dispatch_opened_successfully">Dispatch has been opened successfully</string>
     <string name="farm_added_successfully">Farm has been added successfully</string>
+    <string name="farm_updated_successfully">Farm has been updated successfully</string>
     <string name="reception_added_successfully">Reception has been added successfully</string>
+    <string name="reception_updated_successfully">Reception has been updated successfully</string>
     <string name="dispatch_added_successfully">Dispatch has been added successfully</string>
+    <string name="dispatch_updated_successfully">Dispatch has been updated successfully</string>
 </resources>

@@ -19,8 +19,8 @@ public class FarmInventoryOrders implements Serializable {
     @PrimaryKey
     @NonNull
     private String inventoryOrder = ""; // ✅ FIXED
-
     private int supplierId;
+    private boolean isFromReception;
 
     @NonNull
     public String getInventoryOrder() {
@@ -37,5 +37,13 @@ public class FarmInventoryOrders implements Serializable {
 
     public void setSupplierId(int supplierId) {
         this.supplierId = supplierId;
+    }
+
+    public boolean isFromReception() {
+        return isFromReception;
+    }
+
+    public void setFromReception(boolean fromReception) {
+        isFromReception = fromReception;
     }
 }

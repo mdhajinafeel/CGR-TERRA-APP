@@ -91,8 +91,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="3"
-            android:rowCount="2"
             android:padding="@dimen/padding_10"
+            android:rowCount="2"
             android:useDefaultMargins="true">
 
             <!-- Date -->
@@ -102,9 +102,9 @@
                 android:layout_row="0"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill_horizontal"
                 android:layout_marginStart="@dimen/margin_4"
                 android:gravity="start"
-                android:layout_gravity="fill_horizontal"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -223,20 +223,20 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill_horizontal|center_vertical"
-                android:gravity="center"
                 android:layout_marginTop="@dimen/margin_8"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/exo2_medium"
-                    android:text="@string/contract"
+                    android:text="@string/plate"
                     android:textColor="@color/colorDarkGrey"
                     android:textSize="@dimen/text_14" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvContract"
+                    android:id="@+id/tvPlateNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_2"
@@ -252,51 +252,43 @@
                 android:layout_row="1"
                 android:layout_column="2"
                 android:layout_gravity="bottom"
-                android:gravity="end"
                 android:layout_marginStart="@dimen/margin_6"
                 android:layout_marginTop="@dimen/margin_12"
+                android:gravity="end"
                 android:orientation="horizontal">
 
                 <!-- List Button -->
-                <androidx.appcompat.widget.AppCompatImageButton
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnFarmData"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="@dimen/margin_6"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="@dimen/padding_8"
                     android:src="@drawable/ic_reception_list"
                     app:tint="@color/colorCharcoal" />
 
                 <!-- Edit Button -->
-                <androidx.appcompat.widget.AppCompatImageButton
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnEditFarm"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="@dimen/margin_6"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="@dimen/padding_8"
                     android:src="@drawable/ic_edit"
                     app:tint="@color/darkGreen" />
 
                 <!-- View Button -->
-                <androidx.appcompat.widget.AppCompatImageButton
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnViewFarm"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:visibility="gone"
                     android:layout_marginEnd="@dimen/margin_6"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="@dimen/padding_8"
                     android:src="@drawable/ic_reception_info"
+                    android:visibility="gone"
                     app:tint="@color/darkGreen" />
 
-                <androidx.appcompat.widget.AppCompatImageButton
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/btnDeleteFarm"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:padding="@dimen/padding_8"
                     android:src="@drawable/ic_delete"
                     app:tint="@color/colorRed" />
             </LinearLayout>

@@ -9,7 +9,7 @@ import java.io.Serializable;
         value = "SELECT f.farmId, f.tempFarmId, f.ica, s.supplierName, f.purchaseDate, " +
                 "IFNULL(fs.totalPieces,0) as totalPieces, IFNULL(fs.totalGrossVolume,0) as totalGrossVolume, IFNULL(fs.totalVolumePie,0) as totalVolumePie, " +
                 "IFNULL(fs.totalNetVolume,0) as totalNetVolume, f.productTypeId, p.productName, pt.productTypeName, " +
-                "pc.contractCode, pc.description, f.supplierId, f.isClosed, f.closedDate " +
+                "pc.contractCode, pc.description, f.supplierId, f.isClosed, f.closedDate, f.truckNumber, f.truckDriverName " +
                 "FROM farm_details f " +
                 "INNER JOIN suppliers s ON s.supplierId = f.supplierId " +
                 "INNER JOIN products p ON p.productId = f.productId " +
@@ -21,7 +21,7 @@ import java.io.Serializable;
 public class FarmView implements Serializable {
 
     public int farmId, totalPieces, productTypeId, supplierId;
-    public String tempFarmId, ica, supplierName, purchaseDate, productName, productTypeName, contractCode, description;
+    public String tempFarmId, ica, supplierName, purchaseDate, productName, productTypeName, contractCode, description, truckNumber, truckDriverName;
     public double totalGrossVolume, totalNetVolume, totalVolumePie;
     public boolean isClosed;
     public long closedDate;

@@ -9,9 +9,11 @@ import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
+import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
+import com.cgr.codrinterraerp.db.dao.FarmTransactionDao;
 import com.cgr.codrinterraerp.db.dao.FarmViewDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
@@ -41,6 +43,7 @@ import com.cgr.codrinterraerp.repository.AuthRepository;
 import com.cgr.codrinterraerp.repository.ContainerImagesRepository;
 import com.cgr.codrinterraerp.repository.DispatchDataRepository;
 import com.cgr.codrinterraerp.repository.DispatchRepository;
+import com.cgr.codrinterraerp.repository.FarmDataRepository;
 import com.cgr.codrinterraerp.repository.FarmRepository;
 import com.cgr.codrinterraerp.repository.MasterRepository;
 import com.cgr.codrinterraerp.repository.NotificationRepository;
@@ -129,18 +132,25 @@ public class RepoModule {
 
     @Provides
     @Singleton
+    FarmDataRepository provideFarmDataRepository(FarmTransactionDao farmTransactionDao, FarmDataDao farmDataDao, FarmRepository farmRepository) {
+        return new FarmDataRepository(farmTransactionDao, farmDataDao, farmRepository);
+    }
+
+    @Provides
+    @Singleton
     FarmRepository provideFarmRepository(FarmDetailsDao farmDetailsDao, FarmInventoryOrdersDao farmInventoryOrdersDao, FarmSummaryDao farmSummaryDao,
-                                         FarmViewDao farmViewDao, FarmSummaryHelper farmSummaryHelper) {
-        return new FarmRepository(farmDetailsDao, farmInventoryOrdersDao, farmSummaryDao, farmViewDao, farmSummaryHelper);
+                                         FarmViewDao farmViewDao, FarmDataDao farmDataDao, FarmSummaryHelper farmSummaryHelper) {
+        return new FarmRepository(farmDetailsDao, farmInventoryOrdersDao, farmSummaryDao, farmViewDao, farmDataDao, farmSummaryHelper);
     }
 
     @Provides
     @Singleton
     SyncRepository provideSyncRepository(SyncDao syncDao, ReceptionDetailsDao receptionDetailsDao, DispatchDetailsDao dispatchDetailsDao, FarmDetailsDao farmDetailsDao,
                                          ReceptionDataDao receptionDataDao, ContainerDataDao containerDataDao, ReceptionSummaryDao receptionSummaryDao,
-                                         DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService) {
+                                         DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService,
+                                         CGRTerraERPDatabase database) {
         return new SyncRepository(syncDao, receptionDetailsDao, dispatchDetailsDao, farmDetailsDao, receptionDataDao, containerDataDao, receptionSummaryDao,
-                dispatchSummaryDao, pushNotificationsDao, iSyncApiService);
+                dispatchSummaryDao, pushNotificationsDao, iSyncApiService, database);
     }
 
     @Provides

@@ -99,6 +99,9 @@ public class SyncViewModel extends ViewModel {
 
     public void startFullSync() {
         progressState.postValue(true);
+
+        syncRepository.clearLocalDeletedData();
+
         syncContainerPhotos();
     }
 

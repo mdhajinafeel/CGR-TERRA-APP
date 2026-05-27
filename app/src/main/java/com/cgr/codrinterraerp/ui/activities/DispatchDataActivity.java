@@ -36,12 +36,12 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class DispatchDataActivity extends BaseActivity {
 
-    private AppCompatTextView tvContainerNumber, tvShippingLine, tvPieces, tvGrossVolume, tvNetVolume, tvNoDispatchData, tvAvgGirth, tvAvgGirthTitle;
+    private AppCompatTextView tvContainerNumber, tvShippingLine, tvPieces, tvVolumePie, tvGrossVolume, tvNetVolume, tvAvgGirth, tvAvgGirthTitle;
     private MaterialCardView cardDispatch;
     private RecyclerView rvDispatchData;
     private DispatchDataViewModel dispatchDataViewModel;
     private RecyclerViewAdapter<ContainerWithReception> containerWithReceptionRecyclerViewAdapter;
-    private LinearLayout llGrossVolume, llDataRoundLogs, llDataSquareLogs;
+    private LinearLayout llAvgGirth, llDataRoundLogs, llDataSquareLogs, llVolumePie, llNoData;
     private final List<ContainerWithReception> containerWithReceptionList = new ArrayList<>();
     private DispatchView dispatchView;
 
@@ -62,16 +62,18 @@ public class DispatchDataActivity extends BaseActivity {
             tvContainerNumber = findViewById(R.id.tvContainerNumber);
             tvShippingLine = findViewById(R.id.tvShippingLine);
             tvPieces = findViewById(R.id.tvPieces);
+            tvVolumePie = findViewById(R.id.tvVolumePie);
             tvGrossVolume = findViewById(R.id.tvGrossVolume);
             tvNetVolume = findViewById(R.id.tvNetVolume);
             tvAvgGirth = findViewById(R.id.tvAvgGirth);
             tvAvgGirthTitle = findViewById(R.id.tvAvgGirthTitle);
-            tvNoDispatchData = findViewById(R.id.tvNoDispatchData);
+            llNoData = findViewById(R.id.llNoData);
             cardDispatch = findViewById(R.id.cardDispatch);
             rvDispatchData = findViewById(R.id.rvDispatchData);
-            llGrossVolume = findViewById(R.id.llGrossVolume);
+            llAvgGirth = findViewById(R.id.llAvgGirth);
             llDataRoundLogs = findViewById(R.id.llDataRoundLogs);
             llDataSquareLogs = findViewById(R.id.llDataSquareLogs);
+            llVolumePie = findViewById(R.id.llVolumePie);
 
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
@@ -115,15 +117,16 @@ public class DispatchDataActivity extends BaseActivity {
 
                 if(dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
 
-                    llGrossVolume.setVisibility(View.GONE);
+                    llAvgGirth.setVisibility(View.GONE);
                     llDataSquareLogs.setVisibility(View.VISIBLE);
                     llDataRoundLogs.setVisibility(View.GONE);
+                    llVolumePie.setVisibility(View.VISIBLE);
 
-                    tvAvgGirthTitle.setText(getString(R.string.volume_pie));
-                    tvAvgGirth.setText(CommonUtils.formatNumber2(CommonUtils.round(summary.totalVolumePie, 2)));
+                    tvVolumePie.setText(CommonUtils.formatNumber2(summary.totalVolumePie));
                 } else {
 
-                    llGrossVolume.setVisibility(View.VISIBLE);
+                    llAvgGirth.setVisibility(View.VISIBLE);
+                    llVolumePie.setVisibility(View.GONE);
                     llDataSquareLogs.setVisibility(View.GONE);
                     llDataRoundLogs.setVisibility(View.VISIBLE);
 
@@ -179,10 +182,10 @@ public class DispatchDataActivity extends BaseActivity {
             containerWithReceptionList.clear();
             if (list != null && !list.isEmpty()) {
                 containerWithReceptionList.addAll(list);
-                tvNoDispatchData.setVisibility(View.GONE);
+                llNoData.setVisibility(View.GONE);
                 cardDispatch.setVisibility(View.VISIBLE);
             } else {
-                tvNoDispatchData.setVisibility(View.VISIBLE);
+                llNoData.setVisibility(View.VISIBLE);
                 cardDispatch.setVisibility(View.GONE);
             }
             containerWithReceptionRecyclerViewAdapter.notifyDataSetChanged();

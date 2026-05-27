@@ -1,5 +1,6 @@
 package com.cgr.codrinterraerp.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -194,8 +195,13 @@ public class ReceptionFragment extends Fragment {
                                 int savedReceptionId = (int) data.getLongExtra("savedReceptionId", 0);
                                 boolean isClosed = data.getBooleanExtra("isClosed", false);
                                 boolean isOpened = data.getBooleanExtra("isOpened", false);
+                                boolean isReceptionEdit = data.getBooleanExtra("isEdit", false);
                                 if (savedReceptionId > 0) {
-                                    Toast.makeText(requireContext(), getString(R.string.reception_added_successfully), Toast.LENGTH_SHORT).show();
+                                    if(isReceptionEdit) {
+                                        Toast.makeText(requireContext(), getString(R.string.reception_updated_successfully), Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(requireContext(), getString(R.string.reception_added_successfully), Toast.LENGTH_SHORT).show();
+                                    }
                                 } else if (isClosed) {
                                     Toast.makeText(requireContext(), getString(R.string.data_closed_successfully), Toast.LENGTH_SHORT).show();
                                 } else if (isOpened) {
@@ -221,7 +227,7 @@ public class ReceptionFragment extends Fragment {
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            Toast.makeText(requireContext(), getString(R.string.data_updated_successfully), Toast.LENGTH_SHORT).show();
+                            AppLogger.i(getClass(), "Reception Data");
                         }
                     }
             );
@@ -353,7 +359,7 @@ public class ReceptionFragment extends Fragment {
             AppCompatTextView tvWoodType = dialog.findViewById(R.id.tvWoodType);
             AppCompatTextView tvMeasurement = dialog.findViewById(R.id.tvMeasurement);
             AppCompatTextView tvPieces = dialog.findViewById(R.id.tvPieces);
-            AppCompatTextView tvGrossTitle = dialog.findViewById(R.id.tvGrossTitle);
+            AppCompatTextView tvVolumePie = dialog.findViewById(R.id.tvVolumePie);
             AppCompatTextView tvGrossVolume = dialog.findViewById(R.id.tvGrossVolume);
             AppCompatTextView tvNetVolume = dialog.findViewById(R.id.tvNetVolume);
             AppCompatTextView tvContractCode = dialog.findViewById(R.id.tvContractCode);
@@ -361,7 +367,9 @@ public class ReceptionFragment extends Fragment {
             AppCompatTextView tvClosedDate = dialog.findViewById(R.id.tvClosedDate);
             LinearLayout llFarmContractDetails = dialog.findViewById(R.id.llFarmContractDetails);
             LinearLayout llContractDesc = dialog.findViewById(R.id.llContractDesc);
+            LinearLayout llVolumePie = dialog.findViewById(R.id.llVolumePie);
             LinearLayout llClosedDate = dialog.findViewById(R.id.llClosedDate);
+            MaterialButton btnOpenReception = dialog.findViewById(R.id.btnOpenReception);
 
             tvIca.setText(receptionView.ica);
             tvSupplier.setText(receptionView.supplierName);
@@ -371,14 +379,14 @@ public class ReceptionFragment extends Fragment {
             tvPieces.setText(String.valueOf(receptionView.totalPieces));
 
             if (receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
-                tvGrossTitle.setText(getString(R.string.volume_pie));
-                tvGrossVolume.setText(String.valueOf(receptionView.totalVolumePie));
+                llVolumePie.setVisibility(View.VISIBLE);
+                tvVolumePie.setText(CommonUtils.formatNumber2(receptionView.totalVolumePie));
             } else {
-                tvGrossTitle.setText(getString(R.string.gross_volume));
-                tvGrossVolume.setText(String.valueOf(receptionView.totalGrossVolume));
+                llVolumePie.setVisibility(View.GONE);
             }
 
-            tvNetVolume.setText(String.valueOf(receptionView.totalNetVolume));
+            tvGrossVolume.setText(CommonUtils.formatNumber3(receptionView.totalGrossVolume));
+            tvNetVolume.setText(CommonUtils.formatNumber3(receptionView.totalNetVolume));
 
             if (receptionView.isFarmEnabled) {
                 tvContractCode.setText(receptionView.contractCode);
@@ -396,16 +404,62 @@ public class ReceptionFragment extends Fragment {
 
             if (receptionView.isClosed) {
                 llClosedDate.setVisibility(View.VISIBLE);
+                btnOpenReception.setVisibility(View.VISIBLE);
                 tvClosedDate.setText(CommonUtils.convertTimeStampToDate(receptionView.closedDate, "dd/MM/yyyy", requireContext()));
+
+                btnOpenReception.setOnClickListener(view -> openConfirmation(receptionView, dialog));
             } else {
                 llClosedDate.setVisibility(View.GONE);
+                btnOpenReception.setVisibility(View.GONE);
             }
 
             dialog.setCancelable(true);
             dialog.setCanceledOnTouchOutside(true);
             dialog.show();
         } catch (Exception e) {
-            AppLogger.e(getClass(), "showDataDialog", e);
+            AppLogger.e(getClass(), "showReceptionDetails", e);
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void openConfirmation(ReceptionView receptionView, Dialog receptionDialog) {
+        try {
+            LayoutInflater dialogInflater = LayoutInflater.from(requireContext());
+            View dialogView = dialogInflater.inflate(R.layout.custom_dialog, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setView(dialogView);
+
+            AlertDialog dialog = builder.create();
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+            AppCompatTextView dialogHeader = dialogView.findViewById(R.id.dialogHeader);
+            AppCompatTextView dialogBody = dialogView.findViewById(R.id.dialogBody);
+            MaterialButton btnCancel = dialogView.findViewById(R.id.btnCancel);
+            MaterialButton btnOk = dialogView.findViewById(R.id.btnOk);
+
+            dialogHeader.setText(getString(R.string.confirmation));
+
+            dialogBody.setText(R.string.open_confirmation);
+
+            btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+            btnOk.setOnClickListener(v -> {
+                boolean opened = receptionViewModel.closeReceptionDetails(receptionView.tempReceptionId, 0, 0, false);
+
+                if (opened) {
+                    receptionViewRecyclerViewAdapter.notifyDataSetChanged();
+                    Toast.makeText(requireContext(), getString(R.string.data_opened_successfully), Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+                receptionDialog.dismiss();
+            });
+
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception e) {
+            AppLogger.e(getClass(), "openConfirmation", e);
         }
     }
 

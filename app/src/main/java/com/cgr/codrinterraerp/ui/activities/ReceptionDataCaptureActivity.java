@@ -218,6 +218,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                 if (dispatchView != null) {
 
                     LinearLayout llAvgGirth = (LinearLayout) holder.getView(R.id.llAvgGirth);
+                    LinearLayout llVolumePie = (LinearLayout) holder.getView(R.id.llVolumePie);
 
                     int position = holder.getBindingAdapterPosition();
                     boolean isSelected = position == selectedPosition;
@@ -227,17 +228,16 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                     holder.setViewText(R.id.tvPieces, String.valueOf(dispatchView.totalPieces));
 
                     if(dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
-                        holder.setViewText(R.id.tvGrossTitle, getString(R.string.volume_pie));
-                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber2(dispatchView.totalVolumePie));
-
+                        holder.setViewText(R.id.tvVolumePie, CommonUtils.formatNumber2(dispatchView.totalVolumePie));
                         llAvgGirth.setVisibility(View.GONE);
+                        llVolumePie.setVisibility(View.VISIBLE);
                     } else {
-                        holder.setViewText(R.id.tvGrossTitle, getString(R.string.gross_volume));
-                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
                         holder.setViewText(R.id.tvAvgGirth, CommonUtils.formatNumber2(dispatchView.avgGirth));
                         llAvgGirth.setVisibility(View.VISIBLE);
+                        llVolumePie.setVisibility(View.GONE);
                     }
 
+                    holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
                     holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(dispatchView.totalNetVolume));
 
                     View cardBg = holder.getView(R.id.cardBackground);
@@ -383,7 +383,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                 double l = Double.parseDouble(length);
                 if (l <= 100) {
                     tiLength.setBoxStrokeColor(errorColor);
-                    Toast.makeText(getApplicationContext(), getString(R.string.length_must_be_greater_than_100), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.length_must_be_greater_than_10), Toast.LENGTH_SHORT).show();
                     isValid = false;
                 } else if (!isValidLengthForCategory(l)) {
                     tiLength.setBoxStrokeColor(errorColor);
@@ -549,9 +549,9 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                 BigDecimal net = BigDecimal.valueOf(totalNet).setScale(3, RoundingMode.HALF_UP);
                 double netToSave = Math.round(net.doubleValue() * 1000.0) / 1000.0;
 
-                long currentTime = CommonUtils.getCurrentLocalDateTimeStamp();
-                String tempReceptionDataId = "RECDATA_" + currentTime;
-                String tempDispatchDataId = "DISPDATA_" + currentTime;
+                long currentTimeStamp = CommonUtils.getCurrentLocalDateTimeStamp();
+                String tempReceptionDataId = "RECDATA_" + currentTimeStamp;
+                String tempDispatchDataId = "DISPDATA_" + currentTimeStamp;
 
                 ReceptionData receptionData = new ReceptionData();
                 receptionData.setTempReceptionDataId(tempReceptionDataId);
@@ -646,9 +646,9 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                 double netToSave = Math.round(net.doubleValue() * 1000.0) / 1000.0;
                 double grossToSave = Math.round(gross.doubleValue() * 1000.0) / 1000.0;
 
-                long currentTime = CommonUtils.getCurrentLocalDateTimeStamp();
-                String tempReceptionDataId = "RECDATA_" + currentTime;
-                String tempDispatchDataId = "DISPDATA_" + currentTime;
+                long currentTimeStamp = CommonUtils.getCurrentLocalDateTimeStamp();
+                String tempReceptionDataId = "RECDATA_" + currentTimeStamp;
+                String tempDispatchDataId = "DISPDATA_" + currentTimeStamp;
 
                 ReceptionData receptionData = new ReceptionData();
                 receptionData.setTempReceptionDataId(tempReceptionDataId);
@@ -740,13 +740,14 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             AppCompatTextView tvWoodType = dialog.findViewById(R.id.tvWoodType);
             AppCompatTextView tvMeasurement = dialog.findViewById(R.id.tvMeasurement);
             AppCompatTextView tvPieces = dialog.findViewById(R.id.tvPieces);
-            AppCompatTextView tvGrossTitle = dialog.findViewById(R.id.tvGrossTitle);
+            AppCompatTextView tvVolumePie = dialog.findViewById(R.id.tvVolumePie);
             AppCompatTextView tvGrossVolume = dialog.findViewById(R.id.tvGrossVolume);
             AppCompatTextView tvNetVolume = dialog.findViewById(R.id.tvNetVolume);
             AppCompatTextView tvContractCode = dialog.findViewById(R.id.tvContractCode);
             AppCompatTextView tvContractDesc = dialog.findViewById(R.id.tvContractDesc);
             LinearLayout llFarmContractDetails = dialog.findViewById(R.id.llFarmContractDetails);
             LinearLayout llContractDesc = dialog.findViewById(R.id.llContractDesc);
+            LinearLayout llVolumePie = dialog.findViewById(R.id.llVolumePie);
 
             tvIca.setText(receptionView.ica);
             tvSupplier.setText(receptionView.supplierName);
@@ -756,13 +757,13 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             tvPieces.setText(String.valueOf(receptionView.totalPieces));
 
             if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
-                tvGrossTitle.setText(getString(R.string.volume_pie));
-                tvGrossVolume.setText(CommonUtils.formatNumber2(receptionView.totalVolumePie));
+                llVolumePie.setVisibility(View.VISIBLE);
+                tvVolumePie.setText(CommonUtils.formatNumber2(receptionView.totalVolumePie));
             } else {
-                tvGrossTitle.setText(getString(R.string.gross_volume));
-                tvGrossVolume.setText(CommonUtils.formatNumber3(receptionView.totalGrossVolume));
+                llVolumePie.setVisibility(View.GONE);
             }
 
+            tvGrossVolume.setText(CommonUtils.formatNumber3(receptionView.totalGrossVolume));
             tvNetVolume.setText(CommonUtils.formatNumber3(receptionView.totalNetVolume));
 
             if (receptionView.isFarmEnabled) {
@@ -811,7 +812,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                     result -> {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             hideKeyboard(this);
-                            Toast.makeText(getApplicationContext(), getString(R.string.data_added_successfully), Toast.LENGTH_SHORT).show();
+                            AppLogger.i(getClass(), "Reception Data");
                         }
                     }
             );
@@ -821,7 +822,8 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            Toast.makeText(getApplicationContext(), getString(R.string.data_updated_successfully), Toast.LENGTH_SHORT).show();
+                            hideKeyboard(this);
+                            AppLogger.i(getClass(), "Dispatch Data");
                         }
                     }
             );

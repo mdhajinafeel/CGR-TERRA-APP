@@ -188,15 +188,16 @@ public class ReceptionActivity extends BaseActivity {
 
             if (isEdit) {
 
-                if (receptionView.isClosed) {
-                    btnOpenReception.setVisibility(View.VISIBLE);
-                    btnCloseReception.setVisibility(View.GONE);
-                } else {
-                    btnCloseReception.setVisibility(View.VISIBLE);
-                    btnOpenReception.setVisibility(View.GONE);
-                }
-
                 if (receptionView.totalPieces > 0) {
+
+                    if (receptionView.isClosed) {
+                        btnOpenReception.setVisibility(View.VISIBLE);
+                        btnCloseReception.setVisibility(View.GONE);
+                    } else {
+                        btnCloseReception.setVisibility(View.VISIBLE);
+                        btnOpenReception.setVisibility(View.GONE);
+                    }
+
                     int colorLightGrey = ContextCompat.getColor(this, R.color.colorLightGrey);
 
                     tiSupplier.setEnabled(false);
@@ -951,6 +952,10 @@ public class ReceptionActivity extends BaseActivity {
                         CommonUtils.getTagInt(etSupplier.getTag()),
                         existingReceptionDetail.getTempReceptionId()
                 );
+
+                if(icaCount <= 0) {
+                    icaCount = receptionViewModel.getReceptionInventoryOrdersCount(etIca.getText().toString(), CommonUtils.getTagInt(etSupplier.getTag()));
+                }
             } else {
                 icaCount = receptionViewModel.getReceptionInventoryOrdersCount(etIca.getText().toString(), CommonUtils.getTagInt(etSupplier.getTag()));
             }
@@ -961,10 +966,22 @@ public class ReceptionActivity extends BaseActivity {
                 return;
             }
 
+            int farmIcaCount = 0;
+            if(cbEnableFarm.isChecked()) {
+                farmIcaCount = receptionViewModel.getFarmInventoryOrdersCount(etIca.getText().toString(), CommonUtils.getTagInt(etSupplier.getTag()));
+            }
+
+            if (farmIcaCount > 0) {
+                Toast.makeText(getApplicationContext(), R.string.farm_ica_exists, Toast.LENGTH_SHORT).show();
+                enableSubmit();
+                return;
+            }
+
             // ================= CREATE / UPDATE OBJECT =================
             ReceptionDetails receptionDetail;
             String oldIca = null;
             int oldSupplierId = 0;
+            long currentTimeStamp = CommonUtils.getCurrentLocalDateTimeStamp();
 
             if (isReceptionEdit && existingReceptionDetail != null) {
                 oldIca = existingReceptionDetail.getIca();
@@ -992,7 +1009,7 @@ public class ReceptionActivity extends BaseActivity {
             if (isReceptionEdit && existingReceptionDetail != null) {
                 mappingId = existingReceptionDetail.getContainerReceptionMappingId();
             } else {
-                mappingId = "MAP_" + CommonUtils.getCurrentLocalDateTimeStamp();
+                mappingId = "CRM_" + currentTimeStamp;
             }
 
             receptionDetail.setContainerReceptionMappingId(mappingId);
@@ -1014,7 +1031,7 @@ public class ReceptionActivity extends BaseActivity {
                 receptionDetail.setReceptionId(existingReceptionDetail.getReceptionId());
                 receptionDetail.setEdited(true);
             } else {
-                receptionDetail.setTempReceptionId("REC_" + CommonUtils.getCurrentLocalDateTimeStamp());
+                receptionDetail.setTempReceptionId("REC_" + currentTimeStamp);
                 receptionDetail.setReceptionId(null);
                 receptionDetail.setEdited(false);
                 receptionDetail.setCreatedAt(System.currentTimeMillis());
@@ -1039,6 +1056,7 @@ public class ReceptionActivity extends BaseActivity {
                     if (aBoolean) {
                         Intent resultIntent = new Intent();
                         resultIntent.putExtra("savedReceptionId", receptionViewModel.getReceptionSavedId());
+                        resultIntent.putExtra("isEdit", isReceptionEdit);
                         setResult(RESULT_OK, resultIntent);
                         finish();
                     } else {
@@ -1104,7 +1122,7 @@ public class ReceptionActivity extends BaseActivity {
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         } catch (Exception e) {
-            AppLogger.e(getClass(), "performLogout", e);
+            AppLogger.e(getClass(), "closeConfirmation", e);
         }
     }
 }

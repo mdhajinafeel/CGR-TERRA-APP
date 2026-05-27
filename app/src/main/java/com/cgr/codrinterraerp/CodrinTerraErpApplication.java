@@ -42,7 +42,7 @@ public class CodrinTerraErpApplication extends Application {
         scheduleLogCleanup(this);
 
         // Transaction Cleanup
-        scheduleReceptionCleanup(this);
+        scheduleTransactionDataCleanup(this);
 
         // Sync Reminder
         startSyncReminderWorker();
@@ -148,7 +148,7 @@ public class CodrinTerraErpApplication extends Application {
         PeriodicWorkRequest work =
                 new PeriodicWorkRequest.Builder(LogCleanupWorker.class, 12, TimeUnit.HOURS)
                         .setConstraints(constraints)
-                        .setInitialDelay(1, TimeUnit.HOURS) // 🔥 add this
+                        .setInitialDelay(1, TimeUnit.HOURS)
                         .build();
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
@@ -158,7 +158,7 @@ public class CodrinTerraErpApplication extends Application {
         );
     }
 
-    private void scheduleReceptionCleanup(Context context) {
+    private void scheduleTransactionDataCleanup(Context context) {
 
         Constraints constraints = new Constraints.Builder()
                 .setRequiresBatteryNotLow(true)

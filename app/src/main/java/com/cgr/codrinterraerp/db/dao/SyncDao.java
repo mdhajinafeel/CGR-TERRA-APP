@@ -99,15 +99,36 @@ public interface SyncDao {
     // ====================
     // UNSYNCED COUNT
     // ====================
-    @Query("SELECT COUNT(*) FROM reception_details WHERE isSynced = 0")
+    @Query("SELECT COUNT(*)  FROM reception_details  WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(receptionId, 0) = 0)")
     int getUnsyncedReceptionDetailsCount();
 
-    @Query("SELECT COUNT(*) FROM reception_data WHERE isSynced = 0")
+    @Query("SELECT COUNT(*) FROM reception_data WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(receptionDataId, 0) = 0)")
     int getUnsyncedReceptionDataCount();
 
-    @Query("SELECT COUNT(*) FROM dispatch_details WHERE isSynced = 0")
+    @Query("SELECT COUNT(*) FROM dispatch_details WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(dispatchId, 0) = 0)")
     int getUnsyncedDispatchDetailsCount();
 
-    @Query("SELECT COUNT(*) FROM container_data WHERE isSynced = 0")
+    @Query("SELECT COUNT(*) FROM container_data WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(dispatchDataId, 0) = 0)")
     int getUnsyncedContainerDataCount();
+
+    @Query("SELECT COUNT(*) FROM container_images WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(serverImageUrl, '') = '')")
+    int getUnsyncedContainerImagesCount();
+
+    // ====================
+    // DELETE LOCAL COUNT
+    // ====================
+    @Query("DELETE FROM reception_details WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(receptionId, 0) = 0")
+    void deleteLocalDeletedReceptionDetails();
+
+    @Query("DELETE FROM reception_data WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(receptionDataId, 0) = 0")
+    void deleteLocalDeletedReceptionData();
+
+    @Query("DELETE FROM dispatch_details WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(dispatchId, 0) = 0")
+    void deleteLocalDeletedDispatchDetails();
+
+    @Query("DELETE FROM container_data WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(dispatchDataId, 0) = 0")
+    void deleteLocalDeletedContainerData();
+
+    @Query("DELETE FROM container_images WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(serverImageUrl, '') = ''")
+    void deleteLocalDeletedImages();
 }

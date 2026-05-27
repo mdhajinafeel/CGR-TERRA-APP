@@ -56,6 +56,7 @@ public class SyncRepository {
     private final ReceptionSummaryDao receptionSummaryDao;
     private final DispatchSummaryDao dispatchSummaryDao;
     private final PushNotificationsDao pushNotificationsDao;
+    private final CGRTerraERPDatabase database;
 
     public SyncRepository(Context context) {
         CGRTerraERPDatabase db = CGRTerraERPDatabase.getInstance(context);
@@ -69,11 +70,13 @@ public class SyncRepository {
         this.dispatchSummaryDao = db.dispatchSummaryDao();
         this.pushNotificationsDao = db.pushNotificationsDao();
         this.iSyncApiService = null;
+        this.database = db;
     }
 
     public SyncRepository(SyncDao syncDao, ReceptionDetailsDao receptionDetailsDao, DispatchDetailsDao dispatchDetailsDao, FarmDetailsDao farmDetailsDao,
                           ReceptionDataDao receptionDataDao,  ContainerDataDao containerDataDao, ReceptionSummaryDao receptionSummaryDao,
-                          DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService) {
+                          DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService,
+                          CGRTerraERPDatabase database) {
         this.syncDao = syncDao;
         this.receptionDetailsDao = receptionDetailsDao;
         this.dispatchDetailsDao = dispatchDetailsDao;
@@ -84,6 +87,7 @@ public class SyncRepository {
         this.dispatchSummaryDao = dispatchSummaryDao;
         this.pushNotificationsDao = pushNotificationsDao;
         this.iSyncApiService = iSyncApiService;
+        this.database = database;
     }
 
     public List<ContainerImages> getUnsyncedImages() {
@@ -233,8 +237,9 @@ public class SyncRepository {
         int dispatchDetailsCount = syncDao.getUnsyncedDispatchDetailsCount();
         int receptionDataCount = syncDao.getUnsyncedReceptionDataCount();
         int containerDataCount = syncDao.getUnsyncedContainerDataCount();
+        int containerImagesCount = syncDao.getUnsyncedContainerImagesCount();
 
-        int totalUnsyncedData = receptionDetailsCount + dispatchDetailsCount + receptionDataCount + containerDataCount;
+        long totalUnsyncedData = (long) receptionDetailsCount + dispatchDetailsCount + receptionDataCount + containerDataCount + containerImagesCount;
 
         return totalUnsyncedData > 0;
     }
@@ -277,5 +282,25 @@ public class SyncRepository {
 
     public LiveData<Integer> getUnreadCount() {
         return pushNotificationsDao.getUnreadCount();
+    }
+
+    public void clearLocalDeletedData() {
+
+        if (database == null) {
+            syncDao.deleteLocalDeletedImages();
+            syncDao.deleteLocalDeletedContainerData();
+            syncDao.deleteLocalDeletedReceptionData();
+            syncDao.deleteLocalDeletedDispatchDetails();
+            syncDao.deleteLocalDeletedReceptionDetails();
+            return;
+        }
+
+        database.runInTransaction(() -> {
+            syncDao.deleteLocalDeletedImages();
+            syncDao.deleteLocalDeletedContainerData();
+            syncDao.deleteLocalDeletedReceptionData();
+            syncDao.deleteLocalDeletedDispatchDetails();
+            syncDao.deleteLocalDeletedReceptionDetails();
+        });
     }
 }

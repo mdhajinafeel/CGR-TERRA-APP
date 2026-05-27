@@ -15,6 +15,7 @@ import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
+import com.cgr.codrinterraerp.db.dao.FarmTransactionDao;
 import com.cgr.codrinterraerp.db.dao.FarmViewDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
@@ -234,6 +235,12 @@ public class DBModule {
     @Singleton
     public ReceptionTransactionDao provideReceptionTransactionDao(CGRTerraERPDatabase db) {
         return db.receptionTransactionDao();
+    }
+
+    @Provides
+    @Singleton
+    public FarmTransactionDao provideFarmTransactionDao(CGRTerraERPDatabase db) {
+        return db.farmTransactionDao();
     }
 
     @Provides

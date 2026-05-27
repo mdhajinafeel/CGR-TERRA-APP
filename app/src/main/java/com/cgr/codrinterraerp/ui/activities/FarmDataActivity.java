@@ -16,14 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cgr.codrinterraerp.R;
-import com.cgr.codrinterraerp.db.views.ReceptionView;
-import com.cgr.codrinterraerp.model.ReceptionWithContainer;
+import com.cgr.codrinterraerp.db.views.FarmView;
+import com.cgr.codrinterraerp.model.FarmCapturedData;
 import com.cgr.codrinterraerp.ui.adapters.RecyclerViewAdapter;
 import com.cgr.codrinterraerp.ui.adapters.ViewHolder;
 import com.cgr.codrinterraerp.ui.common.BaseActivity;
 import com.cgr.codrinterraerp.utils.AppLogger;
 import com.cgr.codrinterraerp.utils.CommonUtils;
-import com.cgr.codrinterraerp.viewmodel.ReceptionDataViewModel;
+import com.cgr.codrinterraerp.viewmodel.FarmDataViewModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
@@ -34,21 +34,21 @@ import java.util.Objects;
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class ReceptionDataActivity extends BaseActivity {
+public class FarmDataActivity extends BaseActivity {
 
     private AppCompatTextView tvIca, tvSupplier, tvPieces, tvGrossVolume, tvNetVolume, tvVolumePie;
-    private MaterialCardView cardReception;
-    private RecyclerView rvReceptionData;
-    private ReceptionDataViewModel receptionDataViewModel;
-    private RecyclerViewAdapter<ReceptionWithContainer> receptionWithContainerRecyclerViewAdapter;
+    private MaterialCardView cardFarm;
+    private RecyclerView rvFarmData;
+    private FarmDataViewModel farmDataViewModel;
+    private RecyclerViewAdapter<FarmCapturedData> farmCapturedDataRecyclerViewAdapter;
     private LinearLayout llDataSquareLogs, llDataRoundLogs, llVolumePie, llNoData;
-    private final List<ReceptionWithContainer> receptionWithContainerList = new ArrayList<>();
-    private ReceptionView receptionView;
+    private final List<FarmCapturedData> farmCapturedDataList = new ArrayList<>();
+    private FarmView farmView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reception_data);
+        setContentView(R.layout.activity_farm_data);
         statusBarSetting();
         hideKeyboard(this);
         initComponents();
@@ -66,8 +66,8 @@ public class ReceptionDataActivity extends BaseActivity {
             tvNetVolume = findViewById(R.id.tvNetVolume);
             tvVolumePie = findViewById(R.id.tvVolumePie);
             llNoData = findViewById(R.id.llNoData);
-            cardReception = findViewById(R.id.cardReception);
-            rvReceptionData = findViewById(R.id.rvReceptionData);
+            cardFarm = findViewById(R.id.cardFarm);
+            rvFarmData = findViewById(R.id.rvFarmData);
             llDataSquareLogs = findViewById(R.id.llDataSquareLogs);
             llDataRoundLogs = findViewById(R.id.llDataRoundLogs);
             llVolumePie = findViewById(R.id.llVolumePie);
@@ -75,16 +75,16 @@ public class ReceptionDataActivity extends BaseActivity {
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
 
-                receptionView = (ReceptionView) bundle.getSerializable("receptionDetails");
+                farmView = (FarmView) bundle.getSerializable("farmDetails");
 
-                if (receptionView != null) {
+                if (farmView != null) {
                     txtTitle.setText(getString(R.string.reception_data));
                     imgBack.setOnClickListener(v -> finish());
 
                     txtSubTitle.setVisibility(View.VISIBLE);
-                    txtSubTitle.setText(getString(R.string.reception_subtitle, receptionView.ica, receptionView.supplierName));
+                    txtSubTitle.setText(getString(R.string.reception_subtitle, farmView.ica, farmView.supplierName));
 
-                    receptionDataViewModel = new ViewModelProvider(this).get(ReceptionDataViewModel.class);
+                    farmDataViewModel = new ViewModelProvider(this).get(FarmDataViewModel.class);
 
                     setupRecyclerView();
                     observeHeader();
@@ -103,16 +103,16 @@ public class ReceptionDataActivity extends BaseActivity {
     }
 
     private void observeHeader() {
-        tvIca.setText(receptionView.ica);
-        tvSupplier.setText(receptionView.supplierName);
-        receptionDataViewModel.getReceptionSummary(receptionView.tempReceptionId).observe(this, summary -> {
+        tvIca.setText(farmView.ica);
+        tvSupplier.setText(farmView.supplierName);
+        farmDataViewModel.getFarmSummary(farmView.tempFarmId).observe(this, summary -> {
 
             if (summary != null) {
                 tvPieces.setText(String.valueOf(summary.totalPieces));
                 tvNetVolume.setText(CommonUtils.formatNumber3(CommonUtils.round(summary.totalNetVolume, 3)));
                 tvGrossVolume.setText(CommonUtils.formatNumber3(CommonUtils.round(summary.totalGrossVolume, 3)));
 
-                if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
+                if(farmView.productTypeId == 1 || farmView.productTypeId == 3) {
                     llDataRoundLogs.setVisibility(View.GONE);
                     llDataSquareLogs.setVisibility(View.VISIBLE);
                     llVolumePie.setVisibility(View.VISIBLE);
@@ -129,20 +129,20 @@ public class ReceptionDataActivity extends BaseActivity {
 
     private void setupRecyclerView() {
 
-        int layoutId = R.layout.row_item_reception_data;
-        if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
-            layoutId = R.layout.row_item_reception_data_square;
+        int layoutId = R.layout.row_item_farm_data;
+        if(farmView.productTypeId == 1 || farmView.productTypeId == 3) {
+            layoutId = R.layout.row_item_farm_data_square;
         }
 
-        receptionWithContainerRecyclerViewAdapter = new RecyclerViewAdapter<>(getApplicationContext(), receptionWithContainerList, layoutId) {
+        farmCapturedDataRecyclerViewAdapter = new RecyclerViewAdapter<>(getApplicationContext(), farmCapturedDataList, layoutId) {
 
             @Override
-            public void onPostBindViewHolder(ViewHolder holder, ReceptionWithContainer item) {
+            public void onPostBindViewHolder(ViewHolder holder, FarmCapturedData item) {
 
-                if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
+                if(farmView.productTypeId == 1 || farmView.productTypeId == 3) {
                     holder.setViewText(R.id.tvThickness, CommonUtils.formatNumber(item.getThickness()));
                     holder.setViewText(R.id.tvWidth, CommonUtils.formatNumber(item.getWidth()));
-                    holder.setViewText(R.id.tvVolumePie, CommonUtils.formatNumber(item.getVolumePie()));
+                    holder.setViewText(R.id.tvVolumePie, CommonUtils.formatNumber2(item.getVolumePie()));
                 } else {
                     holder.setViewText(R.id.tvGirth, CommonUtils.formatNumber(item.getCircumference()));
                     holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(item.getGrossVolume()));
@@ -150,34 +150,33 @@ public class ReceptionDataActivity extends BaseActivity {
 
                 holder.setViewText(R.id.tvLength, CommonUtils.formatNumber(item.getLength()));
                 holder.setViewText(R.id.tvPieces, String.valueOf(item.getPieces()));
-                holder.setViewText(R.id.tvContainerNumber, item.getContainerNumber());
                 holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(item.getNetVolume()));
 
-                holder.getView(R.id.ivDelete).setOnClickListener(v -> deleteReceptionData(item.getTempReceptionDataId(), item.getTempReceptionId()));
+                holder.getView(R.id.ivDelete).setOnClickListener(v -> deleteFarmData(item.getTempFarmDataId(), item.getTempFarmId()));
             }
         };
 
-        rvReceptionData.setLayoutManager(new LinearLayoutManager(this));
-        rvReceptionData.setAdapter(receptionWithContainerRecyclerViewAdapter);
+        rvFarmData.setLayoutManager(new LinearLayoutManager(this));
+        rvFarmData.setAdapter(farmCapturedDataRecyclerViewAdapter);
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void observeData() {
-        receptionDataViewModel.fetchReceptionData(receptionView.tempReceptionId).observe(this, list -> {
-            receptionWithContainerList.clear();
+        farmDataViewModel.fetchFarmData(farmView.tempFarmId).observe(this, list -> {
+            farmCapturedDataList.clear();
             if (list != null && !list.isEmpty()) {
-                receptionWithContainerList.addAll(list);
+                farmCapturedDataList.addAll(list);
                 llNoData.setVisibility(View.GONE);
-                cardReception.setVisibility(View.VISIBLE);
+                cardFarm.setVisibility(View.VISIBLE);
             } else {
                 llNoData.setVisibility(View.VISIBLE);
-                cardReception.setVisibility(View.GONE);
+                cardFarm.setVisibility(View.GONE);
             }
-            receptionWithContainerRecyclerViewAdapter.notifyDataSetChanged();
+            farmCapturedDataRecyclerViewAdapter.notifyDataSetChanged();
         });
     }
 
-    private void deleteReceptionData(String tempReceptionDataId, String tempReceptionId) {
+    private void deleteFarmData(String tempFarmDataId, String tempFarmId) {
         try {
             LayoutInflater dialogInflater = LayoutInflater.from(this);
             View dialogView = dialogInflater.inflate(R.layout.custom_dialog_delete, null);
@@ -199,7 +198,7 @@ public class ReceptionDataActivity extends BaseActivity {
             btnCancel.setOnClickListener(v -> dialog.dismiss());
 
             btnDelete.setOnClickListener(v -> {
-                receptionDataViewModel.deleteReceptionData(tempReceptionDataId, tempReceptionId, result ->
+                farmDataViewModel.deleteFarmData(tempFarmDataId, tempFarmId, result ->
                         runOnUiThread(() -> {
                             if (result > 0) {
                                 Toast.makeText(this, getString(R.string.data_deleted), Toast.LENGTH_SHORT).show();

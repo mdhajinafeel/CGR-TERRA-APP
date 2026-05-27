@@ -3,6 +3,7 @@ package com.cgr.codrinterraerp.ui.fragments;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,9 +14,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
@@ -119,19 +124,22 @@ public class DispatchFragment extends Fragment {
             @Override
             public void onPostBindViewHolder(ViewHolder holder, DispatchView dispatchView) {
                 if (dispatchView != null) {
+
+                    AppCompatImageButton btnInfoDispatch = (AppCompatImageButton) holder.getView(R.id.btnInfoDispatch);
+                    AppCompatImageButton btnEditDispatch = (AppCompatImageButton) holder.getView(R.id.btnEditDispatch);
+
                     holder.setViewText(R.id.tvContainerNumber, dispatchView.containerNumber);
-                    holder.setViewText(R.id.tvContainerCategory, dispatchView.category);
+                    holder.setViewText(R.id.tvContainerCategory, dispatchView.category.toUpperCase());
                     holder.setViewText(R.id.tvShippingLine, dispatchView.shippingLine);
                     holder.setViewText(R.id.tvPieces, String.valueOf(dispatchView.totalPieces));
 
                     if (dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
                         holder.setViewImageDrawable(R.id.ivTypeIcon, ContextCompat.getDrawable(requireContext(), R.drawable.ic_square_logs));
-                        holder.setViewText(R.id.tvGrossTitle, getString(R.string.volume_pie));
-                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber2(dispatchView.totalVolumePie));
+
+                        holder.setViewText(R.id.tvAvgGirthTitle, getString(R.string.volume_pie));
+                        holder.setViewText(R.id.tvAvgGirth, CommonUtils.formatNumber2(dispatchView.totalVolumePie));
                     } else {
                         holder.setViewImageDrawable(R.id.ivTypeIcon, ContextCompat.getDrawable(requireContext(), R.drawable.ic_round_logs));
-                        holder.setViewText(R.id.tvGrossTitle, getString(R.string.gross_volume));
-                        holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
 
                         if (dispatchView.categoryId == 1) {
                             holder.setViewText(R.id.tvAvgGirthTitle, getString(R.string.cft));
@@ -142,19 +150,12 @@ public class DispatchFragment extends Fragment {
                         }
                     }
 
+                    holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
                     holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(dispatchView.totalNetVolume));
                     holder.setViewText(R.id.tvDate, dispatchView.dispatchDate);
 
                     holder.getView(R.id.btnEditDispatch).setTag(dispatchView);
                     holder.getView(R.id.btnDeleteDispatch).setTag(dispatchView);
-
-                    holder.getView(R.id.btnEditDispatch).setOnClickListener(v -> {
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(requireContext(), R.anim.fade_fast_in, R.anim.fade_fast_out);
-                        Intent intent = new Intent(requireActivity(), DispatchActivity.class);
-                        intent.putExtra("isEdit", true);
-                        intent.putExtra("dispatchDetails", dispatchView);
-                        dispatchResultLauncher.launch(intent, options);
-                    });
 
                     holder.getView(R.id.btnDeleteDispatch).setOnClickListener(v -> deleteDispatch(dispatchView));
 
@@ -169,6 +170,24 @@ public class DispatchFragment extends Fragment {
                         selectedTempDispatchId = dispatchView.tempDispatchId;
                         showContainerImages();
                     });
+
+                    if (dispatchView.isClosed) {
+                        btnInfoDispatch.setVisibility(View.VISIBLE);
+                        btnEditDispatch.setVisibility(View.GONE);
+
+                        btnInfoDispatch.setOnClickListener(v -> showDispatchDetails(dispatchView));
+                    } else {
+                        btnEditDispatch.setVisibility(View.VISIBLE);
+                        btnInfoDispatch.setVisibility(View.GONE);
+
+                        holder.getView(R.id.btnEditDispatch).setOnClickListener(v -> {
+                            ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(requireContext(), R.anim.fade_fast_in, R.anim.fade_fast_out);
+                            Intent intent = new Intent(requireActivity(), DispatchActivity.class);
+                            intent.putExtra("isEdit", true);
+                            intent.putExtra("dispatchDetails", dispatchView);
+                            dispatchResultLauncher.launch(intent, options);
+                        });
+                    }
                 }
             }
         };
@@ -203,8 +222,13 @@ public class DispatchFragment extends Fragment {
                                 int savedDispatchId = (int) data.getLongExtra("savedDispatchId", 0);
                                 boolean isClosed = data.getBooleanExtra("isClosed", false);
                                 boolean isOpened = data.getBooleanExtra("isOpened", false);
+                                boolean isDispatchEdit = data.getBooleanExtra("isEdit", false);
                                 if (savedDispatchId > 0) {
-                                    Toast.makeText(requireContext(), getString(R.string.dispatch_added_successfully), Toast.LENGTH_SHORT).show();
+                                    if(isDispatchEdit) {
+                                        Toast.makeText(requireContext(), getString(R.string.dispatch_updated_successfully), Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(requireContext(), getString(R.string.dispatch_added_successfully), Toast.LENGTH_SHORT).show();
+                                    }
                                 } else if(isClosed) {
                                     Toast.makeText(requireContext(), getString(R.string.dispatch_closed_successfully), Toast.LENGTH_SHORT).show();
                                 } else if(isOpened) {
@@ -220,7 +244,7 @@ public class DispatchFragment extends Fragment {
                     new ActivityResultContracts.StartActivityForResult(),
                     result -> {
                         if (result.getResultCode() == Activity.RESULT_OK) {
-                            Toast.makeText(requireContext(), getString(R.string.data_updated_successfully), Toast.LENGTH_SHORT).show();
+                            AppLogger.i(getClass(), "Dispatch Data");
                         }
                     }
             );
@@ -747,6 +771,119 @@ public class DispatchFragment extends Fragment {
             });
         }catch (Exception e) {
             AppLogger.e(getClass(), "bindFilterOptions", e);
+        }
+    }
+
+    private void showDispatchDetails(DispatchView dispatchView) {
+        try {
+            Dialog dialog = new Dialog(requireContext(), R.style.DialogTheme);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+            dialog.getWindow().setDimAmount(0.6f);
+            dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(dialog.getWindow().getAttributes());
+            layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+            layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.8);
+            layoutParams.gravity = Gravity.CENTER;
+            dialog.getWindow().setAttributes(layoutParams);
+            dialog.setContentView(R.layout.dialog_dispatch_details);
+
+            AppCompatTextView dialogTitle = dialog.findViewById(R.id.tvDialogTitle);
+            AppCompatImageView closeDialog = dialog.findViewById(R.id.imgClose);
+            closeDialog.setOnClickListener(v -> dialog.dismiss());
+            dialogTitle.setText(getString(R.string.dispatch_detail));
+
+            AppCompatTextView tvContainer = dialog.findViewById(R.id.tvContainer);
+            AppCompatTextView tvWood = dialog.findViewById(R.id.tvWood);
+            AppCompatTextView tvWoodType = dialog.findViewById(R.id.tvWoodType);
+            AppCompatTextView tvCategory = dialog.findViewById(R.id.tvCategory);
+            AppCompatTextView tvPieces = dialog.findViewById(R.id.tvPieces);
+            AppCompatTextView tvVolumePie = dialog.findViewById(R.id.tvVolumePie);
+            AppCompatTextView tvGrossVolume = dialog.findViewById(R.id.tvGrossVolume);
+            AppCompatTextView tvNetVolume = dialog.findViewById(R.id.tvNetVolume);
+            AppCompatTextView tvClosedDate = dialog.findViewById(R.id.tvClosedDate);
+            LinearLayout llClosedDate = dialog.findViewById(R.id.llClosedDate);
+            LinearLayout llVolumePie = dialog.findViewById(R.id.llVolumePie);
+            MaterialButton btnOpenDispatch = dialog.findViewById(R.id.btnOpenDispatch);
+
+            tvContainer.setText(dispatchView.containerNumber);
+            tvWood.setText(dispatchView.productName);
+            tvWoodType.setText(dispatchView.productTypeName);
+            tvCategory.setText(dispatchView.category);
+            tvPieces.setText(String.valueOf(dispatchView.totalPieces));
+
+            if (dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
+                llVolumePie.setVisibility(View.VISIBLE);
+
+                tvVolumePie.setText(CommonUtils.formatNumber2(dispatchView.totalVolumePie));
+            } else {
+                llVolumePie.setVisibility(View.GONE);
+            }
+
+            tvGrossVolume.setText(CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
+            tvNetVolume.setText(CommonUtils.formatNumber3(dispatchView.totalNetVolume));
+
+            if (dispatchView.isClosed) {
+                llClosedDate.setVisibility(View.VISIBLE);
+                btnOpenDispatch.setVisibility(View.VISIBLE);
+                tvClosedDate.setText(CommonUtils.convertTimeStampToDate(dispatchView.closedDate, "dd/MM/yyyy", requireContext()));
+
+                btnOpenDispatch.setOnClickListener(view -> openConfirmation(dispatchView, dialog));
+            } else {
+                llClosedDate.setVisibility(View.GONE);
+                btnOpenDispatch.setVisibility(View.GONE);
+            }
+
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
+        } catch (Exception e) {
+            AppLogger.e(getClass(), "showDispatchDetails", e);
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void openConfirmation(DispatchView dispatchView, Dialog dispatchDialog) {
+        try {
+            LayoutInflater dialogInflater = LayoutInflater.from(requireContext());
+            View dialogView = dialogInflater.inflate(R.layout.custom_dialog, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setView(dialogView);
+
+            AlertDialog dialog = builder.create();
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+            AppCompatTextView dialogHeader = dialogView.findViewById(R.id.dialogHeader);
+            AppCompatTextView dialogBody = dialogView.findViewById(R.id.dialogBody);
+            MaterialButton btnCancel = dialogView.findViewById(R.id.btnCancel);
+            MaterialButton btnOk = dialogView.findViewById(R.id.btnOk);
+
+            dialogHeader.setText(getString(R.string.confirmation));
+
+            dialogBody.setText(R.string.open_confirmation);
+
+            btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+            btnOk.setOnClickListener(v -> {
+                boolean opened = dispatchViewModel.closeDispatchDetails(dispatchView.tempDispatchId, 0, 0, false);
+
+                if (opened) {
+                    dispatchViewRecyclerViewAdapter.notifyDataSetChanged();
+                    Toast.makeText(requireContext(), getString(R.string.dispatch_opened_successfully), Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+                dispatchDialog.dismiss();
+            });
+
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception e) {
+            AppLogger.e(getClass(), "openConfirmation", e);
         }
     }
 

@@ -45,12 +45,13 @@ public class FarmViewModel extends ViewModel {
             int deleteSupplierId = farmDetails.isEdited() ? oldSupplierId : farmDetails.getSupplierId();
 
             // ================= DELETE OLD INVENTORY =================
-            farmRepository.deleteFarmInventoryOrder(deleteIca, deleteSupplierId);
+            farmRepository.deleteFarmInventoryOrder(deleteIca, deleteSupplierId, false);
 
             // ================= INSERT NEW FARM INVENTORY =================
             FarmInventoryOrders farmInventoryOrders = new FarmInventoryOrders();
             farmInventoryOrders.setInventoryOrder(farmDetails.getIca()); // NEW ICA
             farmInventoryOrders.setSupplierId(farmDetails.getSupplierId()); // NEW supplier
+            farmInventoryOrders.setFromReception(false);
 
             farmRepository.insertFarmInventoryOrder(farmInventoryOrders);
 
@@ -84,19 +85,17 @@ public class FarmViewModel extends ViewModel {
         return farmRepository.fetchFarmDetailById(tempFarmId);
     }
 
-//    public int deleteFarmDetails(String tempFarmId, long updatedAt) {
-//        progressState.postValue(true);
-//
-//        List<String> getAllDispatchIds = receptionRepository.getAllDispatchIds(tempReceptionId);
-//        int receptionDelete = receptionRepository.deleteFullReception(tempReceptionId, updatedAt);
-//        if(receptionDelete > 0) {
-//            receptionRepository.updateSummary(tempReceptionId);
-//            receptionRepository.updateDispatchSummary(getAllDispatchIds);
-//        }
-//
-//        progressState.postValue(false);
-//        return receptionDelete;
-//    }
+    public int deleteFarmDetails(String tempFarmId, long updatedAt) {
+        progressState.postValue(true);
+
+        int receptionDelete = farmRepository.deleteFullFarm(tempFarmId, updatedAt);
+        if(receptionDelete > 0) {
+            farmRepository.updateSummary(tempFarmId);
+        }
+
+        progressState.postValue(false);
+        return receptionDelete;
+    }
 
     public boolean closeFarmDetails(String tempFarmId, long closedDate, int closedBy, boolean isClose) {
         return farmRepository.closeFarmDetails(tempFarmId, closedDate, closedBy, isClose);
