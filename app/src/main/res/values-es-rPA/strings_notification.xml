@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="notifications">Notifications</string>
-    <string name="clear_notifications">Clear Notifications</string>
-    <string name="clear_notifications_confirmation">Are you sure you want to clear all notifications?</string>
-    <string name="clear_notification_confirmation">Are you sure you want to clear all notification?</string>
-    <string name="notifications_cleared">" notifications cleared"</string>
-    <string name="delete_notification">Delete Notification</string>
-    <string name="deleted_notification">Notification has been deleted successfully</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="clear_notifications">Limpiar notificaciones</string>
+    <string name="clear_notifications_confirmation">¿Estás seguro de que quieres limpiar todas las notificaciones?</string>
+    <string name="clear_notification_confirmation">¿Estás seguro de que quieres limpiar todas las notificacion?</string>
+    <string name="notifications_cleared">" notificaciones limpiar"</string>
+    <string name="delete_notification">Eliminar notificación</string>
+    <string name="deleted_notification">La notificación se ha eliminado correctamente.</string>
 
 </resources>

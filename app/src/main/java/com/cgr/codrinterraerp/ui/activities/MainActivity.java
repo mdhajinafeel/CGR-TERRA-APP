@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        statusBarSetting();
+        statusBarSetting(false);
         hideKeyboard(this);
         initComponents();
     }
@@ -525,7 +525,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
         btnOk.setOnClickListener(v -> {
             dialog.dismiss();
-            //masterViewModel.startFullSync();
+            syncViewModel.startFullSync();
         });
 
         dialog.setCancelable(false);

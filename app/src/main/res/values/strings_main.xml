@@ -3,14 +3,12 @@
 
     <string name="sync">Synchronization</string>
     <string name="data_backup">Data Backup</string>
-    <string name="logout">Logout</string>
     <string name="version">Version</string>
     <string name="_0_kb_s">0 KB/s</string>
     <string name="good_morning">Good Morning</string>
     <string name="good_afternoon">Good Afternoon</string>
     <string name="good_evening">Good Evening</string>
     <string name="good_night">Good Night</string>
-    <string name="logged_out_successfully">Logged Out Successfully</string>
     <string name="main_menu">Main Menu</string>
     <string name="finca">Farm</string>
     <string name="farm_management">Farm Management</string>
@@ -24,12 +22,6 @@
     <string name="footprints_sustainability">Eco Footprints</string>
     <string name="sawmill">Sawmill</string>
     <string name="processed_movement">Processed Movement</string>
-    <string name="logout_anyway">Logout Anyway</string>
-    <string name="database_exported_successfully">Backup generated successfully</string>
-    <string name="logout_confirmation">Are you sure you want to log out?</string>
     <string name="press_again_to_exit">Press again to exit</string>
-    <string name="sync_pending">Unsynced Data</string>
-    <string name="unsynced_data_warning">You have unsynced transactions. Logging out now may cause data loss.</string>
-    <string name="sync_now">Sync Now</string>
 
 </resources>

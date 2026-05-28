@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="sync_already_in_progress">Sync already in progress…</string>
-    <string name="sync_completed">Sync Completed</string>
-    <string name="sync_failed">Sync Failed</string>
-    <string name="failed_to_sync">Failed to sync</string>
-    <string name="container_photos_sync_failed">Container photos sync failed</string>
-    <string name="data_sync_failed">Data sync failed</string>
-    <string name="data_has_been_synced_successfully">Data has been synced successfully</string>
-    <string name="data_sync_failed_please_try_again">Data sync failed. Please try again.</string>
-    <string name="data_sync_successfully">Data synced successfully</string>
-    <string name="sync_reminder">Sync Reminder</string>
-    <string name="sync_overdue_please_sync_your_pending_data_immediately">Sync overdue. Please sync your pending data immediately.</string>
-    <string name="your_data_has_not_been_synced_for_several_hours">Your data has not been synced for several hours.</string>
-    <string name="you_have_pending_data_waiting_for_sync">You have pending data waiting for sync.</string>
-    <string name="sync_show">Sync</string>
-    <string name="reminder">Reminder</string>
+    <string name="sync_pending">Datos no sincronizados</string>
+    <string name="unsynced_data_warning">Tienes transacciones sin sincronizar. Cerrar sesión ahora podría provocar la pérdida de datos.</string>
+    <string name="sync_now">Sincronizar ahora</string>
+    <string name="sync_already_in_progress">La sincronización ya está en curso…</string>
+    <string name="sync_completed">Sincronización completada</string>
+    <string name="sync_failed">Error de sincronización</string>
+    <string name="failed_to_sync">Error al sincronizar</string>
+    <string name="container_photos_sync_failed">Falló la sincronización de las fotos del contenedor.</string>
+    <string name="data_sync_failed">Error de sincronización de datos</string>
+    <string name="data_has_been_synced_successfully">Los datos se han sincronizado correctamente.</string>
+    <string name="data_sync_failed_please_try_again">Falló la sincronización de datos. Inténtelo de nuevo.</string>
+    <string name="data_sync_successfully">Datos sincronizados exitosamente</string>
+    <string name="sync_reminder">Recordatorio de sincronización</string>
+    <string name="sync_overdue_please_sync_your_pending_data_immediately">Sincronización vencida. Sincronice sus datos pendientes de inmediato.</string>
+    <string name="your_data_has_not_been_synced_for_several_hours">Tus datos no se han sincronizado durante varias horas.</string>
+    <string name="you_have_pending_data_waiting_for_sync">Tienes datos pendientes de sincronización.</string>
+    <string name="sync_show">Sincronizar</string>
+    <string name="reminder">Recordatorio</string>
 
 </resources>

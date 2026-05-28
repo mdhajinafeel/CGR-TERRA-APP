@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="add_dispatch">Add Dispatch</string>
-    <string name="edit_dispatch">Edit Dispatch</string>
-    <string name="no_images_available">No photos available</string>
-    <string name="container_images">Container Photos</string>
-    <string name="image_added">Photo added successfully</string>
-    <string name="photo_deleted">Photo deleted successfully</string>
-    <string name="shorts_validate">Shorts length must be less than 290</string>
-    <string name="semi_validate">Semi length must be between 300 and 590</string>
-    <string name="longs_validate">Longs length must be greater than 590</string>
-    <string name="invalid_length">Invalid length</string>
-    <string name="dispatch_closed_successfully">Dispatch has been closed successfully</string>
-    <string name="dispatch_opened_successfully">Dispatch has been opened successfully</string>
-    <string name="dispatch_added_successfully">Dispatch has been added successfully</string>
-    <string name="dispatch_updated_successfully">Dispatch has been updated successfully</string>
-    <string name="dispatch_detail">Dispatch Detail</string>
+    <string name="add_dispatch">Agregar despacho</string>
+    <string name="edit_dispatch">Editar despacho</string>
+    <string name="no_images_available">No hay fotos disponibles</string>
+    <string name="container_images">Fotos de contenedores</string>
+    <string name="image_added">Foto agregada exitosamente</string>
+    <string name="photo_deleted">Foto eliminada con éxito</string>
+    <string name="shorts_validate">La larga corta debe ser inferior a 290.</string>
+    <string name="semi_validate">La larga del semi debe estar entre 300 y 590.</string>
+    <string name="longs_validate">La larga largo debe ser mayor que 590.</string>
+    <string name="invalid_length">Larga no válida</string>
+    <string name="dispatch_closed_successfully">El despacho se ha cerrado correctamente.</string>
+    <string name="dispatch_opened_successfully">El despacho se ha realizado correctamente.</string>
+    <string name="dispatch_added_successfully">El despacho se ha agregado correctamente.</string>
+    <string name="dispatch_updated_successfully">El despacho se ha actualizado correctamente.</string>
+    <string name="dispatch_detail">Detalle de despacho</string>
 
 </resources>

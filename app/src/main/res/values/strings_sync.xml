@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="sync_pending">Unsynced Data</string>
+    <string name="unsynced_data_warning">You have unsynced transactions. Logging out now may cause data loss.</string>
+    <string name="sync_now">Sync Now</string>
     <string name="sync_already_in_progress">Sync already in progress…</string>
     <string name="sync_completed">Sync Completed</string>
     <string name="sync_failed">Sync Failed</string>

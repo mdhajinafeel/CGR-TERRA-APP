@@ -7,5 +7,6 @@
     <string name="failed_to_delete_backup">Failed to delete backup</string>
     <string name="delete_backup">Delete backup</string>
     <string name="delete_backup_confirmation">Are you sure you want to delete the backup?</string>
+    <string name="database_exported_successfully">Backup generated successfully</string>
 
 </resources>

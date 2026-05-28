@@ -6,8 +6,10 @@ import androidx.room.Transaction;
 
 import com.cgr.codrinterraerp.db.entities.ContainerData;
 import com.cgr.codrinterraerp.db.entities.ContainerImages;
+import com.cgr.codrinterraerp.db.entities.FarmData;
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
 import com.cgr.codrinterraerp.model.DispatchDetailsWithTotals;
+import com.cgr.codrinterraerp.model.FarmDetailsWithTotals;
 import com.cgr.codrinterraerp.model.ReceptionDetailsWithTotals;
 
 import java.util.List;
@@ -96,6 +98,36 @@ public interface SyncDao {
     void updateContainerDataMapping(String tempReceptionDataId, String tempDispatchId, int dispatchDataId, String containerReceptionMappingId, int receptionDataId,
                                     String tempReceptionId, int receptionId, int dispatchId);
 
+    // =====================
+    // FARM
+    // =====================
+    @Transaction
+    @Query(
+            "SELECT " +
+                    "fd.*, " +
+                    "IFNULL(fs.totalPieces, 0) AS totalPieces, " +
+                    "IFNULL(fs.totalGrossVolume, 0) AS totalGrossVolume, " +
+                    "IFNULL(fs.totalNetVolume, 0) AS totalNetVolume, " +
+                    "IFNULL(fs.totalVolumePie, 0) AS totalVolumePie " +
+                    "FROM farm_details fd " +
+                    "LEFT JOIN farm_summary fs " +
+                    "ON fd.tempFarmId = fs.tempFarmId WHERE fd.isSynced = 0 AND fd.isDeleted = 0"
+    )
+    List<FarmDetailsWithTotals> getUnsyncedFarmDetails();
+
+    @Query("UPDATE farm_details SET farmId=:farmId, isSynced=1, isEdited=0 WHERE tempFarmId=:tempFarmId")
+    void updateFarmMapping(String tempFarmId, int farmId);
+
+    // =====================
+    // FARM DATA
+    // =====================
+    @Query("SELECT * FROM farm_data WHERE isDeleted = 0 AND isSynced = 0")
+    List<FarmData> getUnsyncedFarmData();
+
+    @Query("UPDATE farm_data SET farmDataId = :farmDataId, farmId = :farmId, " +
+            "isSynced=1, isEdited=0 WHERE tempFarmDataId=:tempFarmDataId AND tempFarmId = :tempFarmId")
+    void updateFarmDataMapping(String tempFarmDataId, String tempFarmId, int farmDataId, int farmId);
+
     // ====================
     // UNSYNCED COUNT
     // ====================
@@ -114,6 +146,12 @@ public interface SyncDao {
     @Query("SELECT COUNT(*) FROM container_images WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(serverImageUrl, '') = '')")
     int getUnsyncedContainerImagesCount();
 
+    @Query("SELECT COUNT(*)  FROM farm_details  WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(farmId, 0) = 0)")
+    int getUnsyncedFarmDetailsCount();
+
+    @Query("SELECT COUNT(*) FROM farm_data WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(farmDataId, 0) = 0)")
+    int getUnsyncedFarmDataCount();
+
     // ====================
     // DELETE LOCAL COUNT
     // ====================
@@ -131,4 +169,10 @@ public interface SyncDao {
 
     @Query("DELETE FROM container_images WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(serverImageUrl, '') = ''")
     void deleteLocalDeletedImages();
+
+    @Query("DELETE FROM farm_details WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(farmId, 0) = 0")
+    void deleteLocalDeletedFarmDetails();
+
+    @Query("DELETE FROM farm_data WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(farmDataId, 0) = 0")
+    void deleteLocalDeletedFarmData();
 }

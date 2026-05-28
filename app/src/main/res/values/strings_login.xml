@@ -8,5 +8,9 @@
     <string name="login_failed">Login failed</string>
     <string name="logout_failed">Logout failed</string>
     <string name="select_origins">Select Origin</string>
+    <string name="logged_out_successfully">Logged Out Successfully</string>
+    <string name="logout">Logout</string>
+    <string name="logout_anyway">Logout Anyway</string>
+    <string name="logout_confirmation">Are you sure you want to log out?</string>
 
 </resources>

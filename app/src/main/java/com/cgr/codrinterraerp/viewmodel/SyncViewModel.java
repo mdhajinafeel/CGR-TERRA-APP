@@ -590,6 +590,7 @@ public class SyncViewModel extends ViewModel {
             FarmInventoryOrders farmInventoryOrder = new FarmInventoryOrders();
             farmInventoryOrder.setSupplierId(farmInventoryOrdersResponse.getSupplierId());
             farmInventoryOrder.setInventoryOrder(farmInventoryOrdersResponse.getInventoryOrder());
+            farmInventoryOrder.setFromReception(farmInventoryOrdersResponse.isFromReception());
 
             farmInventoryOrdersList.add(farmInventoryOrder);
         }

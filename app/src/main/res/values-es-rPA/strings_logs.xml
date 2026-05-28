@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="export_logs">Export Logs</string>
-    <string name="clear_logs">Clear Logs</string>
-    <string name="share_log">Share Log</string>
-    <string name="clear_logs_confirmation">Are you sure you want to clear all logs?</string>
-    <string name="clear_log_confirmation">Are you sure you want to clear all log?</string>
-    <string name="logs_cleared">" logs cleared"</string>
-    <string name="delete_log">Delete Log</string>
-    <string name="deleted_log">Log has been deleted successfully</string>
-    <string name="all">All</string>
+    <string name="export_logs">Exportar Log</string>
+    <string name="clear_logs">Limpio Log</string>
+    <string name="share_log">Compartir Log</string>
+    <string name="clear_logs_confirmation">¿Estás seguro de que quieres borrar todos los logs?</string>
+    <string name="clear_log_confirmation">¿Estás seguro de que quieres borrar todos los log?</string>
+    <string name="logs_cleared">" logs limpiar"</string>
+    <string name="delete_log">Borrar Log</string>
+    <string name="deleted_log">Log se ha eliminado correctamente.</string>
+    <string name="all">Todo</string>
     <string name="api">API</string>
-    <string name="network">Network</string>
-    <string name="crash">Crash</string>
+    <string name="network">Red</string>
+    <string name="crash">Chocar</string>
     <string name="database">Database</string>
-    <string name="endpoint">Endpoint</string>
-    <string name="duration">Duration</string>
-    <string name="type">Type</string>
-    <string name="time">Time</string>
-    <string name="flags">Flags</string>
-    <string name="app_status">App Status</string>
-    <string name="stack_trace">Stack trace:</string>
-    <string name="error_message">Error message:</string>
-    <string name="show_less">Show Less…</string>
-    <string name="show_more">Show More…</string>
-    <string name="request">Request</string>
-    <string name="response">Response</string>
+    <string name="endpoint">Punto final</string>
+    <string name="duration">Duración</string>
+    <string name="type">Tipo</string>
+    <string name="time">Tiempo</string>
+    <string name="flags">Etiqueta</string>
+    <string name="app_status">Estado la aplicación</string>
+    <string name="stack_trace">Seguimiento de pila:</string>
+    <string name="error_message">Mensaje de error:</string>
+    <string name="show_less">Mostrar menos…</string>
+    <string name="show_more">Mostrar más…</string>
+    <string name="request">Pedido</string>
+    <string name="response">Respuesta</string>
 
 </resources>

@@ -25,6 +25,8 @@ import com.cgr.codrinterraerp.db.entities.ReceptionSummary;
 import com.cgr.codrinterraerp.model.request.SyncRequest;
 import com.cgr.codrinterraerp.model.response.syncdata.ContainerDataMappingsResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.DispatchMappingsResponse;
+import com.cgr.codrinterraerp.model.response.syncdata.FarmDataMappingsResponse;
+import com.cgr.codrinterraerp.model.response.syncdata.FarmMappingsResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.ImageUploadResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.ReceptionDataMappingsResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.ReceptionMappingsResponse;
@@ -74,7 +76,7 @@ public class SyncRepository {
     }
 
     public SyncRepository(SyncDao syncDao, ReceptionDetailsDao receptionDetailsDao, DispatchDetailsDao dispatchDetailsDao, FarmDetailsDao farmDetailsDao,
-                          ReceptionDataDao receptionDataDao,  ContainerDataDao containerDataDao, ReceptionSummaryDao receptionSummaryDao,
+                          ReceptionDataDao receptionDataDao, ContainerDataDao containerDataDao, ReceptionSummaryDao receptionSummaryDao,
                           DispatchSummaryDao dispatchSummaryDao, PushNotificationsDao pushNotificationsDao, ISyncApiService iSyncApiService,
                           CGRTerraERPDatabase database) {
         this.syncDao = syncDao;
@@ -187,6 +189,8 @@ public class SyncRepository {
                 request.receptionData = syncDao.getUnsyncedReceptionData();
                 request.dispatchDetails = syncDao.getUnsyncedDispatch();
                 request.containerData = syncDao.getUnsyncedContainerData();
+                request.farmDetails = syncDao.getUnsyncedFarmDetails();
+                request.farmData = syncDao.getUnsyncedFarmData();
 
                 // =================
                 // API CALL
@@ -218,12 +222,23 @@ public class SyncRepository {
                                 containerDataMappingsResponse.receptionDataId, containerDataMappingsResponse.tempReceptionId, containerDataMappingsResponse.receptionDataId,
                                 containerDataMappingsResponse.dispatchId);
                     }
+
+                    // FARM
+                    for (FarmMappingsResponse farmMappingsResponse : res.farmMappings) {
+                        syncDao.updateFarmMapping(farmMappingsResponse.tempFarmId, farmMappingsResponse.farmId);
+                    }
+
+                    // FARM DATA
+                    for (FarmDataMappingsResponse farmDataMappingsResponse : res.farmDataMappings) {
+                        syncDao.updateFarmDataMapping(farmDataMappingsResponse.tempFarmDataId, farmDataMappingsResponse.tempFarmId,
+                                farmDataMappingsResponse.farmDataId, farmDataMappingsResponse.farmId);
+                    }
                 }
 
                 callback.onResult(SyncResult.SUCCESS);
 
             } catch (Exception e) {
-                AppLogger.e(getClass(), "syncWarehouseData", e);
+                AppLogger.e(getClass(), "syncData", e);
                 callback.onResult(SyncResult.FAILED);
             } finally {
                 // ✅ Properly shutdown executor
@@ -233,13 +248,16 @@ public class SyncRepository {
     }
 
     public boolean hasUnsyncedData() {
+        int farmDetailsCount = syncDao.getUnsyncedFarmDetailsCount();
         int receptionDetailsCount = syncDao.getUnsyncedReceptionDetailsCount();
         int dispatchDetailsCount = syncDao.getUnsyncedDispatchDetailsCount();
+        int farmDataCount = syncDao.getUnsyncedFarmDataCount();
         int receptionDataCount = syncDao.getUnsyncedReceptionDataCount();
         int containerDataCount = syncDao.getUnsyncedContainerDataCount();
         int containerImagesCount = syncDao.getUnsyncedContainerImagesCount();
 
-        long totalUnsyncedData = (long) receptionDetailsCount + dispatchDetailsCount + receptionDataCount + containerDataCount + containerImagesCount;
+        long totalUnsyncedData = (long) farmDetailsCount + receptionDetailsCount + dispatchDetailsCount + farmDataCount + receptionDataCount +
+                containerDataCount + containerImagesCount;
 
         return totalUnsyncedData > 0;
     }
@@ -292,6 +310,8 @@ public class SyncRepository {
             syncDao.deleteLocalDeletedReceptionData();
             syncDao.deleteLocalDeletedDispatchDetails();
             syncDao.deleteLocalDeletedReceptionDetails();
+            syncDao.deleteLocalDeletedFarmDetails();
+            syncDao.deleteLocalDeletedFarmData();
             return;
         }
 
@@ -301,6 +321,8 @@ public class SyncRepository {
             syncDao.deleteLocalDeletedReceptionData();
             syncDao.deleteLocalDeletedDispatchDetails();
             syncDao.deleteLocalDeletedReceptionDetails();
+            syncDao.deleteLocalDeletedFarmDetails();
+            syncDao.deleteLocalDeletedFarmData();
         });
     }
 }

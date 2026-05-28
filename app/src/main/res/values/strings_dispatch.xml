@@ -7,9 +7,9 @@
     <string name="container_images">Container Photos</string>
     <string name="image_added">Photo added successfully</string>
     <string name="photo_deleted">Photo deleted successfully</string>
-    <string name="shorts_validate">Shorts length must be less than 290</string>
-    <string name="semi_validate">Semi length must be between 300 and 590</string>
-    <string name="longs_validate">Longs length must be greater than 590</string>
+    <string name="shorts_validate">Short length must be less than 290.</string>
+    <string name="semi_validate">Semi length must be between 300 and 590.</string>
+    <string name="longs_validate">Long length must be greater than 590.</string>
     <string name="invalid_length">Invalid length</string>
     <string name="dispatch_closed_successfully">Dispatch has been closed successfully</string>
     <string name="dispatch_opened_successfully">Dispatch has been opened successfully</string>

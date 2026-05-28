@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="gallery">Gallery</string>
-    <string name="camera">Camera</string>
-    <string name="select_source">Select Source</string>
+    <string name="gallery">Galería</string>
+    <string name="camera">Cámara</string>
+    <string name="select_source">Seleccionar fuente</string>
 
 </resources>

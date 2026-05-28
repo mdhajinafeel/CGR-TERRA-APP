@@ -6,6 +6,7 @@ public class FarmInventoryOrdersResponse implements Serializable {
 
     private String inventoryOrder;
     private int supplierId;
+    private boolean isFromReception;
 
     public String getInventoryOrder() {
         return inventoryOrder;
@@ -21,5 +22,13 @@ public class FarmInventoryOrdersResponse implements Serializable {
 
     public void setSupplierId(int supplierId) {
         this.supplierId = supplierId;
+    }
+
+    public boolean isFromReception() {
+        return isFromReception;
+    }
+
+    public void setFromReception(boolean fromReception) {
+        isFromReception = fromReception;
     }
 }

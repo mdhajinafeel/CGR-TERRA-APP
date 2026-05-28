@@ -33,19 +33,24 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    protected void statusBarSetting() {
+    protected void statusBarSetting(boolean isLogin) {
         Window window = getWindow();
 
         // Keep normal layout behavior (no overlap)
         WindowCompat.setDecorFitsSystemWindows(window, true);
 
         // ✅ Set ONLY status bar color
-        window.setStatusBarColor(getColor(R.color.colorDarkGreen));
+        if(isLogin) {
+            window.setStatusBarColor(getColor(R.color.colorWhite));
+        } else {
+            window.setStatusBarColor(getColor(R.color.colorDarkGreen));
+        }
 
         // ✅ White icons (since background is dark)
         WindowInsetsControllerCompat controller =
                 new WindowInsetsControllerCompat(window, window.getDecorView());
-        controller.setAppearanceLightStatusBars(true);
+
+        controller.setAppearanceLightStatusBars(!isLogin);
     }
 
     public void hideKeyboard(Context ctx) {

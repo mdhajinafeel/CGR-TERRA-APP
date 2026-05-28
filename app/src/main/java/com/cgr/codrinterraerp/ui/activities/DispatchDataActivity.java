@@ -49,7 +49,7 @@ public class DispatchDataActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_container_data);
-        statusBarSetting();
+        statusBarSetting(false);
         hideKeyboard(this);
         initComponents();
     }

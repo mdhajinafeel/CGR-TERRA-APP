@@ -58,7 +58,7 @@ public class FarmDataCaptureActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farm_data_capture);
-        statusBarSetting();
+        statusBarSetting(false);
         hideKeyboard(this);
         initComponents();
     }
@@ -168,7 +168,7 @@ public class FarmDataCaptureActivity extends BaseActivity {
                 tvGrossVolume.setText(CommonUtils.formatNumber3(farmSummary.totalGrossVolume));
                 tvNetVolume.setText(CommonUtils.formatNumber3(farmSummary.totalNetVolume));
 
-                if(farmView.productTypeId == 1 || farmView.productTypeId == 3) {
+                if (farmView.productTypeId == 1 || farmView.productTypeId == 3) {
                     llVolumePie.setVisibility(View.VISIBLE);
                     tvVolumePie.setText(CommonUtils.formatNumber2(farmSummary.totalVolumePie));
                 } else {
@@ -183,7 +183,7 @@ public class FarmDataCaptureActivity extends BaseActivity {
     private void fetchFormulas() {
         try {
             int measurementSystemId = 2;
-            if(farmView.productTypeId == 1 || farmView.productTypeId == 3) {
+            if (farmView.productTypeId == 1 || farmView.productTypeId == 3) {
                 measurementSystemId = 1;
             }
 
@@ -296,8 +296,6 @@ public class FarmDataCaptureActivity extends BaseActivity {
     }
 
     private boolean validateInputs(int productTypeId) {
-
-        hideKeyboard(this);
 
         if (productTypeId == 1 || productTypeId == 3) {
 

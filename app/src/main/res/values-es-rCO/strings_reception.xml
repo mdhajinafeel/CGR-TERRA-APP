@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="add_reception">Add Reception</string>
-    <string name="edit_reception">Edit Reception</string>
-    <string name="data_closed_successfully">Reception has been closed successfully</string>
-    <string name="data_opened_successfully">Reception has been opened successfully</string>
-    <string name="reception_added_successfully">Reception has been added successfully</string>
-    <string name="reception_updated_successfully">Reception has been updated successfully</string>
-    <string name="reception_detail">Reception Detail</string>
+    <string name="add_reception">Agregar recepción</string>
+    <string name="edit_reception">Editar recepción</string>
+    <string name="data_closed_successfully">La recepción ha sido cerrada con éxito.</string>
+    <string name="data_opened_successfully">La recepción ha sido abierto con éxito.</string>
+    <string name="reception_added_successfully">La recepción se ha agregado correctamente.</string>
+    <string name="reception_updated_successfully">La recepción se ha actualizado correctamente.</string>
+    <string name="reception_detail">Detalle de recepción</string>
 
 </resources>

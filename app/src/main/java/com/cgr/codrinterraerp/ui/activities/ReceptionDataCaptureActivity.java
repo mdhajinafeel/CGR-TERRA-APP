@@ -93,7 +93,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reception_data_capture);
-        statusBarSetting();
+        statusBarSetting(false);
         hideKeyboard(this);
         initComponents();
     }
@@ -317,8 +317,6 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
 
     private boolean validateInputs(int productTypeId) {
 
-        hideKeyboard(this);
-
         if (productTypeId == 1 || productTypeId == 3) {
 
             String thickness = Objects.requireNonNull(etThickness.getText()).toString().trim();
@@ -381,7 +379,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
 
             if (!length.isEmpty()) {
                 double l = Double.parseDouble(length);
-                if (l <= 100) {
+                if (l <= 10) {
                     tiLength.setBoxStrokeColor(errorColor);
                     Toast.makeText(getApplicationContext(), getString(R.string.length_must_be_greater_than_10), Toast.LENGTH_SHORT).show();
                     isValid = false;
