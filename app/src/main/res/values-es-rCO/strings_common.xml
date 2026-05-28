@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Terra ERP</string>
+    <string name="ok">OK</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="save">Salvar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="submit">Entregar</string>
+    <string name="add">Agregar</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="required_field">Campo requerido</string>
+    <string name="information">Información</string>
+    <string name="internet_not_available">Por favor, compruebe su conexión a internet e inténtelo de nuevo.</string>
+    <string name="error">Error</string>
+    <string name="common_error">Se ha producido un error. ¡Por favor, inténtalo de nuevo!</string>
+    <string name="no_data_available">No hay datos disponibles</string>
+    <string name="select">Seleccionar</string>
+    <string name="open">Abrir</string>
+    <string name="close">Cerrar</string>
+    <string name="status">Estado</string>
+    <string name="opened">Abierto</string>
+    <string name="closed">Cerrado</string>
+    <string name="pieces">Piezas</string>
+    <string name="date_format">yyyyMMdd_HHmmssa</string>
+    <string name="closed_date">Fecha cerrada</string>
+    <string name="close_confirmation">¿Estás seguro de que quieres cerrar?</string>
+    <string name="open_confirmation">¿Estás seguro de que quieres abrir?</string>
+    <string name="colon">&#160;:&#160;</string>
+    <string name="clear">Limpio</string>
+
+    // -------------------
+    // MEASUREMENT DATA
+    // -------------------
+    <string name="farm_contract_details"><u>Detalles del contrato finca</u></string>
+    <string name="contract">Contrato</string>
+    <string name="contract_code">Código de contrato</string>
+    <string name="description">Descripción</string>
+    <string name="length_must_be_greater_than_10">La longitud debe ser mayor que 10</string>
+    <string name="reception_subtitle">%1$s / %2$s</string>
+    <string name="reception_data">Datos de recepción</string>
+    <string name="confirmation">Confirmación</string>
+    <string name="delete_confirmation">¿Estás seguro de que quieres eliminar?</string>
+    <string name="data_deleted">Los datos se han eliminado correctamente.</string>
+    <string name="data_deleted_failed">No se pudieron eliminar los datos.</string>
+    <string name="dispatch_data">Datos de Despacho</string>
+    <string name="thickness">Grueso</string>
+    <string name="width">Ancho</string>
+    <string name="volume_pie">Volumen Pie</string>
+    <string name="cft">CFT</string>
+    <string name="gross_volume">Bruto CBM (m³)</string>
+    <string name="net_volume">Neto CBM (m³)</string>
+    <string name="ica">ICA #</string>
+    <string name="supplier">Proveedor</string>
+    <string name="date">Fecha</string>
+    <string name="container">Contenedor #</string>
+    <string name="shipping_line">Naviera</string>
+    <string name="avg_girth">Prom. Girth</string>
+    <string name="wood">Madera</string>
+    <string name="wood_type">Tipo</string>
+    <string name="measurement_system">Medición</string>
+    <string name="enable_farm">Habilitar Finca</string>
+    <string name="purchase_contract">Contrato de compra</string>
+    <string name="truck_plate_number">Placa</string>
+    <string name="plate">Placa #</string>
+    <string name="select_supplier">Seleccionar proveedor</string>
+    <string name="select_warehouse">Seleccionar almacén</string>
+    <string name="select_wood">Seleccionar madera</string>
+    <string name="select_wood_type">Select tipo</string>
+    <string name="select_measurement_system">Seleccionar medición</string>
+    <string name="truck_driver_name">Nombre del conductor</string>
+    <string name="driver_name">Nombre del conductor</string>
+    <string name="select_purchase_contract">Seleccionar contrato de compra</string>
+    <string name="category">Categoría</string>
+    <string name="select_shipping_line">Seleccionar naviera</string>
+    <string name="select_grith_classification">Seleccionar clasificación Grith</string>
+    <string name="data_added_successfully">Los datos se han agregado correctamente.</string>
+    <string name="data_added_failed">No se pudieron agregar los datos.</string>
+    <string name="data_updated_successfully">Los datos se han actualizado correctamente.</string>
+    <string name="data_updated_failed">No se pudieron actualizar los datos.</string>
+    <string name="ica_exists">ICA ya existe. Por favor, verifique y vuelva a intentarlo.</string>
+    <string name="farm_ica_exists">ICA ya existe en la granja. Por favor, verifique y vuelva a intentarlo.</string>
+    <string name="container_exists">El contenedor ya existe. Por favor, verifíquelo e inténtelo de nuevo.</string>
+    <string name="measurement">Medición</string>
+    <string name="available_containers">Contenedores disponibles</string>
+    <string name="length">Largo</string>
+    <string name="circ">Girth</string>
+    <string name="input_measurements">Medidas de entrada</string>
+    <string name="measurement_data">Datos de medición</string>
+    <string name="container_select_error">Seleccione un recipiente para agregar las piezas.</string>
+    <string name="pieces_has_been_added_successfully">Las piezas se han añadido correctamente</string>
+</resources>

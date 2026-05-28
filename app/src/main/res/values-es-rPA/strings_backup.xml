@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="generate">Generate</string>
+    <string name="share_backup">Share Backup</string>
+    <string name="backup_deleted">Backup deleted successfully</string>
+    <string name="failed_to_delete_backup">Failed to delete backup</string>
+    <string name="delete_backup">Delete backup</string>
+    <string name="delete_backup_confirmation">Are you sure you want to delete the backup?</string>
+
+</resources>
