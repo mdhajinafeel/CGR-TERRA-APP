@@ -276,6 +276,9 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 } else if (item.getTag() == 2) {
                     startActivity(new Intent(MainActivity.this, WarehouseActivity.class));
                     overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                } else if (item.getTag() == 4) {
+                    startActivity(new Intent(MainActivity.this, FinanceActivity.class));
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             });
         }

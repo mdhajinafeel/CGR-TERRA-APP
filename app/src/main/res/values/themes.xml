@@ -75,4 +75,14 @@
     <style name="MyPopupMenuStyle" parent="Widget.AppCompat.PopupMenu">
         <item name="android:popupBackground">@drawable/bg_popup_menu</item>
     </style>
+
+    <style name="BottomNavigationViewTextStyle" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/exo2_medium</item>
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+    <style name="BottomNavigationViewTextStyleActive" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/exo2_semibold</item>
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
 </resources>

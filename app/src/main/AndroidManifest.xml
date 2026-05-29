@@ -99,6 +99,20 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Warehouse Screen -->
+        <activity
+            android:name=".ui.activities.WarehouseActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Finance Screen -->
+        <activity
+            android:name=".ui.activities.FinanceActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
         <!-- Farm Screen -->
         <activity
             android:name=".ui.activities.FarmActivity"
@@ -116,13 +130,6 @@
         <!-- Farm Data Screen -->
         <activity
             android:name=".ui.activities.FarmDataActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-
-        <!-- Warehouse Screen -->
-        <activity
-            android:name=".ui.activities.WarehouseActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
