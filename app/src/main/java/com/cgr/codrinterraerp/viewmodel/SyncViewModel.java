@@ -8,11 +8,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.cgr.codrinterraerp.R;
 import com.cgr.codrinterraerp.constants.SyncResult;
+import com.cgr.codrinterraerp.db.entities.AccountHeads;
+import com.cgr.codrinterraerp.db.entities.Beneficiaries;
 import com.cgr.codrinterraerp.db.entities.ContainerCategories;
 import com.cgr.codrinterraerp.db.entities.DispatchContainers;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
 import com.cgr.codrinterraerp.db.entities.DispatchSummary;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
+import com.cgr.codrinterraerp.db.entities.IncomeData;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulas;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
@@ -34,7 +37,10 @@ import com.cgr.codrinterraerp.model.response.DownloadMasterDataResponse;
 import com.cgr.codrinterraerp.model.response.DownloadMasterResponse;
 import com.cgr.codrinterraerp.model.response.DownloadTransactionsDataResponse;
 import com.cgr.codrinterraerp.model.response.DownloadTransactionsResponse;
+import com.cgr.codrinterraerp.model.response.masterdata.AccountHeadsResponse;
+import com.cgr.codrinterraerp.model.response.masterdata.BeneficiariesResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.ContainerCategoriesResponse;
+import com.cgr.codrinterraerp.model.response.transactiondata.CreditTransactionsResponse;
 import com.cgr.codrinterraerp.model.response.transactiondata.DispatchContainersResponse;
 import com.cgr.codrinterraerp.model.response.transactiondata.DispatchDetailsResponse;
 import com.cgr.codrinterraerp.model.response.transactiondata.FarmInventoryOrdersResponse;
@@ -364,6 +370,28 @@ public class SyncViewModel extends ViewModel {
 
             masterRepository.insertContainerCategories(getContainerCategories(category));
         }
+
+        // ---------------- ACCOUNT HEADS ----------------
+        List<AccountHeadsResponse> accountHeads = data.getAccountHeads();
+        if (accountHeads != null && !accountHeads.isEmpty()) {
+
+            if (!getAccountHeads(accountHeads).isEmpty()) {
+                masterRepository.deleteAccountHeads();
+            }
+
+            masterRepository.insertAccountHeads(getAccountHeads(accountHeads));
+        }
+
+        // ---------------- BENEFICIARIES ----------------
+        List<BeneficiariesResponse> beneficiaries = data.getBeneficiaries();
+        if (beneficiaries != null && !beneficiaries.isEmpty()) {
+
+            if (!getBeneficiaries(beneficiaries).isEmpty()) {
+                masterRepository.deleteBeneficiaries();
+            }
+
+            masterRepository.insertBeneficiaries(getBeneficiaries(beneficiaries));
+        }
     }
 
     public void transactionDownload() {
@@ -417,7 +445,7 @@ public class SyncViewModel extends ViewModel {
 
     private void processAllTransactionData(DownloadTransactionsDataResponse data) {
 
-        // ---------------- FARM ----------------
+        // ---------------- FARM INVENTORY ----------------
         List<FarmInventoryOrdersResponse> farm = data.getFarmInventoryOrders();
         if (farm != null && !farm.isEmpty()) {
 
@@ -428,7 +456,7 @@ public class SyncViewModel extends ViewModel {
             masterRepository.insertFarmInventoryOrders(getFarmInventoryOrders(farm));
         }
 
-        // ---------------- RECEPTION ----------------
+        // ---------------- RECEPTION INVENTORY ----------------
         List<ReceptionInventoryOrdersResponse> reception = data.getReceptionInventoryOrders();
         if (reception != null && !reception.isEmpty()) {
 
@@ -439,7 +467,7 @@ public class SyncViewModel extends ViewModel {
             masterRepository.insertReceptionInventoryOrders(getReceptionInventoryOrders(reception));
         }
 
-        // ---------------- DISPATCH ----------------
+        // ---------------- DISPATCH CONTAINERS ----------------
         List<DispatchContainersResponse> dispatch = data.getDispatchContainers();
         if (dispatch != null && !dispatch.isEmpty()) {
 
@@ -503,6 +531,66 @@ public class SyncViewModel extends ViewModel {
             }
             syncRepository.upsertDispatchSummary(summaries);
         }
+
+        // ---------------- CREDIT TRANSACTIONS ----------------
+        List<CreditTransactionsResponse> credit = data.getCreditTransactions();
+        if (credit != null && !credit.isEmpty()) {
+
+            if (!getCreditTransactions(credit).isEmpty()) {
+                masterRepository.deleteIncomeData();
+            }
+
+            masterRepository.insertIncomeData(getCreditTransactions(credit));
+        }
+    }
+
+    @NonNull
+    private static List<IncomeData> getCreditTransactions(List<CreditTransactionsResponse> creditTransactionsResponseList) {
+        List<IncomeData> incomeDataList = new ArrayList<>();
+        for (CreditTransactionsResponse creditTransactionsResponse : creditTransactionsResponseList) {
+            IncomeData incomeData = new IncomeData();
+            incomeData.setCreditTransactionId(creditTransactionsResponse.getCreditTransactionId());
+            incomeData.setTransactionDisplayId(creditTransactionsResponse.getTransactionDisplayId());
+            incomeData.setAmount(creditTransactionsResponse.getAmount());
+            incomeData.setTransactionDate(creditTransactionsResponse.getTransactionDate());
+            incomeData.setTransactionTimestamp(creditTransactionsResponse.getTransactionTimestamp());
+            incomeData.setConceptGeneral(creditTransactionsResponse.getConceptGeneral());
+            incomeData.setUpdatedAt(creditTransactionsResponse.getUpdatedAt());
+
+            incomeDataList.add(incomeData);
+        }
+        return incomeDataList;
+    }
+
+    @NonNull
+    private static List<Beneficiaries> getBeneficiaries(List<BeneficiariesResponse> beneficiariesResponseList) {
+        List<Beneficiaries> beneficiariesList = new ArrayList<>();
+        for (BeneficiariesResponse beneficiariesResponse : beneficiariesResponseList) {
+            Beneficiaries beneficiary = new Beneficiaries();
+            beneficiary.setBeneficiaryIdentification(beneficiariesResponse.getBeneficiaryIdentification());
+            beneficiary.setBeneficiaryName(beneficiariesResponse.getBeneficiaryName());
+
+            beneficiariesList.add(beneficiary);
+        }
+        return beneficiariesList;
+    }
+
+    @NonNull
+    private static List<AccountHeads> getAccountHeads(List<AccountHeadsResponse> accountHeadsResponseList) {
+        List<AccountHeads> accountHeadsList = new ArrayList<>();
+        for (AccountHeadsResponse accountHeadsResponse : accountHeadsResponseList) {
+            AccountHeads accountHead = new AccountHeads();
+            accountHead.setAccountHeadId(accountHeadsResponse.getAccountHeadId());
+            accountHead.setAccountHeadName(accountHeadsResponse.getAccountHeadName());
+            accountHead.setIcon(accountHeadsResponse.getIcon());
+            accountHead.setColorCodePrimary(accountHeadsResponse.getColorCodePrimary());
+            accountHead.setColorCodeSecondary(accountHeadsResponse.getColorCodeSecondary());
+            accountHead.setForestry(accountHeadsResponse.isForestry());
+            accountHead.setForestryCostType(accountHeadsResponse.getForestryCostType());
+
+            accountHeadsList.add(accountHead);
+        }
+        return accountHeadsList;
     }
 
     @NonNull

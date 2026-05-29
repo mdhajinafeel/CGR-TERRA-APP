@@ -1,0 +1,31 @@
+package com.cgr.codrinterraerp.ui.fragments;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.cgr.codrinterraerp.R;
+import com.cgr.codrinterraerp.utils.AppLogger;
+
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
+public class FinanceCreditFragment extends Fragment {
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_finance_credit, container, false);
+        try {
+
+        } catch (Exception e) {
+            AppLogger.e(getClass(), "onCreateView", e);
+        }
+        return view;
+    }
+}

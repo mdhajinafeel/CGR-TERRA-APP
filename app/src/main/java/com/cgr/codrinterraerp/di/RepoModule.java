@@ -1,7 +1,9 @@
 package com.cgr.codrinterraerp.di;
 
 import com.cgr.codrinterraerp.db.CGRTerraERPDatabase;
+import com.cgr.codrinterraerp.db.dao.AccountHeadsDao;
 import com.cgr.codrinterraerp.db.dao.ApiLogsDao;
+import com.cgr.codrinterraerp.db.dao.BeneficiariesDao;
 import com.cgr.codrinterraerp.db.dao.ContainerCategoriesDao;
 import com.cgr.codrinterraerp.db.dao.ContainerDataDao;
 import com.cgr.codrinterraerp.db.dao.ContainerImagesDao;
@@ -9,12 +11,14 @@ import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
+import com.cgr.codrinterraerp.db.dao.ExpenseDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
 import com.cgr.codrinterraerp.db.dao.FarmTransactionDao;
 import com.cgr.codrinterraerp.db.dao.FarmViewDao;
+import com.cgr.codrinterraerp.db.dao.IncomeDataDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -66,15 +70,18 @@ import dagger.hilt.components.SingletonComponent;
 public class RepoModule {
     @Provides
     @Singleton
+
     MasterRepository provideMasterRepository(CGRTerraERPDatabase cgrTerraERPDatabase, IMasterApiService iMasterApiService, OriginsDao originsDao, SuppliersDao suppliersDao, SupplierProductsDao supplierProductsDao,
                                              SupplierProductTypesDao supplierProductTypesDao, WarehousesDao warehousesDao, MeasurementSystemsDao measurementSystemsDao,
                                              MeasurementSystemFormulasDao measurementSystemFormulasDao, MeasurementSystemFormulaVariablesDao measurementSystemFormulaVariablesDao,
                                              ShippingLinesDao shippingLinesDao, PurchaseContractDao purchaseContractDao, FarmInventoryOrdersDao farmInventoryOrdersDao,
                                              ReceptionInventoryOrdersDao receptionInventoryOrdersDao, DispatchContainersDao dispatchContainersDao, ProductsDao productsDao,
-                                             ProductTypesDao productTypesDao, ContainerCategoriesDao containerCategoriesDao) {
+                                             ProductTypesDao productTypesDao, ContainerCategoriesDao containerCategoriesDao, AccountHeadsDao accountHeadsDao,
+                                             BeneficiariesDao beneficiariesDao, IncomeDataDao incomeDataDao, ExpenseDataDao expenseDataDao) {
         return new MasterRepository(cgrTerraERPDatabase, iMasterApiService, originsDao, suppliersDao, supplierProductsDao, supplierProductTypesDao, warehousesDao,
                 measurementSystemsDao, measurementSystemFormulasDao, measurementSystemFormulaVariablesDao, shippingLinesDao, purchaseContractDao, farmInventoryOrdersDao,
-                receptionInventoryOrdersDao, dispatchContainersDao, productsDao, productTypesDao, containerCategoriesDao);
+                receptionInventoryOrdersDao, dispatchContainersDao, productsDao, productTypesDao, containerCategoriesDao, accountHeadsDao, beneficiariesDao,
+                incomeDataDao, expenseDataDao);
     }
 
     @Provides

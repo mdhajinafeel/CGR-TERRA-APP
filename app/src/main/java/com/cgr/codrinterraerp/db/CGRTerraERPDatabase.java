@@ -8,7 +8,9 @@ import androidx.room.RoomDatabase;
 
 import com.cgr.codrinterraerp.BuildConfig;
 import com.cgr.codrinterraerp.constants.IAPIConstants;
+import com.cgr.codrinterraerp.db.dao.AccountHeadsDao;
 import com.cgr.codrinterraerp.db.dao.ApiLogsDao;
+import com.cgr.codrinterraerp.db.dao.BeneficiariesDao;
 import com.cgr.codrinterraerp.db.dao.ContainerCategoriesDao;
 import com.cgr.codrinterraerp.db.dao.ContainerDataDao;
 import com.cgr.codrinterraerp.db.dao.ContainerImagesDao;
@@ -16,12 +18,14 @@ import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
+import com.cgr.codrinterraerp.db.dao.ExpenseDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
 import com.cgr.codrinterraerp.db.dao.FarmTransactionDao;
 import com.cgr.codrinterraerp.db.dao.FarmViewDao;
+import com.cgr.codrinterraerp.db.dao.IncomeDataDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -42,17 +46,21 @@ import com.cgr.codrinterraerp.db.dao.SupplierProductsDao;
 import com.cgr.codrinterraerp.db.dao.SuppliersDao;
 import com.cgr.codrinterraerp.db.dao.SyncDao;
 import com.cgr.codrinterraerp.db.dao.WarehousesDao;
+import com.cgr.codrinterraerp.db.entities.AccountHeads;
 import com.cgr.codrinterraerp.db.entities.ApiLogs;
+import com.cgr.codrinterraerp.db.entities.Beneficiaries;
 import com.cgr.codrinterraerp.db.entities.ContainerCategories;
 import com.cgr.codrinterraerp.db.entities.ContainerData;
 import com.cgr.codrinterraerp.db.entities.ContainerImages;
 import com.cgr.codrinterraerp.db.entities.DispatchContainers;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
 import com.cgr.codrinterraerp.db.entities.DispatchSummary;
+import com.cgr.codrinterraerp.db.entities.ExpenseData;
 import com.cgr.codrinterraerp.db.entities.FarmData;
 import com.cgr.codrinterraerp.db.entities.FarmDetails;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
 import com.cgr.codrinterraerp.db.entities.FarmSummary;
+import com.cgr.codrinterraerp.db.entities.IncomeData;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulas;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
@@ -78,7 +86,7 @@ import com.cgr.codrinterraerp.db.views.ReceptionView;
         ShippingLines.class, Warehouses.class, FarmInventoryOrders.class, ReceptionInventoryOrders.class, DispatchContainers.class, Products.class, ProductTypes.class,
         ReceptionDetails.class, DispatchDetails.class, ReceptionData.class, ContainerData.class, ContainerCategories.class, ContainerImages.class,
         DispatchSummary.class, ReceptionSummary.class, MeasurementSystemFormulas.class, MeasurementSystemFormulaVariables.class, PushNotifications.class,
-        FarmDetails.class, FarmData.class, FarmSummary.class},
+        FarmDetails.class, FarmData.class, FarmSummary.class, AccountHeads.class, Beneficiaries.class, IncomeData.class, ExpenseData.class},
         views = {ReceptionView.class, DispatchView.class, FarmView.class},
         version = 1)
 public abstract class CGRTerraERPDatabase extends RoomDatabase {
@@ -142,6 +150,14 @@ public abstract class CGRTerraERPDatabase extends RoomDatabase {
     public abstract FarmSummaryDao farmSummaryDao();
 
     public abstract SyncDao syncDao();
+
+    public abstract AccountHeadsDao accountHeadsDao();
+
+    public abstract BeneficiariesDao beneficiariesDao();
+
+    public abstract IncomeDataDao incomeDataDao();
+
+    public abstract ExpenseDataDao expenseDataDao();
 
     //VIEWS
     public abstract ReceptionViewDao receptionViewDao();

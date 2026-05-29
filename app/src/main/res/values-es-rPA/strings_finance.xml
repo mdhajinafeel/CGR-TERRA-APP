@@ -4,5 +4,10 @@
     <string name="dashboard">Dashboard</string>
     <string name="report">Informe</string>
     <string name="transactions">Transacciones</string>
+    <string name="available_balance">Available Balance</string>
+    <string name="credit">Credit</string>
+    <string name="debit">Debit</string>
+    <string name="recent_transactions">Recent Transactions</string>
+    <string name="see_all">See all</string>
 
 </resources>

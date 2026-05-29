@@ -47,11 +47,13 @@
     <dimen name="text_18">18sp</dimen>
     <dimen name="text_20">20sp</dimen>
     <dimen name="text_24">24sp</dimen>
+    <dimen name="text_26">26sp</dimen>
 
     <!-- ELEVATION -->
     <dimen name="corner_elevation_0">0dp</dimen>
     <dimen name="corner_elevation_2">2dp</dimen>
     <dimen name="corner_elevation_8">8dp</dimen>
+    <dimen name="corner_elevation_10">10dp</dimen>
 
     <!-- CORNER RADIUS -->
     <dimen name="corner_radius_4">4dp</dimen>

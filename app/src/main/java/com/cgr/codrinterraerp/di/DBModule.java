@@ -3,7 +3,9 @@ package com.cgr.codrinterraerp.di;
 import android.content.Context;
 
 import com.cgr.codrinterraerp.db.CGRTerraERPDatabase;
+import com.cgr.codrinterraerp.db.dao.AccountHeadsDao;
 import com.cgr.codrinterraerp.db.dao.ApiLogsDao;
+import com.cgr.codrinterraerp.db.dao.BeneficiariesDao;
 import com.cgr.codrinterraerp.db.dao.ContainerCategoriesDao;
 import com.cgr.codrinterraerp.db.dao.ContainerDataDao;
 import com.cgr.codrinterraerp.db.dao.ContainerImagesDao;
@@ -11,12 +13,14 @@ import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
 import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
+import com.cgr.codrinterraerp.db.dao.ExpenseDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
 import com.cgr.codrinterraerp.db.dao.FarmSummaryDao;
 import com.cgr.codrinterraerp.db.dao.FarmTransactionDao;
 import com.cgr.codrinterraerp.db.dao.FarmViewDao;
+import com.cgr.codrinterraerp.db.dao.IncomeDataDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -259,5 +263,29 @@ public class DBModule {
     @Singleton
     public SyncDao provideSyncDao(CGRTerraERPDatabase db) {
         return db.syncDao();
+    }
+
+    @Provides
+    @Singleton
+    public AccountHeadsDao provideAccountHeadsDao(CGRTerraERPDatabase db) {
+        return db.accountHeadsDao();
+    }
+
+    @Provides
+    @Singleton
+    public BeneficiariesDao provideBeneficiariesDao(CGRTerraERPDatabase db) {
+        return db.beneficiariesDao();
+    }
+
+    @Provides
+    @Singleton
+    public IncomeDataDao provideIncomeDataDao(CGRTerraERPDatabase db) {
+        return db.incomeDataDao();
+    }
+
+    @Provides
+    @Singleton
+    public ExpenseDataDao provideExpenseDataDao(CGRTerraERPDatabase db) {
+        return db.expenseDataDao();
     }
 }

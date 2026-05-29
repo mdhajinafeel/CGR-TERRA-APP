@@ -20,8 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class WarehouseActivity extends BaseActivity {
 
-    private TabLayout tabLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +33,7 @@ public class WarehouseActivity extends BaseActivity {
         try {
             AppCompatImageView imgBack = findViewById(R.id.imgBack);
             AppCompatTextView txtTitle = findViewById(R.id.txtTitle);
-            tabLayout = findViewById(R.id.tabLayout);
+            TabLayout tabLayout = findViewById(R.id.tabLayout);
             ViewPager2 viewPager = findViewById(R.id.viewPager);
 
             txtTitle.setText(getString(R.string.warehouse));

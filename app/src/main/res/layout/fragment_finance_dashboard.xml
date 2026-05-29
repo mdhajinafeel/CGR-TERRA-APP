@@ -11,12 +11,232 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Summary Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/balanceCard"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="@dimen/margin_20"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginEnd="@dimen/margin_20"
+        app:cardBackgroundColor="@color/colorDarkGreen"
+        app:cardCornerRadius="@dimen/corner_radius_10"
+        app:cardElevation="@dimen/corner_elevation_8"
+        app:cardMaxElevation="@dimen/corner_elevation_10"
+        app:cardPreventCornerOverlap="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/layoutBalance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:text="@string/available_balance"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_18" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvBalanceAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_24" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/layoutBalance"
+                android:layout_marginTop="@dimen/margin_6"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_2"
+                    android:layout_weight="0.5">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivCredit"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_14"
+                        android:src="@drawable/ic_credit" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_toEndOf="@+id/ivCredit"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/exo2_semibold"
+                            android:text="@string/credit"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/text_16" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvCreditAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_6"
+                            android:fontFamily="@font/exo2_semibold"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/text_18" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/margin_2"
+                    android:layout_weight="0.5">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ivDebit"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/margin_6"
+                        android:src="@drawable/ic_debit" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/margin_10"
+                        android:layout_toEndOf="@+id/ivDebit"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/exo2_semibold"
+                            android:text="@string/debit"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/text_16" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tvDebitAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_6"
+                            android:fontFamily="@font/exo2_semibold"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="@dimen/text_18" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- CONTENT STARTS BELOW FLOATING CARD -->
+    <LinearLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_10"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/balanceCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/exo2_bold"
+                android:text="@string/recent_transactions"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/text_16" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_right_arrow"
+                android:drawablePadding="@dimen/padding_6"
+                android:fontFamily="@font/exo2_semibold"
+                android:text="@string/see_all"
+                android:textColor="@color/colorKellyGreen"
+                android:textSize="@dimen/text_16" />
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutFinance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_14"
+            android:layout_marginEnd="@dimen/margin_20"
+            android:background="@drawable/bg_tab_container"
+            android:contentDescription="@string/app_name"
+            android:elevation="6dp"
+            android:minHeight="40dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:tabBackground="@drawable/bg_tab_item"
+            app:tabGravity="fill"
+            app:tabIconTint="@null"
+            app:tabIndicator="@null"
+            app:tabIndicatorHeight="0dp"
+            app:tabInlineLabel="true"
+            app:tabMode="fixed"
+            app:tabPaddingBottom="0dp"
+            app:tabPaddingTop="0dp"
+            app:tabRippleColor="@null"
+            app:tabSelectedTextAppearance="@style/CustomSelectedTabTextAppearance"
+            app:tabSelectedTextColor="@color/colorWhite"
+            app:tabTextAppearance="@style/CustomTabTextAppearance"
+            app:tabTextColor="@color/colorMilkWhite" />
+
+        <!-- ViewPager2 for Swipeable Content -->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerFinance"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <!-- CENTER FAB with curve cradle -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_add"
         app:backgroundTint="@color/colorDarkGreen"

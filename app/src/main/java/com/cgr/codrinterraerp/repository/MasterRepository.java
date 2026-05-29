@@ -1,9 +1,13 @@
 package com.cgr.codrinterraerp.repository;
 
 import com.cgr.codrinterraerp.db.CGRTerraERPDatabase;
+import com.cgr.codrinterraerp.db.dao.AccountHeadsDao;
+import com.cgr.codrinterraerp.db.dao.BeneficiariesDao;
 import com.cgr.codrinterraerp.db.dao.ContainerCategoriesDao;
 import com.cgr.codrinterraerp.db.dao.DispatchContainersDao;
+import com.cgr.codrinterraerp.db.dao.ExpenseDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
+import com.cgr.codrinterraerp.db.dao.IncomeDataDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulaVariablesDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemFormulasDao;
 import com.cgr.codrinterraerp.db.dao.MeasurementSystemsDao;
@@ -17,9 +21,13 @@ import com.cgr.codrinterraerp.db.dao.SupplierProductTypesDao;
 import com.cgr.codrinterraerp.db.dao.SupplierProductsDao;
 import com.cgr.codrinterraerp.db.dao.SuppliersDao;
 import com.cgr.codrinterraerp.db.dao.WarehousesDao;
+import com.cgr.codrinterraerp.db.entities.AccountHeads;
+import com.cgr.codrinterraerp.db.entities.Beneficiaries;
 import com.cgr.codrinterraerp.db.entities.ContainerCategories;
 import com.cgr.codrinterraerp.db.entities.DispatchContainers;
+import com.cgr.codrinterraerp.db.entities.ExpenseData;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
+import com.cgr.codrinterraerp.db.entities.IncomeData;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulas;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
@@ -63,13 +71,18 @@ public class MasterRepository {
     private final ProductsDao productsDao;
     private final ProductTypesDao productTypesDao;
     private final ContainerCategoriesDao containerCategoriesDao;
+    private final AccountHeadsDao accountHeadsDao;
+    private final BeneficiariesDao beneficiariesDao;
+    private final IncomeDataDao incomeDataDao;
+    private final ExpenseDataDao expenseDataDao;
 
     public MasterRepository(CGRTerraERPDatabase database, IMasterApiService iMasterApiService, OriginsDao originsDao, SuppliersDao suppliersDao, SupplierProductsDao supplierProductsDao,
                             SupplierProductTypesDao supplierProductTypesDao, WarehousesDao warehousesDao, MeasurementSystemsDao measurementSystemsDao,
                             MeasurementSystemFormulasDao measurementSystemFormulasDao, MeasurementSystemFormulaVariablesDao measurementSystemFormulaVariablesDao,
                             ShippingLinesDao shippingLinesDao, PurchaseContractDao purchaseContractDao, FarmInventoryOrdersDao farmInventoryOrdersDao,
                             ReceptionInventoryOrdersDao receptionInventoryOrdersDao, DispatchContainersDao dispatchContainersDao, ProductsDao productsDao,
-                            ProductTypesDao productTypesDao, ContainerCategoriesDao containerCategoriesDao) {
+                            ProductTypesDao productTypesDao, ContainerCategoriesDao containerCategoriesDao, AccountHeadsDao accountHeadsDao,
+                            BeneficiariesDao beneficiariesDao, IncomeDataDao incomeDataDao, ExpenseDataDao expenseDataDao) {
         this.database = database;
         this.iMasterApiService = iMasterApiService;
         this.originsDao = originsDao;
@@ -88,6 +101,10 @@ public class MasterRepository {
         this.productsDao = productsDao;
         this.productTypesDao = productTypesDao;
         this.containerCategoriesDao = containerCategoriesDao;
+        this.accountHeadsDao = accountHeadsDao;
+        this.beneficiariesDao = beneficiariesDao;
+        this.incomeDataDao = incomeDataDao;
+        this.expenseDataDao = expenseDataDao;
     }
 
     public Call<OriginsResponse> getOrigins() {
@@ -289,5 +306,53 @@ public class MasterRepository {
 
     public List<ContainerCategories> fetchContainerCategories(int productTypeId) {
         return containerCategoriesDao.fetchContainerCategories(productTypeId);
+    }
+
+    // ACCOUNT HEADS
+    public void deleteAccountHeads() {
+        accountHeadsDao.clearAll();
+    }
+
+    public void insertAccountHeads(List<AccountHeads> accountHeadsList) {
+        accountHeadsDao.insertAccountHeads(accountHeadsList);
+    }
+
+    public List<AccountHeads> fetchAccountHeads() {
+        return accountHeadsDao.getAllAccountHeads();
+    }
+
+    // BENEFICIARIES
+    public void deleteBeneficiaries() {
+        beneficiariesDao.clearAll();
+    }
+
+    public void insertBeneficiaries(List<Beneficiaries> beneficiariesList) {
+        beneficiariesDao.insertBeneficiaries(beneficiariesList);
+    }
+
+    public List<Beneficiaries> fetchBeneficiaries() {
+        return beneficiariesDao.getAllBeneficiaries();
+    }
+
+    // CREDIT TRANSACTIONS
+    public void insertIncomeData(List<IncomeData> incomeDataList) {
+        incomeDataDao.insertIncomeData(incomeDataList);
+    }
+
+    public void deleteIncomeData() {
+        incomeDataDao.clearAll();
+    }
+
+    public List<IncomeData> getIncomeData() {
+        return incomeDataDao.getIncomeData();
+    }
+
+    // DEBIT TRANSACTIONS
+    public void insertExpenseData(List<ExpenseData> expenseDataList) {
+        expenseDataDao.insertExpenseData(expenseDataList);
+    }
+
+    public void deleteExpenseData() {
+        expenseDataDao.clearAll();
     }
 }

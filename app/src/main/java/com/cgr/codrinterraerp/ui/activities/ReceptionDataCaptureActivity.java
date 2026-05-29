@@ -212,7 +212,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
 
     private void initializeAdapter() {
 
-        dispatchViewRecyclerViewAdapter = new RecyclerViewAdapter<>(getApplicationContext(), new ArrayList<>(), R.layout.row_item_available_containers) {
+        dispatchViewRecyclerViewAdapter = new RecyclerViewAdapter<>(getApplicationContext(), new ArrayList<>(), R.layout.row_item_available_container) {
             @Override
             public void onPostBindViewHolder(ViewHolder holder, DispatchView dispatchView) {
                 if (dispatchView != null) {

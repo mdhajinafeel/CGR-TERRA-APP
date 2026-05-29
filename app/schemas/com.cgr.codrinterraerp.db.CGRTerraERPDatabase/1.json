@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5f2145b1a109d432f3933230786953ec",
+    "identityHash": "370156d1f3109362dd29dda876193a3a",
     "entities": [
       {
         "tableName": "origins",
@@ -2581,6 +2581,178 @@
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_farm_summary_tempFarmId` ON `${TABLE_NAME}` (`tempFarmId`)"
           }
         ]
+      },
+      {
+        "tableName": "account_heads",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`accountHeadId` INTEGER NOT NULL, `accountHeadName` TEXT, `icon` TEXT, `colorCodePrimary` TEXT, `colorCodeSecondary` TEXT, `isForestry` INTEGER NOT NULL, `forestryCostType` INTEGER NOT NULL, PRIMARY KEY(`accountHeadId`))",
+        "fields": [
+          {
+            "fieldPath": "accountHeadId",
+            "columnName": "accountHeadId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "accountHeadName",
+            "columnName": "accountHeadName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "icon",
+            "columnName": "icon",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "colorCodePrimary",
+            "columnName": "colorCodePrimary",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "colorCodeSecondary",
+            "columnName": "colorCodeSecondary",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isForestry",
+            "columnName": "isForestry",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "forestryCostType",
+            "columnName": "forestryCostType",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "accountHeadId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "idx_account_head_id",
+            "unique": false,
+            "columnNames": [
+              "accountHeadId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_account_head_id` ON `${TABLE_NAME}` (`accountHeadId`)"
+          },
+          {
+            "name": "idx_account_head_name",
+            "unique": false,
+            "columnNames": [
+              "accountHeadName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_account_head_name` ON `${TABLE_NAME}` (`accountHeadName`)"
+          },
+          {
+            "name": "idx_icon",
+            "unique": false,
+            "columnNames": [
+              "icon"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_icon` ON `${TABLE_NAME}` (`icon`)"
+          },
+          {
+            "name": "idx_color_primary",
+            "unique": false,
+            "columnNames": [
+              "colorCodePrimary"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_color_primary` ON `${TABLE_NAME}` (`colorCodePrimary`)"
+          },
+          {
+            "name": "idx_color_secondary",
+            "unique": false,
+            "columnNames": [
+              "colorCodeSecondary"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_color_secondary` ON `${TABLE_NAME}` (`colorCodeSecondary`)"
+          },
+          {
+            "name": "idx_forestry",
+            "unique": false,
+            "columnNames": [
+              "isForestry"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_forestry` ON `${TABLE_NAME}` (`isForestry`)"
+          },
+          {
+            "name": "idx_forestry_type",
+            "unique": false,
+            "columnNames": [
+              "forestryCostType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_forestry_type` ON `${TABLE_NAME}` (`forestryCostType`)"
+          }
+        ]
+      },
+      {
+        "tableName": "beneficiaries",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `beneficiaryName` TEXT, `beneficiaryIdentification` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "beneficiaryName",
+            "columnName": "beneficiaryName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "beneficiaryIdentification",
+            "columnName": "beneficiaryIdentification",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "idx_id_beneficiary",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_id_beneficiary` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "idx_beneficiary_name",
+            "unique": false,
+            "columnNames": [
+              "beneficiaryName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_beneficiary_name` ON `${TABLE_NAME}` (`beneficiaryName`)"
+          },
+          {
+            "name": "idx_beneficiary_identification",
+            "unique": false,
+            "columnNames": [
+              "beneficiaryIdentification"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_beneficiary_identification` ON `${TABLE_NAME}` (`beneficiaryIdentification`)"
+          }
+        ]
       }
     ],
     "views": [
@@ -2599,7 +2771,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5f2145b1a109d432f3933230786953ec')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '370156d1f3109362dd29dda876193a3a')"
     ]
   }
 }

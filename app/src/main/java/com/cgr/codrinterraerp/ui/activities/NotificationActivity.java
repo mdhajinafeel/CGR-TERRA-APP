@@ -85,7 +85,7 @@ public class NotificationActivity extends BaseActivity {
 
     private void initializeAdapter() {
 
-        notificationsRecyclerViewAdapter = new RecyclerViewAdapter<>(getApplicationContext(), new ArrayList<>(), R.layout.row_item_notifications) {
+        notificationsRecyclerViewAdapter = new RecyclerViewAdapter<>(getApplicationContext(), new ArrayList<>(), R.layout.row_item_notification) {
             @Override
             public void onPostBindViewHolder(ViewHolder holder, PushNotifications pushNotification) {
                 if (pushNotification != null) {
