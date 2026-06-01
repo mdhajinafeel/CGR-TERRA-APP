@@ -1,5 +1,6 @@
 package com.cgr.codrinterraerp.db.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -12,6 +13,7 @@ import java.io.Serializable;
                 @Index(name = "idx_temp_transaction_id", value = {"tempTransactionId"}, unique = true),
                 @Index(name = "idx_credit_transaction_id", value = {"creditTransactionId"}),
                 @Index(name = "idx_trans_id_expense", value = {"transactionId"}),
+                @Index(name = "idx_catpured_timestamp_expense", value = {"capturedTimeStamp"}),
                 @Index(name = "idx_trans_display_id_expense", value = {"transactionDisplayId"}),
                 @Index(name = "idx_account_head_id_expense", value = {"accountHeadId"}),
                 @Index(name = "idx_beneficiary_name_expense", value = {"beneficiaryName"}),
@@ -23,7 +25,8 @@ import java.io.Serializable;
 public class ExpenseData implements Serializable {
 
     @PrimaryKey
-    public String tempTransactionId;
+    @NonNull
+    public String tempTransactionId = "";
     public int creditTransactionId;
     public long capturedTimeStamp;
     public int transactionId;
@@ -44,11 +47,12 @@ public class ExpenseData implements Serializable {
     public boolean isForestry;
     public int forestryCostType;
 
+    @NonNull
     public String getTempTransactionId() {
         return tempTransactionId;
     }
 
-    public void setTempTransactionId(String tempTransactionId) {
+    public void setTempTransactionId(@NonNull String tempTransactionId) {
         this.tempTransactionId = tempTransactionId;
     }
 

@@ -39,6 +39,7 @@
             android:layout_marginEnd="@dimen/margin_2"
             android:background="@drawable/bg_notification_badge"
             android:gravity="center"
+            android:visibility="gone"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_10"
             android:fontFamily="@font/exo2_bold"/>

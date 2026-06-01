@@ -351,8 +351,4 @@ public class MasterRepository {
     public void insertExpenseData(List<ExpenseData> expenseDataList) {
         expenseDataDao.insertExpenseData(expenseDataList);
     }
-
-    public void deleteExpenseData() {
-        expenseDataDao.clearAll();
-    }
 }

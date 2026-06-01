@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
@@ -39,11 +40,14 @@ public class BaseActivity extends AppCompatActivity {
         // Keep normal layout behavior (no overlap)
         WindowCompat.setDecorFitsSystemWindows(window, true);
 
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
         // ✅ Set ONLY status bar color
         if(isLogin) {
             window.setStatusBarColor(getColor(R.color.colorWhite));
         } else {
-            window.setStatusBarColor(getColor(R.color.colorDarkGreen));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorDarkGreen));
         }
 
         // ✅ White icons (since background is dark)

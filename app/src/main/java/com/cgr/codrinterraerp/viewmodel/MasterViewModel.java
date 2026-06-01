@@ -4,7 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.cgr.codrinterraerp.db.entities.AccountHeads;
+import com.cgr.codrinterraerp.db.entities.Beneficiaries;
 import com.cgr.codrinterraerp.db.entities.ContainerCategories;
+import com.cgr.codrinterraerp.db.entities.IncomeData;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystems;
 import com.cgr.codrinterraerp.db.entities.Origins;
 import com.cgr.codrinterraerp.db.entities.ProductTypes;
@@ -129,5 +132,17 @@ public class MasterViewModel extends ViewModel {
 
     public List<ContainerCategories> fetchContainerCategories(int productTypeId) {
         return masterRepository.fetchContainerCategories(productTypeId);
+    }
+
+    public List<AccountHeads> fetchAccountHeads() {
+        return masterRepository.fetchAccountHeads();
+    }
+
+    public List<Beneficiaries> fetchBeneficiaries() {
+        return masterRepository.fetchBeneficiaries();
+    }
+
+    public List<IncomeData> fetchIncomeData() {
+        return masterRepository.getIncomeData();
     }
 }

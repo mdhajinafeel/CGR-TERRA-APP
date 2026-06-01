@@ -9,5 +9,19 @@
     <string name="debit">Debit</string>
     <string name="recent_transactions">Recent Transactions</string>
     <string name="see_all">See all</string>
+    <string name="concept_general">Concept General</string>
+    <string name="concept">Concept</string>
+    <string name="beneficiary">Beneficiary</string>
+    <string name="identification">Identification</string>
+    <string name="amount">Amount</string>
+    <string name="attach_file">Attach Invoice</string>
+    <string name="file_preview">File Preview</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="update_expense">Update Expense</string>
+    <string name="expense_saved">Data has been saved successfully</string>
+    <string name="expense_updated">Data has been updated successfully</string>
+    <string name="expense_save_failed">Unable to save data. Please try again.</string>
+    <string name="expense_update_failed">Unable to update data. Please try again.</string>
+    <string name="edit_expense">Edit Expense</string>
 
 </resources>

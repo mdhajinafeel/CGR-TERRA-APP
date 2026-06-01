@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "370156d1f3109362dd29dda876193a3a",
+    "identityHash": "a6de094d664a2615f2900d1a78c5dfa6",
     "entities": [
       {
         "tableName": "origins",
@@ -2753,6 +2753,313 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `idx_beneficiary_identification` ON `${TABLE_NAME}` (`beneficiaryIdentification`)"
           }
         ]
+      },
+      {
+        "tableName": "income_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`creditTransactionId` INTEGER NOT NULL, `transactionDisplayId` TEXT, `amount` REAL NOT NULL, `transactionDate` TEXT, `transactionTimestamp` INTEGER NOT NULL, `conceptGeneral` TEXT, `updatedAt` INTEGER NOT NULL, PRIMARY KEY(`creditTransactionId`))",
+        "fields": [
+          {
+            "fieldPath": "creditTransactionId",
+            "columnName": "creditTransactionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionDisplayId",
+            "columnName": "transactionDisplayId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionDate",
+            "columnName": "transactionDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "transactionTimestamp",
+            "columnName": "transactionTimestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conceptGeneral",
+            "columnName": "conceptGeneral",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "creditTransactionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "idx_credit_trans_income",
+            "unique": false,
+            "columnNames": [
+              "creditTransactionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_credit_trans_income` ON `${TABLE_NAME}` (`creditTransactionId`)"
+          },
+          {
+            "name": "idx_transaction_date_income",
+            "unique": false,
+            "columnNames": [
+              "transactionDate"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_transaction_date_income` ON `${TABLE_NAME}` (`transactionDate`)"
+          },
+          {
+            "name": "idx_concept_general_income",
+            "unique": false,
+            "columnNames": [
+              "conceptGeneral"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_concept_general_income` ON `${TABLE_NAME}` (`conceptGeneral`)"
+          },
+          {
+            "name": "idx_trans_display_id_income",
+            "unique": false,
+            "columnNames": [
+              "transactionDisplayId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_trans_display_id_income` ON `${TABLE_NAME}` (`transactionDisplayId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "expense_data",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tempTransactionId` TEXT NOT NULL, `creditTransactionId` INTEGER NOT NULL, `capturedTimeStamp` INTEGER NOT NULL, `transactionId` INTEGER NOT NULL, `transactionDisplayId` TEXT, `accountHeadId` INTEGER NOT NULL, `beneficiaryName` TEXT, `beneficiaryIdentification` TEXT, `expenseDate` TEXT, `amount` REAL NOT NULL, `attachFileUri` TEXT, `attachFileUrl` TEXT, `isAttachUpdated` INTEGER NOT NULL, `isAttachUploaded` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `isForestry` INTEGER NOT NULL, `forestryCostType` INTEGER NOT NULL, PRIMARY KEY(`tempTransactionId`))",
+        "fields": [
+          {
+            "fieldPath": "tempTransactionId",
+            "columnName": "tempTransactionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "creditTransactionId",
+            "columnName": "creditTransactionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "capturedTimeStamp",
+            "columnName": "capturedTimeStamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionId",
+            "columnName": "transactionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionDisplayId",
+            "columnName": "transactionDisplayId",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "accountHeadId",
+            "columnName": "accountHeadId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "beneficiaryName",
+            "columnName": "beneficiaryName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "beneficiaryIdentification",
+            "columnName": "beneficiaryIdentification",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "expenseDate",
+            "columnName": "expenseDate",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attachFileUri",
+            "columnName": "attachFileUri",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "attachFileUrl",
+            "columnName": "attachFileUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isAttachUpdated",
+            "columnName": "isAttachUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isAttachUploaded",
+            "columnName": "isAttachUploaded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isSynced",
+            "columnName": "isSynced",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDeleted",
+            "columnName": "isDeleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEdited",
+            "columnName": "isEdited",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isForestry",
+            "columnName": "isForestry",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "forestryCostType",
+            "columnName": "forestryCostType",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "tempTransactionId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "idx_temp_transaction_id",
+            "unique": true,
+            "columnNames": [
+              "tempTransactionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `idx_temp_transaction_id` ON `${TABLE_NAME}` (`tempTransactionId`)"
+          },
+          {
+            "name": "idx_credit_transaction_id",
+            "unique": false,
+            "columnNames": [
+              "creditTransactionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_credit_transaction_id` ON `${TABLE_NAME}` (`creditTransactionId`)"
+          },
+          {
+            "name": "idx_trans_id_expense",
+            "unique": false,
+            "columnNames": [
+              "transactionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_trans_id_expense` ON `${TABLE_NAME}` (`transactionId`)"
+          },
+          {
+            "name": "idx_catpured_timestamp_expense",
+            "unique": false,
+            "columnNames": [
+              "capturedTimeStamp"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_catpured_timestamp_expense` ON `${TABLE_NAME}` (`capturedTimeStamp`)"
+          },
+          {
+            "name": "idx_trans_display_id_expense",
+            "unique": false,
+            "columnNames": [
+              "transactionDisplayId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_trans_display_id_expense` ON `${TABLE_NAME}` (`transactionDisplayId`)"
+          },
+          {
+            "name": "idx_account_head_id_expense",
+            "unique": false,
+            "columnNames": [
+              "accountHeadId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_account_head_id_expense` ON `${TABLE_NAME}` (`accountHeadId`)"
+          },
+          {
+            "name": "idx_beneficiary_name_expense",
+            "unique": false,
+            "columnNames": [
+              "beneficiaryName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_beneficiary_name_expense` ON `${TABLE_NAME}` (`beneficiaryName`)"
+          },
+          {
+            "name": "idx_identification_expense",
+            "unique": false,
+            "columnNames": [
+              "beneficiaryIdentification"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_identification_expense` ON `${TABLE_NAME}` (`beneficiaryIdentification`)"
+          },
+          {
+            "name": "idx_expense_date",
+            "unique": false,
+            "columnNames": [
+              "expenseDate"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_expense_date` ON `${TABLE_NAME}` (`expenseDate`)"
+          },
+          {
+            "name": "idx_amount_expense",
+            "unique": false,
+            "columnNames": [
+              "amount"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `idx_amount_expense` ON `${TABLE_NAME}` (`amount`)"
+          }
+        ]
       }
     ],
     "views": [
@@ -2771,7 +3078,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '370156d1f3109362dd29dda876193a3a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a6de094d664a2615f2900d1a78c5dfa6')"
     ]
   }
 }

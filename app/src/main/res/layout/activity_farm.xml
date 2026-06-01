@@ -72,6 +72,7 @@
                     app:cornerRadius="@dimen/corner_radius_8"
                     app:icon="@drawable/ic_close"
                     app:iconGravity="textStart" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tiSupplier"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
