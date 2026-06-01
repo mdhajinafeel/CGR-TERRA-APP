@@ -125,8 +125,8 @@ public class DispatchFragment extends Fragment {
             public void onPostBindViewHolder(ViewHolder holder, DispatchView dispatchView) {
                 if (dispatchView != null) {
 
-                    AppCompatImageButton btnInfoDispatch = (AppCompatImageButton) holder.getView(R.id.btnInfoDispatch);
-                    AppCompatImageButton btnEditDispatch = (AppCompatImageButton) holder.getView(R.id.btnEditDispatch);
+                    AppCompatImageButton btnInfoDispatch = holder.getView(R.id.btnInfoDispatch);
+                    AppCompatImageButton btnEditDispatch = holder.getView(R.id.btnEditDispatch);
 
                     holder.setViewText(R.id.tvContainerNumber, dispatchView.containerNumber);
                     holder.setViewText(R.id.tvContainerCategory, dispatchView.category.toUpperCase());
@@ -346,6 +346,8 @@ public class DispatchFragment extends Fragment {
 
         dialog = builder.create();
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+
+        view.findViewById(R.id.llFile).setVisibility(View.GONE);
 
         view.findViewById(R.id.llCamera).setOnClickListener(v -> {
             dialog.dismiss();
@@ -599,7 +601,7 @@ public class DispatchFragment extends Fragment {
             @Override
             public void onPostBindViewHolder(ViewHolder holder, ContainerImages containerImage) {
                 if (containerImage != null) {
-                    AppCompatImageView ivContainerPhoto = (AppCompatImageView) holder.getView(R.id.ivContainerPhoto);
+                    AppCompatImageView ivContainerPhoto = holder.getView(R.id.ivContainerPhoto);
 
                     Glide.with(requireContext())
                             .load(new File(containerImage.imagePath))

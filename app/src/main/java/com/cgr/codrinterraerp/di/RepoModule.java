@@ -12,6 +12,7 @@ import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
 import com.cgr.codrinterraerp.db.dao.ExpenseDataDao;
+import com.cgr.codrinterraerp.db.dao.ExpenseViewDao;
 import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
@@ -49,6 +50,7 @@ import com.cgr.codrinterraerp.repository.DispatchDataRepository;
 import com.cgr.codrinterraerp.repository.DispatchRepository;
 import com.cgr.codrinterraerp.repository.FarmDataRepository;
 import com.cgr.codrinterraerp.repository.FarmRepository;
+import com.cgr.codrinterraerp.repository.FinanceRepository;
 import com.cgr.codrinterraerp.repository.MasterRepository;
 import com.cgr.codrinterraerp.repository.NotificationRepository;
 import com.cgr.codrinterraerp.repository.ReceptionDataRepository;
@@ -158,6 +160,12 @@ public class RepoModule {
                                          CGRTerraERPDatabase database) {
         return new SyncRepository(syncDao, receptionDetailsDao, dispatchDetailsDao, farmDetailsDao, receptionDataDao, containerDataDao, receptionSummaryDao,
                 dispatchSummaryDao, pushNotificationsDao, iSyncApiService, database);
+    }
+
+    @Provides
+    @Singleton
+    FinanceRepository provideFinanceRepository(IncomeDataDao incomeDataDao, ExpenseDataDao expenseDataDao, BeneficiariesDao beneficiariesDao, ExpenseViewDao expenseViewDao) {
+        return new FinanceRepository(incomeDataDao, expenseDataDao, beneficiariesDao, expenseViewDao);
     }
 
     @Provides

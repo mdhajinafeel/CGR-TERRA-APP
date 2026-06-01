@@ -105,8 +105,8 @@ public class FarmListsActivity extends BaseActivity {
             public void onPostBindViewHolder(ViewHolder holder, FarmView farmView) {
                 if (farmView != null) {
 
-                    AppCompatImageView btnViewFarm = (AppCompatImageView) holder.getView(R.id.btnViewFarm);
-                    AppCompatImageView btnEditFarm = (AppCompatImageView) holder.getView(R.id.btnEditFarm);
+                    AppCompatImageView btnViewFarm = holder.getView(R.id.btnViewFarm);
+                    AppCompatImageView btnEditFarm = holder.getView(R.id.btnEditFarm);
 
                     holder.setViewText(R.id.tvIca, farmView.ica);
                     holder.setViewText(R.id.tvSupplier, farmView.supplierName);

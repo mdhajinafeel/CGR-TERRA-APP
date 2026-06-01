@@ -45,4 +45,10 @@ public class Beneficiaries implements Serializable {
     public void setBeneficiaryIdentification(@NonNull String beneficiaryIdentification) {
         this.beneficiaryIdentification = beneficiaryIdentification;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return beneficiaryName;
+    }
 }

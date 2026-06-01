@@ -14,6 +14,7 @@ import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
 import com.cgr.codrinterraerp.db.dao.ExpenseDataDao;
+import com.cgr.codrinterraerp.db.dao.ExpenseViewDao;
 import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
@@ -216,25 +217,6 @@ public class DBModule {
         return db.farmSummaryDao();
     }
 
-    // VIEWS
-    @Provides
-    @Singleton
-    public ReceptionViewDao provideReceptionViewDao(CGRTerraERPDatabase db) {
-        return db.receptionViewDao();
-    }
-
-    @Provides
-    @Singleton
-    public DispatchViewDao provideDispatchViewDao(CGRTerraERPDatabase db) {
-        return db.dispatchViewDao();
-    }
-
-    @Provides
-    @Singleton
-    public FarmViewDao provideFarmViewDao(CGRTerraERPDatabase db) {
-        return db.farmViewDao();
-    }
-
     @Provides
     @Singleton
     public ReceptionTransactionDao provideReceptionTransactionDao(CGRTerraERPDatabase db) {
@@ -287,5 +269,30 @@ public class DBModule {
     @Singleton
     public ExpenseDataDao provideExpenseDataDao(CGRTerraERPDatabase db) {
         return db.expenseDataDao();
+    }
+
+    // VIEWS
+    @Provides
+    @Singleton
+    public ReceptionViewDao provideReceptionViewDao(CGRTerraERPDatabase db) {
+        return db.receptionViewDao();
+    }
+
+    @Provides
+    @Singleton
+    public DispatchViewDao provideDispatchViewDao(CGRTerraERPDatabase db) {
+        return db.dispatchViewDao();
+    }
+
+    @Provides
+    @Singleton
+    public FarmViewDao provideFarmViewDao(CGRTerraERPDatabase db) {
+        return db.farmViewDao();
+    }
+
+    @Provides
+    @Singleton
+    public ExpenseViewDao provideExpenseViewDao(CGRTerraERPDatabase db) {
+        return db.expenseViewDao();
     }
 }

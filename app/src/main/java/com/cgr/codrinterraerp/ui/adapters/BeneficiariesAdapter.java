@@ -74,19 +74,32 @@ public class BeneficiariesAdapter extends ArrayAdapter<Beneficiaries> implements
     @NonNull
     @Override
     public Filter getFilter() {
+
         return new Filter() {
+            @Override
+            public CharSequence convertResultToString(Object resultValue) {
+                if (resultValue instanceof Beneficiaries) {
+                    return ((Beneficiaries) resultValue)
+                            .getBeneficiaryName();
+                }
+                return "";
+            }
+
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-                List<Beneficiaries> suggestions = new ArrayList<>();
-
-                if (constraint != null) {
+                List<Beneficiaries> suggestions =  new ArrayList<>();
+                if (constraint == null) {
+                    suggestions.addAll(originalList);
+                } else {
                     String query = constraint.toString().trim().toLowerCase();
-
-                    if (!query.isEmpty()) {
+                    if (query.isEmpty()) {
+                        suggestions.addAll(originalList);
+                    } else {
                         for (Beneficiaries item : originalList) {
-                            if (item.getBeneficiaryName().toLowerCase().contains(query)
-                                    || item.getBeneficiaryIdentification().toLowerCase().contains(query)) {
+                            String name = item.getBeneficiaryName().toLowerCase();
+                            String id = item.getBeneficiaryIdentification().toLowerCase();
+                            if (name.contains(query) || id.contains(query)) {
                                 suggestions.add(item);
                             }
                         }
@@ -102,12 +115,9 @@ public class BeneficiariesAdapter extends ArrayAdapter<Beneficiaries> implements
             @SuppressWarnings("unchecked")
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 filteredList.clear();
-
                 if (results.values != null) {
-                    List<Beneficiaries> list = (List<Beneficiaries>) results.values;
-                    filteredList.addAll(list);
+                    filteredList.addAll((List<Beneficiaries>) results.values);
                 }
-
                 notifyDataSetChanged();
             }
         };

@@ -21,9 +21,6 @@ public interface BeneficiariesDao {
     @Query("SELECT * FROM beneficiaries")
     List<Beneficiaries> getAllBeneficiaries();
 
-    @Query("SELECT COUNT(*) FROM beneficiaries WHERE beneficiaryIdentification = :beneficiaryIdentification AND beneficiaryName = :beneficiaryName")
-    int getBeneficiaryById(String beneficiaryIdentification, String beneficiaryName);
-
     @Query("DELETE FROM beneficiaries")
     void clearAll();
 }

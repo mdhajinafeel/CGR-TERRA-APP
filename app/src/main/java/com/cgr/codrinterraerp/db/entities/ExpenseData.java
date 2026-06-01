@@ -29,7 +29,7 @@ public class ExpenseData implements Serializable {
     public String tempTransactionId = "";
     public int creditTransactionId;
     public long capturedTimeStamp;
-    public int transactionId;
+    public Integer transactionId;
     public String transactionDisplayId;
     public int accountHeadId;
     public String beneficiaryName;
@@ -72,11 +72,11 @@ public class ExpenseData implements Serializable {
         this.capturedTimeStamp = capturedTimeStamp;
     }
 
-    public int getTransactionId() {
+    public Integer getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
+    public void setTransactionId(Integer transactionId) {
         this.transactionId = transactionId;
     }
 

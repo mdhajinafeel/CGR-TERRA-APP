@@ -27,6 +27,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -354,5 +355,37 @@ public class CommonUtils {
             AppLogger.e(context.getClass(), "getLocalizedString", e);
         }
         return key;
+    }
+
+    public static String capitalizeWords(String text) {
+        if (text == null || text.trim().isEmpty()) return text;
+
+        String[] words = text.trim().split("\\s+" );
+        StringBuilder sb = new StringBuilder();
+
+        for (String word : words) {
+            sb.append(word.substring(0, 1).toUpperCase())
+                    .append(word.substring(1).toLowerCase())
+                    .append(" " );
+        }
+
+        return sb.toString().trim();
+    }
+
+    public static String currencyFormat(double amount) {
+        String localeStr = PreferenceManager.INSTANCE.getCurrencyFormat();
+        String[] parts = localeStr.split("_" );
+
+        Locale locale = new Locale(parts[0], parts[1]);
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+
+        format.setMaximumFractionDigits(2);
+        format.setMinimumFractionDigits(0);
+
+        if (amount > 0) {
+            return format.format(amount);
+        } else {
+            return format.format(0);
+        }
     }
 }

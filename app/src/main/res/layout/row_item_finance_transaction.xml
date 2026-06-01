@@ -30,7 +30,7 @@
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
-            android:background="@color/colorLightGrey"
+            android:background="@color/colorGrey"
             android:scaleType="centerCrop"
             android:tint="@null"
             app:shapeAppearanceOverlay="@style/RoundedImageStyle" />
@@ -54,7 +54,7 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/text_16" />
+                android:textSize="@dimen/text_18" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvExpenseDate"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/exo2_regular"
                 android:textColor="@color/colorDarkGrey"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_16" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvBeneficiaryName"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/exo2_regular"
                 android:textColor="@color/colorDarkGrey"
-                android:textSize="@dimen/text_12" />
+                android:textSize="@dimen/text_14" />
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -78,10 +78,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
             android:fontFamily="@font/exo2_bold"
             android:paddingTop="@dimen/padding_14"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/text_14" />
+            android:textSize="@dimen/text_16" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

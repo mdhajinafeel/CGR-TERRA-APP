@@ -94,9 +94,9 @@ public class NotificationActivity extends BaseActivity {
                     holder.setViewText(R.id.tvMessage, CommonUtils.getLocalizedString(getApplicationContext(), pushNotification.message));
                     holder.setViewText(R.id.tvTimestamp, CommonUtils.convertTimeStampToDate(pushNotification.createdAt, "MMM dd, hh:mm a", getApplicationContext()));
 
-                    AppCompatImageView ivTypeIcon = (AppCompatImageView) holder.getView(R.id.ivTypeIcon);
-                    AppCompatTextView tvType = (AppCompatTextView) holder.getView(R.id.tvType);
-                    AppCompatTextView tvStatus = (AppCompatTextView) holder.getView(R.id.tvStatus);
+                    AppCompatImageView ivTypeIcon = holder.getView(R.id.ivTypeIcon);
+                    AppCompatTextView tvType = holder.getView(R.id.tvType);
+                    AppCompatTextView tvStatus = holder.getView(R.id.tvStatus);
 
                     tvType.setText(pushNotification.type);
                     tvStatus.setText(pushNotification.status);

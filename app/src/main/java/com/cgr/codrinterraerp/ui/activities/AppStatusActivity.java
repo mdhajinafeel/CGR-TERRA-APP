@@ -130,7 +130,7 @@ public class AppStatusActivity extends BaseActivity {
                 if (apiLog != null) {
 
                     View vStatusBar = holder.getView(R.id.vStatusBar);
-                    LinearLayout expandableContainer = (LinearLayout) holder.getView(R.id.expandableContainer);
+                    LinearLayout expandableContainer = holder.getView(R.id.expandableContainer);
 
                     if (apiLog.type.equalsIgnoreCase("api")) {
 
@@ -192,8 +192,8 @@ public class AppStatusActivity extends BaseActivity {
 
                     expandableContainer.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
 
-                    AppCompatTextView tvStackTrace = (AppCompatTextView) holder.getView(R.id.tvStackTrace);
-                    AppCompatTextView tvErrorMessage = (AppCompatTextView) holder.getView(R.id.tvErrorMessage);
+                    AppCompatTextView tvStackTrace = holder.getView(R.id.tvStackTrace);
+                    AppCompatTextView tvErrorMessage = holder.getView(R.id.tvErrorMessage);
                     View ivExpand = holder.getView(R.id.ivExpandLogs);
 
                     Runnable[] toggleRunnable = new Runnable[1];
@@ -201,8 +201,8 @@ public class AppStatusActivity extends BaseActivity {
 
                     ivExpand.animate().rotation(isExpanded ? 180f : 0f).setDuration(200).start();
 
-                    AppCompatTextView tvStackTraceTitle = (AppCompatTextView) holder.getView(R.id.tvStackTraceTitle);
-                    AppCompatTextView tvErrorMessageTitle = (AppCompatTextView) holder.getView(R.id.tvErrorMessageTitle);
+                    AppCompatTextView tvStackTraceTitle = holder.getView(R.id.tvStackTraceTitle);
+                    AppCompatTextView tvErrorMessageTitle = holder.getView(R.id.tvErrorMessageTitle);
                     if (apiLog.type.equalsIgnoreCase("api")) {
                         tvStackTraceTitle.setText(getString(R.string.request));
                         tvErrorMessageTitle.setText(getString(R.string.response));

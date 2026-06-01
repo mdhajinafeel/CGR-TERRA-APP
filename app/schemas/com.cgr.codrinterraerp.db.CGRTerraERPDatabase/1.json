@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a6de094d664a2615f2900d1a78c5dfa6",
+    "identityHash": "1de997492e2b8062a4c2d5542335f91e",
     "entities": [
       {
         "tableName": "origins",
@@ -2845,7 +2845,7 @@
       },
       {
         "tableName": "expense_data",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tempTransactionId` TEXT NOT NULL, `creditTransactionId` INTEGER NOT NULL, `capturedTimeStamp` INTEGER NOT NULL, `transactionId` INTEGER NOT NULL, `transactionDisplayId` TEXT, `accountHeadId` INTEGER NOT NULL, `beneficiaryName` TEXT, `beneficiaryIdentification` TEXT, `expenseDate` TEXT, `amount` REAL NOT NULL, `attachFileUri` TEXT, `attachFileUrl` TEXT, `isAttachUpdated` INTEGER NOT NULL, `isAttachUploaded` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `isForestry` INTEGER NOT NULL, `forestryCostType` INTEGER NOT NULL, PRIMARY KEY(`tempTransactionId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tempTransactionId` TEXT NOT NULL, `creditTransactionId` INTEGER NOT NULL, `capturedTimeStamp` INTEGER NOT NULL, `transactionId` INTEGER, `transactionDisplayId` TEXT, `accountHeadId` INTEGER NOT NULL, `beneficiaryName` TEXT, `beneficiaryIdentification` TEXT, `expenseDate` TEXT, `amount` REAL NOT NULL, `attachFileUri` TEXT, `attachFileUrl` TEXT, `isAttachUpdated` INTEGER NOT NULL, `isAttachUploaded` INTEGER NOT NULL, `isSynced` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `isForestry` INTEGER NOT NULL, `forestryCostType` INTEGER NOT NULL, PRIMARY KEY(`tempTransactionId`))",
         "fields": [
           {
             "fieldPath": "tempTransactionId",
@@ -2868,8 +2868,7 @@
           {
             "fieldPath": "transactionId",
             "columnName": "transactionId",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "transactionDisplayId",
@@ -3074,11 +3073,15 @@
       {
         "viewName": "farm_view",
         "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT f.farmId, f.tempFarmId, f.ica, s.supplierName, f.purchaseDate, IFNULL(fs.totalPieces,0) as totalPieces, IFNULL(fs.totalGrossVolume,0) as totalGrossVolume, IFNULL(fs.totalVolumePie,0) as totalVolumePie, IFNULL(fs.totalNetVolume,0) as totalNetVolume, f.productTypeId, p.productName, pt.productTypeName, pc.contractCode, pc.description, f.supplierId, f.isClosed, f.closedDate, f.truckNumber, f.truckDriverName FROM farm_details f INNER JOIN suppliers s ON s.supplierId = f.supplierId INNER JOIN products p ON p.productId = f.productId INNER JOIN product_types pt ON pt.typeId = f.productTypeId INNER JOIN purchase_contracts pc ON pc.contractId = f.purchaseContract LEFT JOIN farm_summary fs ON fs.tempFarmId = f.tempFarmId WHERE f.isDeleted = 0"
+      },
+      {
+        "viewName": "expense_view",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT e.transactionId, e.tempTransactionId, e.transactionDisplayId, e.beneficiaryName, e.beneficiaryIdentification, e.expenseDate, IFNULL(e.amount,0) as amount, a.accountHeadName, a.icon, a.isForestry, a.accountHeadId, e.attachFileUri, e.capturedTimeStamp FROM expense_data e INNER JOIN account_heads a ON a.accountHeadId = e.accountHeadId WHERE e.isDeleted = 0"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a6de094d664a2615f2900d1a78c5dfa6')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1de997492e2b8062a4c2d5542335f91e')"
     ]
   }
 }

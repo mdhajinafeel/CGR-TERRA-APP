@@ -339,12 +339,12 @@ public class MasterRepository {
         incomeDataDao.insertIncomeData(incomeDataList);
     }
 
-    public void deleteIncomeData() {
-        incomeDataDao.clearAll();
+    public List<IncomeData> fetchIncomeData() {
+        return incomeDataDao.getAllIncomeData();
     }
 
-    public List<IncomeData> getIncomeData() {
-        return incomeDataDao.getIncomeData();
+    public void deleteIncomeData() {
+        incomeDataDao.clearAll();
     }
 
     // DEBIT TRANSACTIONS

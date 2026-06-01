@@ -143,6 +143,6 @@ public class MasterViewModel extends ViewModel {
     }
 
     public List<IncomeData> fetchIncomeData() {
-        return masterRepository.getIncomeData();
+        return masterRepository.fetchIncomeData();
     }
 }

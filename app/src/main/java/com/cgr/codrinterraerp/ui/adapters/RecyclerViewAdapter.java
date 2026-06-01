@@ -152,4 +152,12 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHo
     public List<T> getItems() {
         return mFullList;
     }
+
+    public void removeItem(T item) {
+        int pos = mDataList.indexOf(item);
+        if (pos != -1) {
+            mDataList.remove(pos);
+            notifyItemRemoved(pos);
+        }
+    }
 }

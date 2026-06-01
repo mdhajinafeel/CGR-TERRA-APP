@@ -217,8 +217,8 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             public void onPostBindViewHolder(ViewHolder holder, DispatchView dispatchView) {
                 if (dispatchView != null) {
 
-                    LinearLayout llAvgGirth = (LinearLayout) holder.getView(R.id.llAvgGirth);
-                    LinearLayout llVolumePie = (LinearLayout) holder.getView(R.id.llVolumePie);
+                    LinearLayout llAvgGirth = holder.getView(R.id.llAvgGirth);
+                    LinearLayout llVolumePie = holder.getView(R.id.llVolumePie);
 
                     int position = holder.getBindingAdapterPosition();
                     boolean isSelected = position == selectedPosition;
@@ -241,7 +241,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                     holder.setViewText(R.id.tvNetVolume, CommonUtils.formatNumber3(dispatchView.totalNetVolume));
 
                     View cardBg = holder.getView(R.id.cardBackground);
-                    AppCompatImageView tick = (AppCompatImageView) holder.getView(R.id.ivSelected);
+                    AppCompatImageView tick = holder.getView(R.id.ivSelected);
 
                     // ✅ UI update using position
                     if (isSelected) {
@@ -872,6 +872,8 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
         dialog = builder.create();
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
 
+        view.findViewById(R.id.llFile).setVisibility(View.GONE);
+
         view.findViewById(R.id.llCamera).setOnClickListener(v -> {
             dialog.dismiss();
             checkCameraPermissionAndOpen();
@@ -1123,7 +1125,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             @Override
             public void onPostBindViewHolder(ViewHolder holder, ContainerImages containerImage) {
                 if (containerImage != null) {
-                    AppCompatImageView ivContainerPhoto = (AppCompatImageView) holder.getView(R.id.ivContainerPhoto);
+                    AppCompatImageView ivContainerPhoto = holder.getView(R.id.ivContainerPhoto);
 
                     Glide.with(getApplicationContext())
                             .load(new File(containerImage.imagePath))

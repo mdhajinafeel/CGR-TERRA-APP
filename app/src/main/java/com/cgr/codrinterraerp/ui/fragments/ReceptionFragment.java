@@ -105,8 +105,8 @@ public class ReceptionFragment extends Fragment {
             public void onPostBindViewHolder(ViewHolder holder, ReceptionView receptionView) {
                 if (receptionView != null) {
 
-                    AppCompatImageButton btnViewReception = (AppCompatImageButton) holder.getView(R.id.btnViewReception);
-                    AppCompatImageButton btnEditReception = (AppCompatImageButton) holder.getView(R.id.btnEditReception);
+                    AppCompatImageButton btnViewReception = holder.getView(R.id.btnViewReception);
+                    AppCompatImageButton btnEditReception = holder.getView(R.id.btnEditReception);
 
                     holder.setViewText(R.id.tvIca, receptionView.ica);
                     holder.setViewText(R.id.tvSupplier, receptionView.supplierName);

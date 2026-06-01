@@ -19,6 +19,7 @@ import com.cgr.codrinterraerp.db.dao.DispatchDetailsDao;
 import com.cgr.codrinterraerp.db.dao.DispatchSummaryDao;
 import com.cgr.codrinterraerp.db.dao.DispatchViewDao;
 import com.cgr.codrinterraerp.db.dao.ExpenseDataDao;
+import com.cgr.codrinterraerp.db.dao.ExpenseViewDao;
 import com.cgr.codrinterraerp.db.dao.FarmDataDao;
 import com.cgr.codrinterraerp.db.dao.FarmDetailsDao;
 import com.cgr.codrinterraerp.db.dao.FarmInventoryOrdersDao;
@@ -79,6 +80,7 @@ import com.cgr.codrinterraerp.db.entities.SupplierProducts;
 import com.cgr.codrinterraerp.db.entities.Suppliers;
 import com.cgr.codrinterraerp.db.entities.Warehouses;
 import com.cgr.codrinterraerp.db.views.DispatchView;
+import com.cgr.codrinterraerp.db.views.ExpenseView;
 import com.cgr.codrinterraerp.db.views.FarmView;
 import com.cgr.codrinterraerp.db.views.ReceptionView;
 
@@ -87,7 +89,7 @@ import com.cgr.codrinterraerp.db.views.ReceptionView;
         ReceptionDetails.class, DispatchDetails.class, ReceptionData.class, ContainerData.class, ContainerCategories.class, ContainerImages.class,
         DispatchSummary.class, ReceptionSummary.class, MeasurementSystemFormulas.class, MeasurementSystemFormulaVariables.class, PushNotifications.class,
         FarmDetails.class, FarmData.class, FarmSummary.class, AccountHeads.class, Beneficiaries.class, IncomeData.class, ExpenseData.class},
-        views = {ReceptionView.class, DispatchView.class, FarmView.class},
+        views = {ReceptionView.class, DispatchView.class, FarmView.class, ExpenseView.class},
         version = 1)
 public abstract class CGRTerraERPDatabase extends RoomDatabase {
 
@@ -165,6 +167,8 @@ public abstract class CGRTerraERPDatabase extends RoomDatabase {
     public abstract DispatchViewDao dispatchViewDao();
 
     public abstract FarmViewDao farmViewDao();
+
+    public abstract ExpenseViewDao expenseViewDao();
 
     // TRANSACTIONS
     public abstract ReceptionTransactionDao receptionTransactionDao();

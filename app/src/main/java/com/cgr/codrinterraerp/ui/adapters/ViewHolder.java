@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+@SuppressWarnings("unused")
 public class ViewHolder extends RecyclerView.ViewHolder {
 
     private final SparseArray<View> mViews;
@@ -27,67 +28,67 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     }
 
     // ✅ FIXED: No unchecked cast warning
-    public View getView(int id) {
-        View view = mViews.get(id);
+    public <T extends View> T getView(int viewId) {
+        View view = mViews.get(viewId);
+
         if (view == null) {
-            view = itemView.findViewById(id);
-            mViews.put(id, view);
+            view = itemView.findViewById(viewId);
+            mViews.put(viewId, view);
         }
-        return view;
+
+        //noinspection unchecked
+        return (T) view;
     }
 
     // 🔹 TEXT
     public ViewHolder setViewText(int viewId, CharSequence text) {
-        AppCompatTextView view = (AppCompatTextView) getView(viewId);
+        AppCompatTextView view = getView(viewId);
         if (view != null) view.setText(text);
         return this;
     }
 
     public ViewHolder setViewText(int viewId, int resId) {
-        AppCompatTextView view = (AppCompatTextView) getView(viewId);
+        AppCompatTextView view = getView(viewId);
         if (view != null) view.setText(resId);
         return this;
     }
 
-    public ViewHolder setViewTextColor(int viewId, int color) {
-        AppCompatTextView view = (AppCompatTextView) getView(viewId);
+    public void setViewTextColor(int viewId, int color) {
+        AppCompatTextView view = getView(viewId);
         if (view != null) view.setTextColor(color);
-        return this;
     }
 
     public ViewHolder setViewTextSize(int viewId, float size) {
-        AppCompatTextView view = (AppCompatTextView) getView(viewId);
+        AppCompatTextView view = getView(viewId);
         if (view != null) view.setTextSize(size);
         return this;
     }
 
-    public ViewHolder setViewTypeface(int viewId, Typeface typeface) {
-        AppCompatTextView view = (AppCompatTextView) getView(viewId);
+    public void setViewTypeface(int viewId, Typeface typeface) {
+        AppCompatTextView view = getView(viewId);
         if (view != null) view.setTypeface(typeface);
-        return this;
     }
 
     // 🔹 IMAGE
     public ViewHolder setViewImageResource(int viewId, int resId) {
-        AppCompatImageView view = (AppCompatImageView) getView(viewId);
+        AppCompatImageView view = getView(viewId);
         if (view != null) view.setImageResource(resId);
         return this;
     }
 
     public ViewHolder setViewImageBitmap(int viewId, Bitmap bitmap) {
-        AppCompatImageView view = (AppCompatImageView) getView(viewId);
+        AppCompatImageView view = getView(viewId);
         if (view != null) view.setImageBitmap(bitmap);
         return this;
     }
 
-    public ViewHolder setViewImageDrawable(int viewId, Drawable drawable) {
-        AppCompatImageView view = (AppCompatImageView) getView(viewId);
+    public void setViewImageDrawable(int viewId, Drawable drawable) {
+        AppCompatImageView view = getView(viewId);
         if (view != null) view.setImageDrawable(drawable);
-        return this;
     }
 
     public ViewHolder setViewImageURI(int viewId, Uri uri) {
-        AppCompatImageView view = (AppCompatImageView) getView(viewId);
+        AppCompatImageView view = getView(viewId);
         if (view != null) view.setImageURI(uri);
         return this;
     }
@@ -106,10 +107,9 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     }
 
     // 🔹 VISIBILITY
-    public ViewHolder setViewVisibility(int viewId, int visibility) {
+    public void setViewVisibility(int viewId, int visibility) {
         View view = getView(viewId);
         if (view != null) view.setVisibility(visibility);
-        return this;
     }
 
     // 🔹 CHECKED

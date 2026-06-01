@@ -547,8 +547,7 @@ public class FarmActivity extends BaseActivity {
                         } else {
                             tvNoDataFound.setVisibility(View.GONE);
                         }
-                    }
-                    if (tag.equalsIgnoreCase("Product")) {
+                    } else if (tag.equalsIgnoreCase("Product")) {
                         if (query.isEmpty()) {
                             productsRecyclerViewAdapter.resetFilter();
                         } else {

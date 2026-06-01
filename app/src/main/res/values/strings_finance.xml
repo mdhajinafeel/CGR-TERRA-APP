@@ -18,10 +18,12 @@
     <string name="file_preview">File Preview</string>
     <string name="add_expense">Add Expense</string>
     <string name="update_expense">Update Expense</string>
-    <string name="expense_saved">Data has been saved successfully</string>
-    <string name="expense_updated">Data has been updated successfully</string>
+    <string name="expense_saved">Expense has been saved successfully</string>
+    <string name="expense_updated">Expense has been updated successfully</string>
     <string name="expense_save_failed">Unable to save data. Please try again.</string>
     <string name="expense_update_failed">Unable to update data. Please try again.</string>
     <string name="edit_expense">Edit Expense</string>
+    <string name="select_concept_general">Select concept general</string>
+    <string name="select_concept">Select concept</string>
 
 </resources>
