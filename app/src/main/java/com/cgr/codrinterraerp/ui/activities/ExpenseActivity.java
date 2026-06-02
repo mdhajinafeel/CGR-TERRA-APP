@@ -87,6 +87,7 @@ public class ExpenseActivity extends BaseActivity {
     private boolean isExpenseEdit = false;
     private boolean isFileAttached = false, isForestry = false, isAttachmentRemoved = false, isNewAttachmentSelected = false;
     private Uri selectedFileUri, cameraTempUri;
+    private int forestryCostType = 0;
     private String existingFileUri = "";
     private ExpenseData existingExpenseData;
     private FinanceViewModel financeViewModel;
@@ -430,6 +431,7 @@ public class ExpenseActivity extends BaseActivity {
                     etAccountHead.setText(selected.getAccountHeadName());
                     etAccountHead.setTag(selected.getAccountHeadId());
                     isForestry = selected.isForestry();
+                    forestryCostType = selected.getForestryCostType();
                     dialog.dismiss();
                 });
             }
@@ -573,6 +575,7 @@ public class ExpenseActivity extends BaseActivity {
             expenseData.setExpenseDate(etExpenseDate.getText().toString().trim());
             expenseData.setAmount(Double.parseDouble(etAmount.getText().toString()));
             expenseData.setForestry(isForestry);
+            expenseData.setForestryCostType(forestryCostType);
 
             // ================= ID HANDLING =================
             if (isExpenseEdit && existingExpenseData != null) {

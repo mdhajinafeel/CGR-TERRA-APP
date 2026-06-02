@@ -19,12 +19,14 @@ import com.cgr.codrinterraerp.db.entities.ContainerData;
 import com.cgr.codrinterraerp.db.entities.ContainerImages;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
 import com.cgr.codrinterraerp.db.entities.DispatchSummary;
+import com.cgr.codrinterraerp.db.entities.ExpenseData;
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
 import com.cgr.codrinterraerp.db.entities.ReceptionDetails;
 import com.cgr.codrinterraerp.db.entities.ReceptionSummary;
 import com.cgr.codrinterraerp.model.request.SyncRequest;
 import com.cgr.codrinterraerp.model.response.syncdata.ContainerDataMappingsResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.DispatchMappingsResponse;
+import com.cgr.codrinterraerp.model.response.syncdata.ExpenseDataMappingsResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.FarmDataMappingsResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.FarmMappingsResponse;
 import com.cgr.codrinterraerp.model.response.syncdata.ImageUploadResponse;
@@ -94,6 +96,10 @@ public class SyncRepository {
 
     public List<ContainerImages> getUnsyncedImages() {
         return syncDao.getUnsyncedImages();
+    }
+
+    public List<ExpenseData> getExpensesPendingFileUpload() {
+        return syncDao.getExpensesPendingFileUpload();
     }
 
     // =====================
@@ -172,6 +178,80 @@ public class SyncRepository {
     }
 
     // =====================
+    // EXPENSE INVOICE SYNC
+    // =====================
+    public void uploadExpenseInvoice(SyncCallback callback) {
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            try {
+                List<ExpenseData> images = getExpensesPendingFileUpload();
+
+                if (images == null || images.isEmpty()) {
+                    callback.onResult(SyncResult.NO_DATA);
+                    return;
+                }
+
+                for (ExpenseData expenseData : images) {
+                    // =================
+                    // FILE CHECK
+                    // =================
+                    File file = new File(expenseData.getAttachFileUri());
+
+                    if (!file.exists()) {
+                        syncDao.markExpenseFailed(expenseData.tempTransactionId);
+                        continue;
+                    }
+
+                    // =================
+                    // REQUEST BODY
+                    // =================
+                    RequestBody reqFile = RequestBody.create(file, MediaType.parse("image/*"));
+
+                    MultipartBody.Part part = MultipartBody.Part.createFormData("image", file.getName(), reqFile);
+                    RequestBody tempTransactionId = RequestBody.create(expenseData.tempTransactionId, MultipartBody.FORM);
+
+                    // =================
+                    // API CALL
+                    // =================
+                    Response<ImageUploadResponse> response = iSyncApiService.uploadExpenseInvoices(part,tempTransactionId).execute();
+
+                    // =================
+                    // SUCCESS
+                    // =================
+                    if (response.isSuccessful() && response.body() != null && response.body().status && response.body().url != null
+                            && !response.body().url.isEmpty()) {
+
+                        // ✅ UPDATE DB
+                        syncDao.updateExpenseImageSync(response.body().tempTransactionId, response.body().url);
+
+                        AppLogger.d(getClass(), "File path: " + file.getAbsolutePath());
+                        AppLogger.d(getClass(), "Exists before delete: " + file.exists());
+
+                        // ✅ DELETE LOCAL FILE
+                        boolean deleted = file.delete();
+                        AppLogger.d(getClass(), "Deleted: " + deleted);
+                        AppLogger.d(getClass(), "Exists after delete: " + file.exists());
+
+                        if (deleted) {
+                            syncDao.clearExpenseLocalFilePath(response.body().tempTransactionId);
+                        }
+                    }
+                }
+
+                callback.onResult(SyncResult.SUCCESS);
+
+            } catch (Exception e) {
+                AppLogger.e(getClass(), "uploadContainerImage", e);
+                callback.onResult(SyncResult.FAILED);
+            } finally {
+                // ✅ Properly shutdown executor
+                executor.shutdown();
+            }
+        });
+    }
+
+    // =====================
     // MAIN SYNC
     // =====================
     public void syncData(Context context, SyncCallback callback) {
@@ -191,6 +271,7 @@ public class SyncRepository {
                 request.containerData = syncDao.getUnsyncedContainerData();
                 request.farmDetails = syncDao.getUnsyncedFarmDetails();
                 request.farmData = syncDao.getUnsyncedFarmData();
+                request.expenseData = syncDao.getUnsyncedExpenseData();
 
                 // =================
                 // API CALL
@@ -233,6 +314,11 @@ public class SyncRepository {
                         syncDao.updateFarmDataMapping(farmDataMappingsResponse.tempFarmDataId, farmDataMappingsResponse.tempFarmId,
                                 farmDataMappingsResponse.farmDataId, farmDataMappingsResponse.farmId);
                     }
+
+                    // EXPENSE DATA
+                    for (ExpenseDataMappingsResponse expenseDataMappingsResponse : res.expenseDataMappings) {
+                        syncDao.updateExpenseDataMapping(expenseDataMappingsResponse.tempTransactionId, expenseDataMappingsResponse.transactionId);
+                    }
                 }
 
                 callback.onResult(SyncResult.SUCCESS);
@@ -255,9 +341,11 @@ public class SyncRepository {
         int receptionDataCount = syncDao.getUnsyncedReceptionDataCount();
         int containerDataCount = syncDao.getUnsyncedContainerDataCount();
         int containerImagesCount = syncDao.getUnsyncedContainerImagesCount();
+        int expenseImagesCount = syncDao.getUnsyncedExpenseImagesCount();
+        int expenseDataCount = syncDao.getUnsyncedExpenseDataCount();
 
         long totalUnsyncedData = (long) farmDetailsCount + receptionDetailsCount + dispatchDetailsCount + farmDataCount + receptionDataCount +
-                containerDataCount + containerImagesCount;
+                containerDataCount + containerImagesCount + expenseImagesCount + expenseDataCount;
 
         return totalUnsyncedData > 0;
     }

@@ -20,6 +20,10 @@ public interface ISyncApiService {
     Call<ImageUploadResponse> uploadContainerPhoto(@Part MultipartBody.Part image, @Part("tempContainerImageId") RequestBody tempContainerImageId,
                                           @Part("tempDispatchId") RequestBody tempDispatchId);
 
+    @Multipart
+    @POST(IAPIConstants.UPLOAD_EXPENSE_INVOICES)
+    Call<ImageUploadResponse> uploadExpenseInvoices(@Part MultipartBody.Part image, @Part("tempTransactionId") RequestBody tempTransactionId);
+
     @POST(IAPIConstants.SYNC_DATA)
     Call<SyncResponse> syncData(@Body SyncRequest request);
 }

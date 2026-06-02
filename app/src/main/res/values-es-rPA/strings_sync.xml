@@ -19,5 +19,6 @@
     <string name="you_have_pending_data_waiting_for_sync">Tienes datos pendientes de sincronización.</string>
     <string name="sync_show">Sincronizar</string>
     <string name="reminder">Recordatorio</string>
+    <string name="expense_invoice_sync_failed">Falló la sincronización de la factura de gastos.</string>
 
 </resources>

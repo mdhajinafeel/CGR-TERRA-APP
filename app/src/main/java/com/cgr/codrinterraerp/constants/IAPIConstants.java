@@ -13,5 +13,6 @@ public interface IAPIConstants {
     String DOWNLOAD_MASTERS = "downloadmasters";
     String DOWNLOAD_TRANSACTIONS = "downloadtransactions";
     String UPLOAD_CONTAINER_PHOTOS = "sync/uploadcontainerphotos";
+    String UPLOAD_EXPENSE_INVOICES = "sync/uploadexpenseinvoices";
     String SYNC_DATA = "sync/syncdata";
 }

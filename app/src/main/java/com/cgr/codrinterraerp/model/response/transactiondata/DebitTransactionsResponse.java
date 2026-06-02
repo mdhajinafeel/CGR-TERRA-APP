@@ -7,7 +7,7 @@ public class DebitTransactionsResponse implements Serializable {
     private int creditTransactionId, transactionId, accountHeadId, forestryCostType;
     private String tempTransactionId, transactionDisplayId, expenseDate, beneficiaryName, documentNumber, expenseUploadedImage;
     private double amount;
-    private long expenseTimestamp;
+    private long expenseTimestamp, updatedAt;
     private boolean isForestry;
 
     public int getCreditTransactionId() {
@@ -112,5 +112,13 @@ public class DebitTransactionsResponse implements Serializable {
 
     public void setForestry(boolean forestry) {
         isForestry = forestry;
+    }
+
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

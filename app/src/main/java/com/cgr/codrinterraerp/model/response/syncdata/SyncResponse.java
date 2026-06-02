@@ -13,4 +13,5 @@ public class SyncResponse implements Serializable {
     public List<ContainerDataMappingsResponse> containerDataMappings;
     public List<FarmMappingsResponse> farmMappings;
     public List<FarmDataMappingsResponse> farmDataMappings;
+    public List<ExpenseDataMappingsResponse> expenseDataMappings;
 }

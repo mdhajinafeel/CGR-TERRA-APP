@@ -54,4 +54,17 @@ public interface ExpenseDataDao {
             "AND ( :startDate IS NULL OR :startDate = '' OR :endDate IS NULL OR :endDate = '' OR " +
             "date(substr(A.expenseDate, 7, 4) || '-' || substr(A.expenseDate, 4, 2) || '-' || substr(A.expenseDate, 1, 2)) BETWEEN :startDate AND :endDate)")
     double getExpenseTotal(int transactionId, String startDate, String endDate);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM expense_data WHERE tempTransactionId = :tempTransactionId)")
+    boolean isExpenseDataExists(String tempTransactionId);
+
+    @Query("UPDATE expense_data SET creditTransactionId = :creditTransactionId, transactionId = :transactionId, transactionDisplayId = :transactionDisplayId, accountHeadId = :accountHead, " +
+            "beneficiaryName = :beneficiary, beneficiaryIdentification = :beneficiaryId, expenseDate = :expenseDate, amount = :amount, " +
+            "attachFileUri = :attachFileUri, attachFileUrl = :attachFileUrl, " +
+            "isAttachUpdated = :isAttachUpdated, isAttachUploaded = :isAttachUploaded, isSynced = :isSynced, " +
+            "isEdited = :isDataEdited, isDeleted = :isDeleted, forestryCostType = :forestryCostType, isForestry = :isForestry " +
+            "WHERE capturedTimeStamp = :capturedTimeStamp")
+    void updateExpenseData(long capturedTimeStamp, int creditTransactionId, int transactionId, String transactionDisplayId, int accountHead, String beneficiary,
+                          String beneficiaryId, String expenseDate, double amount, String attachFileUri, String attachFileUrl,
+                          boolean isAttachUpdated, boolean isAttachUploaded, boolean isSynced, boolean isDeleted, boolean isDataEdited, int forestryCostType, boolean isForestry);
 }

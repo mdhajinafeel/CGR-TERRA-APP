@@ -14,6 +14,7 @@ import com.cgr.codrinterraerp.db.entities.ContainerCategories;
 import com.cgr.codrinterraerp.db.entities.DispatchContainers;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
 import com.cgr.codrinterraerp.db.entities.DispatchSummary;
+import com.cgr.codrinterraerp.db.entities.ExpenseData;
 import com.cgr.codrinterraerp.db.entities.FarmInventoryOrders;
 import com.cgr.codrinterraerp.db.entities.IncomeData;
 import com.cgr.codrinterraerp.db.entities.MeasurementSystemFormulaVariables;
@@ -41,6 +42,7 @@ import com.cgr.codrinterraerp.model.response.masterdata.AccountHeadsResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.BeneficiariesResponse;
 import com.cgr.codrinterraerp.model.response.masterdata.ContainerCategoriesResponse;
 import com.cgr.codrinterraerp.model.response.transactiondata.CreditTransactionsResponse;
+import com.cgr.codrinterraerp.model.response.transactiondata.DebitTransactionsResponse;
 import com.cgr.codrinterraerp.model.response.transactiondata.DispatchContainersResponse;
 import com.cgr.codrinterraerp.model.response.transactiondata.DispatchDetailsResponse;
 import com.cgr.codrinterraerp.model.response.transactiondata.FarmInventoryOrdersResponse;
@@ -119,6 +121,26 @@ public class SyncViewModel extends ViewModel {
                     progressState.postValue(false);
                     errorTitle.postValue(context.getString(R.string.error));
                     errorMessage.postValue(context.getString(R.string.container_photos_sync_failed));
+                    return;
+                }
+
+                // SUCCESS or NO_DATA → next
+                syncExpenseInvoices();
+            });
+        } else {
+            // SUCCESS or NO_DATA → next
+            syncExpenseInvoices();
+        }
+    }
+
+    private void syncExpenseInvoices() {
+
+        if (!syncRepository.getExpensesPendingFileUpload().isEmpty()) {
+            syncRepository.uploadExpenseInvoice(result -> {
+                if (result == SyncResult.FAILED) {
+                    progressState.postValue(false);
+                    errorTitle.postValue(context.getString(R.string.error));
+                    errorMessage.postValue(context.getString(R.string.expense_invoice_sync_failed));
                     return;
                 }
 
@@ -542,6 +564,60 @@ public class SyncViewModel extends ViewModel {
 
             masterRepository.insertIncomeData(getCreditTransactions(credit));
         }
+
+        // ---------------- DEBIT TRANSACTIONS ----------------
+        List<DebitTransactionsResponse> debit = data.getDebitTransactions();
+        if (debit != null && !debit.isEmpty()) {
+            masterRepository.insertExpenseData(getDebitTransactions(debit, masterRepository));
+        }
+    }
+
+    @NonNull
+    private static List<ExpenseData> getDebitTransactions(List<DebitTransactionsResponse> debitTransactionsResponseList, MasterRepository masterRepository) {
+        List<ExpenseData> expenseDataList = new ArrayList<>();
+        for (DebitTransactionsResponse debitTransactionsResponse : debitTransactionsResponseList) {
+
+            boolean isExpenseDataExists = masterRepository.isExpenseDataExists(debitTransactionsResponse.getTempTransactionId());
+
+            if (!isExpenseDataExists) {
+                ExpenseData expenseData = getExpenseData(debitTransactionsResponse);
+                expenseDataList.add(expenseData);
+            } else {
+                masterRepository.updateExpenseData(debitTransactionsResponse.getExpenseTimestamp(), debitTransactionsResponse.getCreditTransactionId(),
+                        debitTransactionsResponse.getTransactionId(), debitTransactionsResponse.getTransactionDisplayId(), debitTransactionsResponse.getAccountHeadId(),
+                        debitTransactionsResponse.getBeneficiaryName(), debitTransactionsResponse.getDocumentNumber(), debitTransactionsResponse.getExpenseDate(),
+                        debitTransactionsResponse.getAmount(), null, debitTransactionsResponse.getExpenseUploadedImage(),
+                        false, false, true, false, false, debitTransactionsResponse.getForestryCostType(),
+                        debitTransactionsResponse.isForestry());
+            }
+        }
+        return expenseDataList;
+    }
+
+    @NonNull
+    private static ExpenseData getExpenseData(DebitTransactionsResponse debitTransactionsResponse) {
+        ExpenseData expenseData = new ExpenseData();
+        expenseData.setTempTransactionId(debitTransactionsResponse.getTempTransactionId());
+        expenseData.setCreditTransactionId(debitTransactionsResponse.getCreditTransactionId());
+        expenseData.setCapturedTimeStamp(debitTransactionsResponse.getExpenseTimestamp());
+        expenseData.setTransactionId(debitTransactionsResponse.getTransactionId());
+        expenseData.setTransactionDisplayId(debitTransactionsResponse.getTransactionDisplayId());
+        expenseData.setAccountHeadId(debitTransactionsResponse.getAccountHeadId());
+        expenseData.setBeneficiaryName(debitTransactionsResponse.getBeneficiaryName());
+        expenseData.setBeneficiaryIdentification(debitTransactionsResponse.getDocumentNumber());
+        expenseData.setExpenseDate(debitTransactionsResponse.getExpenseDate());
+        expenseData.setAmount(debitTransactionsResponse.getAmount());
+        expenseData.setAttachFileUri(null);
+        expenseData.setAttachFileUrl(debitTransactionsResponse.getExpenseUploadedImage());
+        expenseData.setAttachUpdated(false);
+        expenseData.setAttachUploaded(true);
+        expenseData.setSynced(true);
+        expenseData.setDeleted(false);
+        expenseData.setEdited(false);
+        expenseData.setForestry(debitTransactionsResponse.isForestry());
+        expenseData.setForestryCostType(debitTransactionsResponse.getForestryCostType());
+        expenseData.setUpdatedAt(debitTransactionsResponse.getUpdatedAt());
+        return expenseData;
     }
 
     @NonNull

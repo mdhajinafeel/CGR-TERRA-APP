@@ -351,4 +351,16 @@ public class MasterRepository {
     public void insertExpenseData(List<ExpenseData> expenseDataList) {
         expenseDataDao.insertExpenseData(expenseDataList);
     }
+
+    public boolean isExpenseDataExists(String tempTransactionId) {
+        return expenseDataDao.isExpenseDataExists(tempTransactionId);
+    }
+
+    public void updateExpenseData(long capturedTimeStamp, int creditTransactionId, int transactionId, String transactionDisplayId, int accountHead, String beneficiary,
+                                 String beneficiaryId, String expenseDate, double amount, String attachFileUri, String attachFileUrl,
+                                 boolean isAttachUpdated, boolean isAttachUploaded, boolean isSynced, boolean isDeleted, boolean isDataEdited,
+                                  int forestryCostType, boolean isForestry) {
+        expenseDataDao.updateExpenseData(capturedTimeStamp, creditTransactionId, transactionId, transactionDisplayId, accountHead, beneficiary, beneficiaryId, expenseDate, amount,
+                attachFileUri, attachFileUrl, isAttachUpdated, isAttachUploaded, isSynced, isDeleted, isDataEdited, forestryCostType, isForestry);
+    }
 }

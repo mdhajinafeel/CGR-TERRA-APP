@@ -2,6 +2,7 @@ package com.cgr.codrinterraerp.model.request;
 
 import com.cgr.codrinterraerp.db.entities.ContainerData;
 import com.cgr.codrinterraerp.db.entities.DispatchDetails;
+import com.cgr.codrinterraerp.db.entities.ExpenseData;
 import com.cgr.codrinterraerp.db.entities.FarmData;
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
 import com.cgr.codrinterraerp.db.entities.ReceptionDetails;
@@ -21,4 +22,5 @@ public class SyncRequest implements Serializable {
     public List<ContainerData> containerData;
     public List<FarmDetailsWithTotals> farmDetails;
     public List<FarmData> farmData;
+    public List<ExpenseData> expenseData;
 }

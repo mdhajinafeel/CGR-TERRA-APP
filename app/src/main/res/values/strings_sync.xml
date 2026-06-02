@@ -19,5 +19,6 @@
     <string name="you_have_pending_data_waiting_for_sync">You have pending data waiting for sync.</string>
     <string name="sync_show">Sync</string>
     <string name="reminder">Reminder</string>
+    <string name="expense_invoice_sync_failed">Expense invoice sync failed</string>
 
 </resources>

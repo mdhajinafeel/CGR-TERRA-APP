@@ -6,6 +6,7 @@ import androidx.room.Transaction;
 
 import com.cgr.codrinterraerp.db.entities.ContainerData;
 import com.cgr.codrinterraerp.db.entities.ContainerImages;
+import com.cgr.codrinterraerp.db.entities.ExpenseData;
 import com.cgr.codrinterraerp.db.entities.FarmData;
 import com.cgr.codrinterraerp.db.entities.ReceptionData;
 import com.cgr.codrinterraerp.model.DispatchDetailsWithTotals;
@@ -175,4 +176,31 @@ public interface SyncDao {
 
     @Query("DELETE FROM farm_data WHERE isDeleted = 1 AND isSynced = 0 AND IFNULL(farmDataId, 0) = 0")
     void deleteLocalDeletedFarmData();
+
+    // ====================
+    // EXPENSE DATA
+    // ====================
+    @Query("SELECT * FROM expense_data WHERE attachFileUri IS NOT NULL AND TRIM(attachFileUri) != '' AND isAttachUploaded = 0 AND isDeleted = 0")
+    List<ExpenseData> getExpensesPendingFileUpload();
+
+    @Query("UPDATE expense_data SET isSynced = 0, isAttachUploaded = 1, attachFileUrl = :url WHERE tempTransactionId = :tempTransactionId")
+    void updateExpenseImageSync(String tempTransactionId, String url);
+
+    @Query("UPDATE expense_data SET isSynced=0 WHERE tempTransactionId = :tempId")
+    void markExpenseFailed(String tempId);
+
+    @Query("UPDATE expense_data SET attachFileUri = NULL WHERE tempTransactionId = :tempTransactionId")
+    void clearExpenseLocalFilePath(String tempTransactionId);
+
+    @Query("SELECT COUNT(*) FROM expense_data WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(attachFileUrl, '') = '')")
+    int getUnsyncedExpenseImagesCount();
+
+    @Query("SELECT COUNT(*) FROM expense_data WHERE isSynced = 0 AND NOT (isDeleted = 1 AND IFNULL(transactionId, 0) = 0)")
+    int getUnsyncedExpenseDataCount();
+
+    @Query("SELECT * FROM expense_data WHERE isDeleted = 0 AND isSynced = 0")
+    List<ExpenseData> getUnsyncedExpenseData();
+
+    @Query("UPDATE expense_data SET transactionId=:transactionId, isSynced=1, isEdited=0 WHERE tempTransactionId=:tempTransactionId")
+    void updateExpenseDataMapping(String tempTransactionId, int transactionId);
 }
