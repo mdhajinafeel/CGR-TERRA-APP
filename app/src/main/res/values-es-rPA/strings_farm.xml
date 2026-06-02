@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="add_farm">Add Farm</string>
-    <string name="edit_farm">Edit Farm</string>
-    <string name="farm_closed_successfully">Farm has been closed successfully</string>
-    <string name="farm_opened_successfully">Farm has been opened successfully</string>
-    <string name="farm_added_successfully">Farm has been added successfully</string>
-    <string name="farm_updated_successfully">Farm has been updated successfully</string>
-    <string name="farm_detail">Farm Detail</string>
+    <string name="add_farm">Agregar finca</string>
+    <string name="edit_farm">Editar finca</string>
+    <string name="farm_closed_successfully">La finca ha sido cerrado con éxito.</string>
+    <string name="farm_opened_successfully">La finca ha sido abierto con éxito.</string>
+    <string name="farm_added_successfully">La finca se ha agregado correctamente.</string>
+    <string name="farm_updated_successfully">La finca se ha actualizado correctamente.</string>
+    <string name="farm_detail">Detalle de finca</string>
 
 </resources>

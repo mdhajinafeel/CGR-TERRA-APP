@@ -9,9 +9,12 @@ import com.cgr.codrinterraerp.db.entities.Beneficiaries;
 import com.cgr.codrinterraerp.db.entities.ExpenseData;
 import com.cgr.codrinterraerp.db.entities.IncomeData;
 import com.cgr.codrinterraerp.db.views.ExpenseView;
+import com.cgr.codrinterraerp.model.AccountHeadReportData;
+import com.cgr.codrinterraerp.model.FilterData;
 import com.cgr.codrinterraerp.repository.FinanceRepository;
 import com.cgr.codrinterraerp.wrapper.SingleLiveEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,6 +33,14 @@ public class FinanceViewModel extends ViewModel {
     private final MediatorLiveData<Double> balance = new MediatorLiveData<>();
     private final MutableLiveData<Double> totalCreditAmount = new MutableLiveData<>();
     private final MutableLiveData<Double> totalDebitAmount = new MutableLiveData<>();
+    private static final int PAGE_SIZE = 20;
+    private final MutableLiveData<List<ExpenseView>> expensePage = new MutableLiveData<>();
+    private final MutableLiveData<List<IncomeData>> incomePage = new MutableLiveData<>();
+    private int expensePageIndex = 0;
+    private int incomePageIndex = 0;
+    private List<ExpenseView> allExpenses;
+    private List<IncomeData> allIncome;
+    private final MutableLiveData<FilterData> filterLiveData = new MutableLiveData<>();
 
     @Inject
     public FinanceViewModel(FinanceRepository financeRepository) {
@@ -127,6 +138,83 @@ public class FinanceViewModel extends ViewModel {
         }
     }
 
+    /* ---------- INITIAL LOAD ---------- */
+
+    public void loadInitialExpenseData(boolean isFilter, int transactionId, int accountHeadId, String startDate, String endDate) {
+
+        if (allExpenses != null) return;
+
+        if (isFilter) {
+            allExpenses = financeRepository.getFilteredExpenseTransactions(transactionId, accountHeadId, startDate, endDate);
+        } else {
+            allExpenses = financeRepository.getAllExpenseData();
+        }
+        loadNextExpensePage();
+    }
+
+    public void loadInitialIncomeData(boolean isFilter, int transactionId) {
+        if (allIncome != null) return;
+
+        if (isFilter) {
+            allIncome = financeRepository.getFilteredIncomeTransactions(transactionId);
+        } else {
+            allIncome = financeRepository.getAllIncomeData();
+        }
+        loadNextIncomePage();
+    }
+
+    /* ---------- PAGINATION ---------- */
+
+    public void loadNextExpensePage() {
+
+        if (allExpenses == null || allExpenses.isEmpty()) {
+            expensePage.setValue(new ArrayList<>()); // ✅ NOTIFY EMPTY
+            return;
+        }
+
+        int start = expensePageIndex * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, allExpenses.size());
+
+        if (start < end) {
+            expensePage.setValue(allExpenses.subList(start, end));
+            expensePageIndex++;
+        }
+    }
+
+    public void loadNextIncomePage() {
+
+        if (allIncome == null || allIncome.isEmpty()) {
+            incomePage.setValue(new ArrayList<>()); // ✅ NOTIFY EMPTY
+            return;
+        }
+
+        int start = incomePageIndex * PAGE_SIZE;
+        int end = Math.min(start + PAGE_SIZE, allIncome.size());
+
+        if (start < end) {
+            incomePage.setValue(allIncome.subList(start, end));
+            incomePageIndex++;
+        }
+    }
+
+    public LiveData<List<ExpenseView>> getExpensePage() {
+        return expensePage;
+    }
+
+    public LiveData<List<IncomeData>> getIncomePage() {
+        return incomePage;
+    }
+
+    public void resetIncomePaging() {
+        incomePageIndex = 0;
+        allIncome = null;
+    }
+
+    public void resetExpensePaging() {
+        expensePageIndex = 0;
+        allExpenses = null;
+    }
+
     public LiveData<Boolean> getProgressState() {
         return progressState;
     }
@@ -141,5 +229,25 @@ public class FinanceViewModel extends ViewModel {
 
     public void setExpenseSavedId(long expenseSavedId) {
         this.expenseSavedId = expenseSavedId;
+    }
+
+    public LiveData<FilterData> getFilterLiveData() {
+        return filterLiveData;
+    }
+
+    public void applyFilter(boolean isFilterApplied, int transactionId, int accountHeadId, String startDate, String endDate) {
+        filterLiveData.setValue(new FilterData(isFilterApplied, transactionId, accountHeadId, startDate, endDate));
+    }
+
+    public List<AccountHeadReportData> getExpenseByAccountHead(int transactionId, String startDate, String endDate) {
+        return financeRepository.getExpenseByAccountHead(transactionId, startDate, endDate);
+    }
+
+    public double getIncomeTotal(int transactionId) {
+        return financeRepository.getIncomeTotal(transactionId);
+    }
+
+    public double getExpenseTotal(int transactionId, String startDate, String endDate) {
+        return financeRepository.getExpenseTotal(transactionId, startDate, endDate);
     }
 }

@@ -188,6 +188,7 @@ public class FinanceDebitFragment extends Fragment {
         };
 
         rvDebitTransactionLists.setAdapter(expenseDataRecyclerViewAdapter);
+        rvDebitTransactionLists.setHasFixedSize(true);
     }
 
     private void bindExpenseData(List<ExpenseView> list) {

@@ -14,6 +14,7 @@ import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
@@ -22,6 +23,7 @@ import com.cgr.codrinterraerp.R;
 import com.cgr.codrinterraerp.firebase.NotificationStringMapper;
 import com.cgr.codrinterraerp.helper.PreferenceManager;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
@@ -30,6 +32,7 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -51,6 +54,24 @@ public class CommonUtils {
 
     public static Long getCurrentLocalDateTimeStamp() {
         return Calendar.getInstance(TimeZone.getDefault()).getTimeInMillis();
+    }
+
+    public static String convertDateTimeFormat(String input, String fromFormat, String toFormat, Context context) {
+        if (input == null || input.trim().isEmpty()) return input;
+
+        try {
+            Locale locale = Locale.getDefault();
+
+            SimpleDateFormat inputFormat = new SimpleDateFormat(fromFormat, locale);
+            SimpleDateFormat outputFormat = new SimpleDateFormat(toFormat, locale);
+
+            Date date = inputFormat.parse(input);
+            return date != null ? outputFormat.format(date) : input;
+
+        } catch (Exception e) {
+            AppLogger.e(context.getClass(), "convertDateTimeFormat", e);
+            return input;
+        }
     }
 
     // BITMAP INITIAL CREATION
@@ -234,7 +255,7 @@ public class CommonUtils {
             }
         }
         boolean fileDeleted = file.delete();
-        if(fileDeleted) {
+        if (fileDeleted) {
             AppLogger.d(context.getClass(), "File Deleted");
         }
     }
@@ -269,6 +290,56 @@ public class CommonUtils {
         datePickerDialog.getDatePicker().setMaxDate(maxDateCal.getTimeInMillis());
 
         datePickerDialog.show();
+    }
+
+    public static void showDatePicker(Context context, TextInputEditText target, @Nullable Long minDateMillis, @Nullable DateSelectedCallback callback) {
+
+        Calendar initial = Calendar.getInstance();
+
+        // ✅ If field already has a date, use it as initial date
+        if (target.getText() != null && !target.getText().toString().isEmpty()) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                initial.setTime(Objects.requireNonNull(sdf.parse(target.getText().toString())));
+            } catch (Exception ignored) {
+            }
+        }
+
+        DatePickerDialog dialog = new DatePickerDialog(
+                context,
+                (view, y, m, d) -> {
+
+                    Calendar selected = Calendar.getInstance();
+                    selected.set(y, m, d);
+
+                    String date = String.format(Locale.getDefault(), "%02d/%02d/%04d", d, m + 1, y);
+
+                    target.setText(date);
+
+                    if (callback != null) {
+                        callback.onDateSelected(selected.getTimeInMillis());
+                    }
+                },
+                initial.get(Calendar.YEAR),
+                initial.get(Calendar.MONTH),
+                initial.get(Calendar.DAY_OF_MONTH)
+        );
+
+        // ✅ Apply min date
+        if (minDateMillis != null) {
+            dialog.getDatePicker().setMinDate(minDateMillis);
+        }
+
+        // ✅ Apply max date
+        Calendar max = Calendar.getInstance();
+        max.add(Calendar.MONTH, 1);
+        dialog.getDatePicker().setMaxDate(max.getTimeInMillis());
+
+        dialog.show();
+    }
+
+    public interface DateSelectedCallback {
+        void onDateSelected(long millis);
     }
 
     public static double round(double value, int precision) {
@@ -360,13 +431,13 @@ public class CommonUtils {
     public static String capitalizeWords(String text) {
         if (text == null || text.trim().isEmpty()) return text;
 
-        String[] words = text.trim().split("\\s+" );
+        String[] words = text.trim().split("\\s+");
         StringBuilder sb = new StringBuilder();
 
         for (String word : words) {
             sb.append(word.substring(0, 1).toUpperCase())
                     .append(word.substring(1).toLowerCase())
-                    .append(" " );
+                    .append(" ");
         }
 
         return sb.toString().trim();
@@ -374,7 +445,7 @@ public class CommonUtils {
 
     public static String currencyFormat(double amount) {
         String localeStr = PreferenceManager.INSTANCE.getCurrencyFormat();
-        String[] parts = localeStr.split("_" );
+        String[] parts = localeStr.split("_");
 
         Locale locale = new Locale(parts[0], parts[1]);
         NumberFormat format = NumberFormat.getCurrencyInstance(locale);
@@ -382,10 +453,6 @@ public class CommonUtils {
         format.setMaximumFractionDigits(2);
         format.setMinimumFractionDigits(0);
 
-        if (amount > 0) {
-            return format.format(amount);
-        } else {
-            return format.format(0);
-        }
+        return format.format(amount);
     }
 }

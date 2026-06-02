@@ -422,6 +422,7 @@ public class ExpenseActivity extends BaseActivity {
                 };
 
                 rvList.setAdapter(accountHeadsRecyclerViewAdapter);
+                rvList.setHasFixedSize(true);
                 accountHeadsRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
 
                     AccountHeads selected = accountHeadsRecyclerViewAdapter.getItem(position);

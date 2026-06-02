@@ -39,6 +39,8 @@ public class MasterViewModel extends ViewModel {
     private final MasterRepository masterRepository;
     private final SingleLiveEvent<Boolean> progressState = new SingleLiveEvent<>();
     private final SingleLiveEvent<Boolean> originStatus = new SingleLiveEvent<>();
+    private final SingleLiveEvent<List<AccountHeads>> accountHeadLiveData = new SingleLiveEvent<>();
+    private final SingleLiveEvent<List<IncomeData>> incomeDataLiveData = new SingleLiveEvent<>();
 
     @Inject
     public MasterViewModel(MasterRepository masterRepository) {
@@ -144,5 +146,21 @@ public class MasterViewModel extends ViewModel {
 
     public List<IncomeData> fetchIncomeData() {
         return masterRepository.fetchIncomeData();
+    }
+
+    public void getAllAccountHeadsLiveData() {
+        accountHeadLiveData.postValue(masterRepository.fetchAccountHeads());
+    }
+
+    public LiveData<List<AccountHeads>> getAccountHeadsLiveData() {
+        return accountHeadLiveData;
+    }
+
+    public void getAllIncomeDataLiveData() {
+        incomeDataLiveData.postValue(masterRepository.fetchIncomeData());
+    }
+
+    public LiveData<List<IncomeData>> getIncomeDataLiveData() {
+        return incomeDataLiveData;
     }
 }

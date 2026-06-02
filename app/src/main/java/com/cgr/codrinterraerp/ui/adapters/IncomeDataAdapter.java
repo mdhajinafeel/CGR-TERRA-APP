@@ -1,4 +1,4 @@
-package com.codrindigital.expensetracker.ui.adapter;
+package com.cgr.codrinterraerp.ui.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,19 +8,17 @@ import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.codrindigital.expensetracker.R;
-import com.codrindigital.expensetracker.db.entities.IncomeDataEntity;
-
+import com.cgr.codrinterraerp.R;
+import com.cgr.codrinterraerp.db.entities.IncomeData;
 import java.util.List;
 
-public class IncomeDataAdapter extends ArrayAdapter<IncomeDataEntity> {
+public class IncomeDataAdapter extends ArrayAdapter<IncomeData> {
 
     private final LayoutInflater inflater;
 
-    public IncomeDataAdapter(@NonNull Context context, @NonNull List<IncomeDataEntity> categories) {
+    public IncomeDataAdapter(@NonNull Context context, @NonNull List<IncomeData> categories) {
         super(context, 0, categories);
         inflater = LayoutInflater.from(context);
     }
@@ -39,16 +37,13 @@ public class IncomeDataAdapter extends ArrayAdapter<IncomeDataEntity> {
     private View createView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            view = inflater.inflate(R.layout.item_category_dropdown, parent, false);
+            view = inflater.inflate(R.layout.row_item_beneficiary, parent, false);
         }
 
-        AppCompatImageView imgIcon = view.findViewById(R.id.imgIcon);
         AppCompatTextView tvName = view.findViewById(R.id.tvName);
         tvName.setSelected(true);
 
-        imgIcon.setVisibility(View.GONE);
-
-        IncomeDataEntity incomeData = getItem(position);
+        IncomeData incomeData = getItem(position);
         if (incomeData != null) {
             tvName.setText(incomeData.getConceptGeneral());
         }

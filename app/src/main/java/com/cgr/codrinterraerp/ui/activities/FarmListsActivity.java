@@ -166,6 +166,7 @@ public class FarmListsActivity extends BaseActivity {
         };
 
         rvFarmsList.setAdapter(farmViewRecyclerViewAdapter);
+        rvFarmsList.setHasFixedSize(true);
     }
 
     private void bindFarmData(List<FarmView> list) {

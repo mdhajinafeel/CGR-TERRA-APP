@@ -4,10 +4,10 @@
     <string name="export_logs">Exportar Log</string>
     <string name="clear_logs">Limpio Log</string>
     <string name="share_log">Compartir Log</string>
-    <string name="clear_logs_confirmation">¿Estás seguro de que quieres borrar todos los logs?</string>
-    <string name="clear_log_confirmation">¿Estás seguro de que quieres borrar todos los log?</string>
+    <string name="clear_logs_confirmation">¿Estás seguro de que quieres limpiar todos los logs?</string>
+    <string name="clear_log_confirmation">¿Estás seguro de que quieres limpiar todos los log?</string>
     <string name="logs_cleared">" logs limpiar"</string>
-    <string name="delete_log">Borrar Log</string>
+    <string name="delete_log">Eliminar Log</string>
     <string name="deleted_log">Log se ha eliminado correctamente.</string>
     <string name="all">Todo</string>
     <string name="api">API</string>

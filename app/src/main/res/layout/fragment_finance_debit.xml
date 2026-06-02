@@ -46,4 +46,19 @@
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/text_20" />
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabScrollTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_arrow_up"
+        android:visibility="gone"
+        android:layout_marginEnd="@dimen/margin_10"
+        app:backgroundTint="@color/colorDarkGreen"
+        android:layout_marginBottom="@dimen/margin_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/FabCircleShape"
+        app:tint="@color/colorWhite" />
 </androidx.constraintlayout.widget.ConstraintLayout>

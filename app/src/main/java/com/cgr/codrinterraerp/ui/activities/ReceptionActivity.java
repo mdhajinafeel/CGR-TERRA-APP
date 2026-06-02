@@ -430,6 +430,7 @@ public class ReceptionActivity extends BaseActivity {
                     };
 
                     rvList.setAdapter(suppliersRecyclerViewAdapter);
+                    rvList.setHasFixedSize(true);
                     suppliersRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
 
                         Suppliers selected = suppliersRecyclerViewAdapter.getItem(position);

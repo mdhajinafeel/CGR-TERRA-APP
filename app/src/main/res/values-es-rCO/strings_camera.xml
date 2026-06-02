@@ -4,7 +4,7 @@
     <string name="gallery">Galería</string>
     <string name="camera">Cámara</string>
     <string name="select_source">Seleccionar fuente</string>
-    <string name="file">File</string>
-    <string name="attach_file_error">Please attach the file before saving the data.</string>
+    <string name="file">Archivo</string>
+    <string name="attach_file_error">Por favor, adjunte el archivo antes de salvar los datos.</string>
 
 </resources>

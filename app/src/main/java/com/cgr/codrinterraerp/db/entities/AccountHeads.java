@@ -1,5 +1,6 @@
 package com.cgr.codrinterraerp.db.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -81,5 +82,11 @@ public class AccountHeads implements Serializable {
 
     public void setForestryCostType(int forestryCostType) {
         this.forestryCostType = forestryCostType;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return accountHeadName;
     }
 }

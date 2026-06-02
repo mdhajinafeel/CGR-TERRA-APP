@@ -8,13 +8,11 @@ import com.cgr.codrinterraerp.db.dao.ExpenseViewDao;
 import com.cgr.codrinterraerp.db.dao.IncomeDataDao;
 import com.cgr.codrinterraerp.db.entities.Beneficiaries;
 import com.cgr.codrinterraerp.db.entities.ExpenseData;
-import com.cgr.codrinterraerp.db.entities.FarmDetails;
 import com.cgr.codrinterraerp.db.entities.IncomeData;
 import com.cgr.codrinterraerp.db.views.ExpenseView;
+import com.cgr.codrinterraerp.model.AccountHeadReportData;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class FinanceRepository {
 
@@ -38,16 +36,8 @@ public class FinanceRepository {
         beneficiariesDao.insertBeneficiary(beneficiaries);
     }
 
-    public LiveData<List<IncomeData>> getIncomeData() {
-        return incomeDataDao.getIncomeData();
-    }
-
     public LiveData<List<IncomeData>> getRecentIncomeData() {
         return incomeDataDao.getRecentIncomeData();
-    }
-
-    public LiveData<List<ExpenseView>> getExpenseList() {
-        return expenseViewDao.getExpenseList();
     }
 
     public LiveData<List<ExpenseView>> getRecentExpenseList() {
@@ -84,5 +74,33 @@ public class FinanceRepository {
 
     public Double getUnfilteredTotalDebit() {
         return expenseDataDao.getUnfilteredTotalDebit();
+    }
+
+    public List<ExpenseView> getAllExpenseData() {
+        return expenseViewDao.getAllExpenseData();
+    }
+
+    public List<ExpenseView> getFilteredExpenseTransactions(int transactionId, int accountHeadId, String startDate, String endDate) {
+        return expenseViewDao.getFilteredExpenseTransactions(transactionId, accountHeadId, startDate, endDate);
+    }
+
+    public List<IncomeData> getAllIncomeData() {
+        return incomeDataDao.getAllIncomeData();
+    }
+
+    public List<IncomeData> getFilteredIncomeTransactions(int transactionId) {
+        return incomeDataDao.getFilteredIncomeTransactions(transactionId);
+    }
+
+    public List<AccountHeadReportData> getExpenseByAccountHead(int transactionId, String startDate, String endDate) {
+        return expenseDataDao.getExpenseByAccountHead(transactionId, startDate, endDate);
+    }
+
+    public double getIncomeTotal(int transactionId) {
+        return incomeDataDao.getIncomeTotal(transactionId);
+    }
+
+    public double getExpenseTotal(int transactionId, String startDate, String endDate) {
+        return expenseDataDao.getExpenseTotal(transactionId, startDate, endDate);
     }
 }

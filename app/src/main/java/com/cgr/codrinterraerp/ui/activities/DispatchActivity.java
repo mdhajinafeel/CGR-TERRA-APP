@@ -356,6 +356,7 @@ public class DispatchActivity extends BaseActivity {
                 };
 
                 rvList.setAdapter(productsRecyclerViewAdapter);
+                rvList.setHasFixedSize(true);
                 productsRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
 
                     Products selected = productsRecyclerViewAdapter.getItem(position);

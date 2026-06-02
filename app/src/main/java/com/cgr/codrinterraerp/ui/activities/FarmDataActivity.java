@@ -158,6 +158,7 @@ public class FarmDataActivity extends BaseActivity {
 
         rvFarmData.setLayoutManager(new LinearLayoutManager(this));
         rvFarmData.setAdapter(farmCapturedDataRecyclerViewAdapter);
+        rvFarmData.setHasFixedSize(true);
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -307,6 +307,7 @@ public class LoginActivity extends BaseActivity {
             };
 
             rvList.setAdapter(originsRecyclerViewAdapter);
+            rvList.setHasFixedSize(true);
             originsRecyclerViewAdapter.setOnItemClickListener((view, position) -> {
 
                 Origins selected = originsRecyclerViewAdapter.getItem(position);

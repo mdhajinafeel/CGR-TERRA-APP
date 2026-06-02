@@ -1,5 +1,6 @@
 package com.cgr.codrinterraerp.db.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -80,5 +81,11 @@ public class IncomeData implements Serializable {
 
     public void setUpdatedAt(long updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return conceptGeneral;
     }
 }

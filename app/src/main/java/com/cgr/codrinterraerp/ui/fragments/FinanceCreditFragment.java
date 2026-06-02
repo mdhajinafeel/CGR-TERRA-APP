@@ -1,5 +1,6 @@
 package com.cgr.codrinterraerp.ui.fragments;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -47,6 +49,18 @@ public class FinanceCreditFragment extends Fragment {
 
             // ✅ Setup RecyclerView
             rvCreditTransactionLists.setLayoutManager(new LinearLayoutManager(getContext()));
+            rvCreditTransactionLists.addItemDecoration(new RecyclerView.ItemDecoration() {
+                @Override
+                public void getItemOffsets(@NonNull Rect outRect,
+                                           @NonNull View view,
+                                           @NonNull RecyclerView parent,
+                                           @NonNull RecyclerView.State state) {
+                    int position = parent.getChildAdapterPosition(view);
+                    if (position == Objects.requireNonNull(parent.getAdapter()).getItemCount() - 1) {
+                        outRect.bottom = getResources().getDimensionPixelSize(R.dimen.height_80);
+                    }
+                }
+            });
 
             // ✅ Initialize adapter ONCE
             initializeAdapter();
@@ -80,6 +94,7 @@ public class FinanceCreditFragment extends Fragment {
         };
 
         rvCreditTransactionLists.setAdapter(incomeDataRecyclerViewAdapter);
+        rvCreditTransactionLists.setHasFixedSize(true);
     }
 
     private void bindIncomeData(List<IncomeData> list) {

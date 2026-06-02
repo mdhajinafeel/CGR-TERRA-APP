@@ -91,4 +91,6 @@
     <string name="measurement_data">Datos de medición</string>
     <string name="container_select_error">Seleccione un recipiente para agregar las piezas.</string>
     <string name="pieces_has_been_added_successfully">Las piezas se han añadido correctamente</string>
+    <string name="filter">Filtrar</string>
+
 </resources>

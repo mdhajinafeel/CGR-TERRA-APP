@@ -10,7 +10,7 @@
     <string name="select_origins">Seleccionar origen</string>
     <string name="logged_out_successfully">Sesión cerrada correctamente.</string>
     <string name="logout">Cerrar sesión</string>
-    <string name="logout_anyway">Logout Anyway</string>
-    <string name="logout_confirmation">Are you sure you want to log out?</string>
+    <string name="logout_anyway">Cerrar sesión de todos modos</string>
+    <string name="logout_confirmation">¿Estás seguro de que quieres cerrar sesión?</string>
 
 </resources>

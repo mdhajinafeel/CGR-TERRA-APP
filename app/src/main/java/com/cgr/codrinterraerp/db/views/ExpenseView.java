@@ -7,16 +7,17 @@ import java.io.Serializable;
 @DatabaseView(
         viewName = "expense_view",
         value = "SELECT e.transactionId, e.tempTransactionId, e.transactionDisplayId, e.beneficiaryName, e.beneficiaryIdentification, e.expenseDate, " +
-                "IFNULL(e.amount,0) as amount, a.accountHeadName, a.icon, a.isForestry, a.accountHeadId, e.attachFileUri, e.capturedTimeStamp " +
+                "IFNULL(e.amount,0) as amount, a.accountHeadName, a.icon, a.isForestry, a.accountHeadId, e.attachFileUri, e.capturedTimeStamp, e.isDeleted, " +
+                "e.creditTransactionId " +
                 "FROM expense_data e " +
                 "INNER JOIN account_heads a ON a.accountHeadId = e.accountHeadId " +
                 "WHERE e.isDeleted = 0"
 )
 public class ExpenseView implements Serializable {
 
-    public int transactionId, accountHeadId;
+    public int transactionId, accountHeadId, creditTransactionId;
     public String tempTransactionId, transactionDisplayId, beneficiaryName, beneficiaryIdentification, expenseDate, accountHeadName, icon, attachFileUri;
     public double amount;
-    public boolean isForestry;
+    public boolean isForestry, isDeleted;
     public long capturedTimeStamp;
 }

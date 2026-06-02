@@ -25,9 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 public class FinanceActivity extends BaseActivity {
 
     private BottomNavigationView bottomNav;
-    private FinanceDashboardFragment dashboardFragment;
-    private FinanceReportFragment reportFragment;
-    private FinanceTransactionFragment transactionFragment;
+    private final Fragment dashboardFragment = new FinanceDashboardFragment();
+    private final Fragment reportFragment = new FinanceReportFragment();
+    private final Fragment transactionFragment = new FinanceTransactionFragment();
+    private Fragment activeFragment = dashboardFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +36,10 @@ public class FinanceActivity extends BaseActivity {
         setContentView(R.layout.activity_finance);
         statusBarSetting(false);
         hideKeyboard(this);
-        initComponents();
+        initComponents(savedInstanceState);
     }
 
-    private void initComponents() {
+    private void initComponents(Bundle savedInstanceState) {
         try {
 
             View fragmentContainer = findViewById(R.id.fragmentContainer);
@@ -55,18 +56,27 @@ public class FinanceActivity extends BaseActivity {
                 return insets;
             });
 
-            dashboardFragment = new FinanceDashboardFragment();
-            reportFragment = new FinanceReportFragment();
-            transactionFragment = new FinanceTransactionFragment();
+            if (savedInstanceState == null) {
 
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragmentContainer, dashboardFragment, "DASHBOARD")
-                    .add(R.id.fragmentContainer, reportFragment, "REPORT")
-                    .hide(reportFragment)
-                    .add(R.id.fragmentContainer, transactionFragment, "TRANSACTION")
-                    .hide(transactionFragment)
-                    .commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentContainer, transactionFragment, "TRANSACTIONS")
+                        .hide(transactionFragment)
+                        .commit();
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentContainer, reportFragment, "REPORTS")
+                        .hide(reportFragment)
+                        .commit();
+
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragmentContainer, dashboardFragment, "DASHBOARD")
+                        .commit();
+
+                activeFragment = dashboardFragment;
+            }
 
             bottomNav.setOnItemSelectedListener(item -> {
 
@@ -80,17 +90,17 @@ public class FinanceActivity extends BaseActivity {
                 int id = item.getItemId();
 
                 if (id == R.id.nav_dashboard) {
-                    showFragment(dashboardFragment);
+                    switchFragment(dashboardFragment);
                     return true;
                 }
 
                 if (id == R.id.nav_report) {
-                    showFragment(reportFragment);
+                    switchFragment(reportFragment);
                     return true;
                 }
 
                 if (id == R.id.nav_transactions) {
-                    showFragment(transactionFragment);
+                    switchFragment(transactionFragment);
                     return true;
                 }
 
@@ -98,30 +108,41 @@ public class FinanceActivity extends BaseActivity {
             });
 
             getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    int selectedItem = bottomNav.getSelectedItemId();
-                    if (selectedItem != R.id.nav_dashboard) {
-                        bottomNav.setSelectedItemId(R.id.nav_dashboard);
-                    } else {
-                        finish();
-                    }
-                }
-            });
+                        @Override
+                        public void handleOnBackPressed() {
+                            if (!(activeFragment instanceof FinanceDashboardFragment)) {
+                                bottomNav.setSelectedItemId(R.id.nav_dashboard);
+                                switchFragment(dashboardFragment);
+                                return;
+                            }
+                            finish();
+                        }
+                    });
         } catch (Exception e) {
             AppLogger.e(getClass(), "initComponents", e);
         }
     }
 
-    private void showFragment(Fragment fragment) {
+    private void switchFragment(Fragment target) {
+
+        if (activeFragment == target) {
+            return;
+        }
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.fade_fast_in, R.anim.fade_fast_out)
-                .hide(dashboardFragment)
-                .hide(reportFragment)
-                .hide(transactionFragment)
-                .show(fragment)
+                .setCustomAnimations(
+                        R.anim.fade_fast_in,
+                        R.anim.fade_fast_out
+                )
+                .hide(activeFragment)
+                .show(target)
                 .commit();
+
+        activeFragment = target;
+    }
+
+    public void openTransactionsFragment() {
+        bottomNav.setSelectedItemId(R.id.nav_transactions);
     }
 }

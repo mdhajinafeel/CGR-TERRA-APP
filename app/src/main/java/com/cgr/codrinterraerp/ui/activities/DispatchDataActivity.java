@@ -174,6 +174,7 @@ public class DispatchDataActivity extends BaseActivity {
 
         rvDispatchData.setLayoutManager(new LinearLayoutManager(this));
         rvDispatchData.setAdapter(containerWithReceptionRecyclerViewAdapter);
+        rvDispatchData.setHasFixedSize(true);
     }
 
     @SuppressLint("NotifyDataSetChanged")

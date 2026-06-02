@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1de997492e2b8062a4c2d5542335f91e",
+    "identityHash": "863a849dfcd23fd3680b87e32a34c5cb",
     "entities": [
       {
         "tableName": "origins",
@@ -3076,12 +3076,12 @@
       },
       {
         "viewName": "expense_view",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT e.transactionId, e.tempTransactionId, e.transactionDisplayId, e.beneficiaryName, e.beneficiaryIdentification, e.expenseDate, IFNULL(e.amount,0) as amount, a.accountHeadName, a.icon, a.isForestry, a.accountHeadId, e.attachFileUri, e.capturedTimeStamp FROM expense_data e INNER JOIN account_heads a ON a.accountHeadId = e.accountHeadId WHERE e.isDeleted = 0"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT e.transactionId, e.tempTransactionId, e.transactionDisplayId, e.beneficiaryName, e.beneficiaryIdentification, e.expenseDate, IFNULL(e.amount,0) as amount, a.accountHeadName, a.icon, a.isForestry, a.accountHeadId, e.attachFileUri, e.capturedTimeStamp, e.isDeleted, e.creditTransactionId FROM expense_data e INNER JOIN account_heads a ON a.accountHeadId = e.accountHeadId WHERE e.isDeleted = 0"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1de997492e2b8062a4c2d5542335f91e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '863a849dfcd23fd3680b87e32a34c5cb')"
     ]
   }
 }

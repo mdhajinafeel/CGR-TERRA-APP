@@ -297,6 +297,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
         };
 
         rvAvailableContainers.setAdapter(dispatchViewRecyclerViewAdapter);
+        rvAvailableContainers.setHasFixedSize(true);
     }
 
     // ✅ Bind data (only update adapter)

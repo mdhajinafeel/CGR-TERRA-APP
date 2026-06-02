@@ -39,7 +39,6 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHo
         mOnItemLongClickListener = onItemLongClickListener;
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -159,5 +158,18 @@ public abstract class RecyclerViewAdapter<T> extends RecyclerView.Adapter<ViewHo
             mDataList.remove(pos);
             notifyItemRemoved(pos);
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void clear() {
+        mDataList.clear();
+        mFullList.clear();
+        notifyDataSetChanged();
+    }
+
+    public void updateItem(int position, T item) {
+        mDataList.set(position, item);
+        mFullList.set(position, item);
+        notifyItemChanged(position);
     }
 }

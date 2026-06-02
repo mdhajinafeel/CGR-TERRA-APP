@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.cgr.codrinterraerp.db.entities.ExpenseData;
+import com.cgr.codrinterraerp.model.AccountHeadReportData;
 
 import java.util.List;
 
@@ -36,4 +37,21 @@ public interface ExpenseDataDao {
 
     @Query("SELECT IFNULL(SUM(amount), 0) FROM expense_data WHERE isDeleted = 0")
     Double getUnfilteredTotalDebit();
+    @Query("SELECT IFNULL(SUM(amount), 0) AS totalAmount, B.accountHeadId, B.accountHeadName, B.colorCodePrimary, B.colorCodeSecondary, " +
+            "(SUM(amount)*100)/(SELECT sum(amount) FROM expense_data WHERE isDeleted = 0 AND (:transactionId = 0 OR A.creditTransactionId = :transactionId)  " +
+            "AND ( :startDate IS NULL OR :startDate = '' OR :endDate IS NULL OR :endDate = '' OR " +
+            "date(substr(A.expenseDate, 7, 4) || '-' || substr(A.expenseDate, 4, 2) || '-' || substr(A.expenseDate, 1, 2)) BETWEEN :startDate AND :endDate))  AS percentage, B.icon " +
+            "FROM expense_data A INNER JOIN account_heads B ON B.accountHeadId = A.accountHeadId " +
+            "WHERE isDeleted = 0 AND (:transactionId = 0 OR A.creditTransactionId = :transactionId)  " +
+            "AND ( :startDate IS NULL OR :startDate = '' OR :endDate IS NULL OR :endDate = '' OR " +
+            "date(substr(A.expenseDate, 7, 4) || '-' || substr(A.expenseDate, 4, 2) || '-' || substr(A.expenseDate, 1, 2)) BETWEEN :startDate AND :endDate)" +
+            " GROUP BY A.accountHeadId")
+    List<AccountHeadReportData> getExpenseByAccountHead(int transactionId, String startDate, String endDate);
+
+    @Query("SELECT IFNULL(SUM(amount), 0) AS totalAmount " +
+            "FROM expense_data A " +
+            "WHERE isDeleted = 0 AND (:transactionId = 0 OR A.creditTransactionId = :transactionId)  " +
+            "AND ( :startDate IS NULL OR :startDate = '' OR :endDate IS NULL OR :endDate = '' OR " +
+            "date(substr(A.expenseDate, 7, 4) || '-' || substr(A.expenseDate, 4, 2) || '-' || substr(A.expenseDate, 1, 2)) BETWEEN :startDate AND :endDate)")
+    double getExpenseTotal(int transactionId, String startDate, String endDate);
 }

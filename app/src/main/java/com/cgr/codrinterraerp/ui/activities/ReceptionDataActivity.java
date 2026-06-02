@@ -159,6 +159,7 @@ public class ReceptionDataActivity extends BaseActivity {
 
         rvReceptionData.setLayoutManager(new LinearLayoutManager(this));
         rvReceptionData.setAdapter(receptionWithContainerRecyclerViewAdapter);
+        rvReceptionData.setHasFixedSize(true);
     }
 
     @SuppressLint("NotifyDataSetChanged")

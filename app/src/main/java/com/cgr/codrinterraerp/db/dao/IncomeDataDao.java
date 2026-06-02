@@ -16,9 +16,6 @@ public interface IncomeDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertIncomeData(List<IncomeData> incomeDataList);
 
-    @Query("SELECT * FROM income_data ORDER BY transactionTimestamp DESC")
-    LiveData<List<IncomeData>> getIncomeData();
-
     @Query("SELECT * FROM income_data ORDER BY transactionTimestamp DESC LIMIT 10")
     LiveData<List<IncomeData>> getRecentIncomeData();
 
@@ -37,4 +34,10 @@ public interface IncomeDataDao {
 
     @Query("SELECT IFNULL(SUM(amount), 0) FROM income_data")
     Double getUnfilteredTotalCredit();
+
+    @Query("SELECT * FROM income_data WHERE creditTransactionId = :transactionId ORDER BY transactionTimestamp DESC")
+    List<IncomeData> getFilteredIncomeTransactions(int transactionId);
+
+    @Query("SELECT IFNULL(SUM(amount), 0)  FROM income_data WHERE (:transactionId = 0 OR creditTransactionId = :transactionId)")
+    double getIncomeTotal(int transactionId);
 }

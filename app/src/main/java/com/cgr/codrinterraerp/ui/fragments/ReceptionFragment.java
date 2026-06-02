@@ -166,6 +166,7 @@ public class ReceptionFragment extends Fragment {
         };
 
         rvReceptionLists.setAdapter(receptionViewRecyclerViewAdapter);
+        rvReceptionLists.setHasFixedSize(true);
     }
 
     // ✅ Bind data (only update adapter)

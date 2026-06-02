@@ -21,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.cgr.codrinterraerp.R;
 import com.cgr.codrinterraerp.ui.activities.ExpenseActivity;
+import com.cgr.codrinterraerp.ui.activities.FinanceActivity;
 import com.cgr.codrinterraerp.ui.adapters.FinanceDashboardPagerAdapter;
 import com.cgr.codrinterraerp.utils.AppLogger;
 import com.cgr.codrinterraerp.utils.CommonUtils;
@@ -50,6 +51,7 @@ public class FinanceDashboardFragment extends Fragment {
             tvBalanceAmount = view.findViewById(R.id.tvBalanceAmount);
             tvCreditAmount = view.findViewById(R.id.tvCreditAmount);
             tvDebitAmount = view.findViewById(R.id.tvDebitAmount);
+            AppCompatTextView tvSeeAll = view.findViewById(R.id.tvSeeAll);
 
             txtTitle.setText(R.string.finance);
             imgBack.setOnClickListener(v -> requireActivity().finish());
@@ -137,6 +139,12 @@ public class FinanceDashboardFragment extends Fragment {
                 Intent intent = new Intent(requireActivity(), ExpenseActivity.class);
                 intent.putExtra("isEdit", false);
                 expenseResultLauncher.launch(intent, options);
+            });
+
+            tvSeeAll.setOnClickListener(v -> {
+                if (getActivity() instanceof FinanceActivity) {
+                    ((FinanceActivity) getActivity()).openTransactionsFragment();
+                }
             });
 
             fetchSummaryData();
