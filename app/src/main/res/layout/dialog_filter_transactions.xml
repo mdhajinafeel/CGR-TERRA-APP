@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/colorWhite"
+    app:cardCornerRadius="@dimen/corner_radius_16"
+    app:cardElevation="@dimen/corner_elevation_small"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Title -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:fontFamily="@font/exo2_bold"
+            android:text="@string/filter"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/text_18" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/layoutChartType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/margin_15"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:text="@string/chart_type"
+                    android:textColor="@color/colorPrimaryEnd"
+                    android:textSize="@dimen/text_14" />
+
+                <RadioGroup
+                    android:id="@+id/rgChartType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rbAccountHead"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:fontFamily="@font/exo2_medium"
+                        android:text="@string/account_heads"
+                        android:textSize="@dimen/text_16" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rbCreditVsDebit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/exo2_medium"
+                        android:text="@string/credit_vs_debit"
+                        android:textSize="@dimen/text_16" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiConceptGeneral"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:hint="@string/concept_general"
+                app:boxStrokeColor="@color/colorBlack"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:errorTextAppearance="@style/CustomErrorText"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextColor="@color/colorDarkGrey">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/etConceptGeneral"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:completionThreshold="0"
+                    android:cursorVisible="false"
+                    android:drawableStart="@drawable/ic_general_concept"
+                    android:drawablePadding="@dimen/padding_10"
+                    android:dropDownHeight="@dimen/layout_180"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/exo2_medium"
+                    android:hint="@null"
+                    android:inputType="textCapWords"
+                    android:popupBackground="@drawable/bg_dropdown_popup"
+                    android:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGrey"
+                    android:textSize="@dimen/text_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiAccountHead"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15"
+                android:hint="@string/concept"
+                app:boxStrokeColor="@color/colorBlack"
+                app:boxStrokeWidth="1dp"
+                app:errorEnabled="false"
+                app:errorTextAppearance="@style/CustomErrorText"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextColor="@color/colorDarkGrey">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/etAccountHead"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:completionThreshold="0"
+                    android:cursorVisible="false"
+                    android:drawableStart="@drawable/ic_category"
+                    android:drawablePadding="@dimen/padding_10"
+                    android:dropDownHeight="@dimen/layout_180"
+                    android:focusable="true"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/exo2_medium"
+                    android:hint="@null"
+                    android:inputType="textCapWords"
+                    android:popupBackground="@drawable/bg_dropdown_popup"
+                    android:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGrey"
+                    android:textSize="@dimen/text_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiStartExpenseDate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15"
+                android:hint="@string/start_date"
+                app:boxStrokeColor="@color/colorDarkGreen"
+                app:boxStrokeWidth="1.5dp"
+                app:errorEnabled="false"
+                app:errorTextAppearance="@style/CustomErrorText"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextColor="@color/colorDarkGrey">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etStartExpenseDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_date"
+                    android:drawablePadding="@dimen/padding_10"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:fontFamily="@font/exo2_medium"
+                    android:inputType="text"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGrey"
+                    android:textSize="@dimen/text_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiEndExpenseDate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15"
+                android:hint="@string/end_date"
+                app:boxStrokeColor="@color/colorDarkGreen"
+                app:boxStrokeWidth="1.5dp"
+                app:errorEnabled="false"
+                app:errorTextAppearance="@style/CustomErrorText"
+                app:hintAnimationEnabled="true"
+                app:hintEnabled="true"
+                app:hintTextColor="@color/colorDarkGrey">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEndExpenseDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_date"
+                    android:drawablePadding="@dimen/padding_10"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:fontFamily="@font/exo2_medium"
+                    android:inputType="text"
+                    android:textColor="@color/colorBlack"
+                    android:textColorHint="@color/colorGrey"
+                    android:textSize="@dimen/text_16" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Footer (buttons) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_25"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_15"
+                    android:background="@drawable/btn_gradient_red"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:paddingTop="@dimen/padding_0"
+                    android:paddingBottom="@dimen/padding_0"
+                    android:stateListAnimator="@null"
+                    android:text="@string/reset"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_14"
+                    app:backgroundTint="@null"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:minHeight="0dp"
+                    app:rippleColor="@color/colorWhite"
+                    app:strokeWidth="0dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnApply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_gradient"
+                    android:elevation="0dp"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:paddingTop="@dimen/padding_0"
+                    android:paddingBottom="@dimen/padding_0"
+                    android:stateListAnimator="@null"
+                    android:text="@string/apply"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_14"
+                    app:backgroundTint="@null"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:minHeight="0dp"
+                    app:rippleColor="@color/colorWhite"
+                    app:strokeWidth="0dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

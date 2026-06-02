@@ -1,0 +1,4 @@
+package com.cgr.codrinterraerp.model;
+
+public class AccountHeadReportData {
+}
