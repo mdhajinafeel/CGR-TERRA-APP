@@ -18,7 +18,7 @@ public interface BeneficiariesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertBeneficiary(Beneficiaries beneficiary);
 
-    @Query("SELECT DISTINCT beneficiaryName, beneficiaryIdentification FROM beneficiaries")
+    @Query(" SELECT * FROM beneficiaries GROUP BY beneficiaryName, beneficiaryIdentification")
     List<Beneficiaries> getAllBeneficiaries();
 
     @Query("DELETE FROM beneficiaries")

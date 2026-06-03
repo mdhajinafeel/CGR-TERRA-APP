@@ -16,5 +16,13 @@
     <string name="dispatch_added_successfully">Dispatch has been added successfully</string>
     <string name="dispatch_updated_successfully">Dispatch has been updated successfully</string>
     <string name="dispatch_detail">Dispatch Detail</string>
+    <string name="current_value">"Current Value : "</string>
+    <string name="range">"Range : "</string>
+    <string name="ideal_value">"Ideal Value : "</string>
+    <string name="recommendation_add_bigger_logs">Recommendation:\nAdd Bigger Logs</string>
+    <string name="recommendation_add_smaller_logs">Recommendation:\nAdd Smaller Logs</string>
+    <string name="recommendation_no_action_required">Recommendation:\nNo Action Required</string>
+    <string name="cft_prediction">CFT Prediction</string>
+    <string name="average_girth_prediction">Average Girth Prediction</string>
 
 </resources>

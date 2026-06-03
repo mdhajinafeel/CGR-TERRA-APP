@@ -16,5 +16,13 @@
     <string name="dispatch_added_successfully">El despacho se ha agregado correctamente.</string>
     <string name="dispatch_updated_successfully">El despacho se ha actualizado correctamente.</string>
     <string name="dispatch_detail">Detalle de despacho</string>
+    <string name="current_value">"Valor actual : "</string>
+    <string name="range">"Rango : "</string>
+    <string name="ideal_value">"Valor ideal : "</string>
+    <string name="recommendation_add_bigger_logs">Recomendación:\nAgregar troncos más grandes</string>
+    <string name="recommendation_add_smaller_logs">Recomendación:\nAgregar registros más pequeños</string>
+    <string name="recommendation_no_action_required">Recomendación:\nNo se requiere ninguna acción.</string>
+    <string name="cft_prediction">Predicción de CFT</string>
+    <string name="average_girth_prediction">Predicción de circunferencia promedio</string>
 
 </resources>

@@ -219,6 +219,8 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
 
                     LinearLayout llAvgGirth = holder.getView(R.id.llAvgGirth);
                     LinearLayout llVolumePie = holder.getView(R.id.llVolumePie);
+                    LinearLayout llCFT = holder.getView(R.id.llCFT);
+                    AppCompatImageView ivPrediction = holder.getView(R.id.ivPrediction);
 
                     int position = holder.getBindingAdapterPosition();
                     boolean isSelected = position == selectedPosition;
@@ -227,14 +229,37 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
                     holder.setViewText(R.id.tvShippingLine, dispatchView.shippingLine);
                     holder.setViewText(R.id.tvPieces, String.valueOf(dispatchView.totalPieces));
 
-                    if(dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
+                    if (dispatchView.productTypeId == 1 || dispatchView.productTypeId == 3) {
                         holder.setViewText(R.id.tvVolumePie, CommonUtils.formatNumber2(dispatchView.totalVolumePie));
+                        holder.setViewText(R.id.tvCFT, CommonUtils.formatNumber2(dispatchView.cft));
                         llAvgGirth.setVisibility(View.GONE);
                         llVolumePie.setVisibility(View.VISIBLE);
+                        llCFT.setVisibility(View.VISIBLE);
+
+                        if (dispatchView.totalGrossVolume >= 16) {
+
+                            // SHORTS -> CFT
+                            updatePredictionArrow(ivPrediction, dispatchView.cft, true);
+
+                            ivPrediction.setOnClickListener(v -> showPredictionDialog(dispatchView.cft, true));
+                        } else {
+                            ivPrediction.setVisibility(View.GONE);
+                        }
                     } else {
                         holder.setViewText(R.id.tvAvgGirth, CommonUtils.formatNumber2(dispatchView.avgGirth));
                         llAvgGirth.setVisibility(View.VISIBLE);
                         llVolumePie.setVisibility(View.GONE);
+                        llCFT.setVisibility(View.GONE);
+
+                        if (dispatchView.totalGrossVolume >= 16) {
+
+                            // SEMI LONGS / LONGS -> AVG GIRTH
+                            updatePredictionArrow(ivPrediction, dispatchView.avgGirth, false);
+
+                            ivPrediction.setOnClickListener(v -> showPredictionDialog(dispatchView.avgGirth, false));
+                        } else {
+                            ivPrediction.setVisibility(View.GONE);
+                        }
                     }
 
                     holder.setViewText(R.id.tvGrossVolume, CommonUtils.formatNumber3(dispatchView.totalGrossVolume));
@@ -755,7 +780,7 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
             tvMeasurement.setText(receptionView.measurementName);
             tvPieces.setText(String.valueOf(receptionView.totalPieces));
 
-            if(receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
+            if (receptionView.productTypeId == 1 || receptionView.productTypeId == 3) {
                 llVolumePie.setVisibility(View.VISIBLE);
                 tvVolumePie.setText(CommonUtils.formatNumber2(receptionView.totalVolumePie));
             } else {
@@ -1254,5 +1279,110 @@ public class ReceptionDataCaptureActivity extends BaseActivity {
         } catch (Exception e) {
             AppLogger.e(getClass(), "deleteContainerImage", e);
         }
+    }
+
+    private void updatePredictionArrow(AppCompatImageView imageView, double value, boolean isCft) {
+
+        double bucketSize;
+        double tolerance;
+
+        if (isCft) {
+            // 2.00-2.24, 2.25-2.49, 2.50-2.74...
+            bucketSize = 0.25;
+            tolerance = 0.025;
+        } else {
+            // 70-74.9, 75-79.9, 80-84.9...
+            bucketSize = 5.0;
+            tolerance = 0.5;
+        }
+
+        double bucketStart = Math.floor(value / bucketSize) * bucketSize;
+        double center = bucketStart + (bucketSize / 2.0);
+
+        double minStable = center - tolerance;
+        double maxStable = center + tolerance;
+        imageView.setVisibility(View.VISIBLE);
+
+        if (value < minStable) {
+            imageView.setImageResource(R.drawable.ic_up_arrow);
+        } else if (value > maxStable) {
+            imageView.setImageResource(R.drawable.ic_down_arrow);
+        } else {
+            imageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void showPredictionDialog(double value, boolean isCft) {
+
+        double bucketSize;
+        double tolerance;
+
+        if (isCft) {
+            bucketSize = 0.25;
+            tolerance = 0.025;
+        } else {
+            bucketSize = 5.0;
+            tolerance = 0.5;
+        }
+
+        double bucketStart = Math.floor(value / bucketSize) * bucketSize;
+        double bucketEnd = bucketStart + bucketSize;
+        double center = bucketStart + (bucketSize / 2.0);
+
+        double minStable = center - tolerance;
+        double maxStable = center + tolerance;
+
+        String title;
+        String message;
+
+        if (isCft) {
+            title = getString(R.string.cft_prediction);
+        } else {
+            title = getString(R.string.average_girth_prediction);
+        }
+
+        if (value < minStable) {
+            message = getString(R.string.current_value) +  CommonUtils.formatNumber2(value) +
+                            "\n" + getString(R.string.range) + CommonUtils.formatNumber2(bucketStart) +
+                            " - " + CommonUtils.formatNumber2(bucketEnd) +
+                            "\n" + getString(R.string.ideal_value) + CommonUtils.formatNumber2(center) +
+                            "\n\n" + getString(R.string.recommendation_add_bigger_logs);
+        } else if (value > maxStable) {
+            message =  getString(R.string.current_value) + CommonUtils.formatNumber2(value) +
+                            "\n" + getString(R.string.range) + CommonUtils.formatNumber2(bucketStart) +
+                            " - " + CommonUtils.formatNumber2(bucketEnd) +
+                            "\n" + getString(R.string.ideal_value) + CommonUtils.formatNumber2(center) +
+                            "\n\n" + getString(R.string.recommendation_add_smaller_logs);
+
+        } else {
+            message = getString(R.string.current_value) + CommonUtils.formatNumber2(value) +
+                            "\n" + getString(R.string.range) + CommonUtils.formatNumber2(bucketStart) +
+                            " - " + CommonUtils.formatNumber2(bucketEnd) +
+                            "\n" + getString(R.string.ideal_value) + CommonUtils.formatNumber2(center) +
+                            "\n\n" + getString(R.string.recommendation_no_action_required);
+        }
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_prediction, null);
+
+        AppCompatTextView dialogHeader = dialogView.findViewById(R.id.dialogHeader);
+        AppCompatTextView dialogBody = dialogView.findViewById(R.id.dialogBody);
+        MaterialButton btnOk = dialogView.findViewById(R.id.btnOk);
+
+        dialogHeader.setText(title);
+        dialogBody.setText(message);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create();
+
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
+
+        btnOk.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 }

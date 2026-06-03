@@ -31,6 +31,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/exo2_semibold"
                 android:maxLines="1"
+                android:text="@string/container"
                 android:textColor="@color/textColor"
                 android:textSize="@dimen/text_18" />
 
@@ -181,6 +182,37 @@
                     android:textSize="@dimen/text_18" />
             </LinearLayout>
 
+            <!-- CFT -->
+            <LinearLayout
+                android:id="@+id/llCFT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
+                android:orientation="horizontal"
+                android:paddingBottom="4dp"
+                android:weightSum="1">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCFTTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/exo2_medium"
+                    android:text="@string/cft"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_14" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCFT"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:fontFamily="@font/exo2_semibold"
+                    android:gravity="end"
+                    android:textColor="@color/textColor"
+                    android:textSize="@dimen/text_18" />
+            </LinearLayout>
+
             <!-- Avg Girth -->
             <LinearLayout
                 android:id="@+id/llAvgGirth"
@@ -237,15 +269,31 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- ✅ Tick Image (Top End) -->
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivSelected"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
             android:layout_margin="@dimen/margin_8"
-            android:src="@drawable/ic_selected"
-            android:visibility="gone" />
+            android:orientation="horizontal">
 
+            <!-- ✅ Prediction Image (Top End) -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivPrediction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_6"
+                android:layout_gravity="top|end"
+                android:src="@drawable/ic_down_arrow"
+                android:visibility="gone" />
+
+            <!-- ✅ Tick Image (Top End) -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:src="@drawable/ic_selected"
+                android:visibility="gone" />
+        </LinearLayout>
     </FrameLayout>
 </androidx.cardview.widget.CardView>
